@@ -1,7 +1,7 @@
 <%@include file="header.jsp" %>
 <%@ page import="com.mail.*"%>
 
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -55,12 +55,13 @@ try {
         <!-- Main content -->
         <section class="content">
           <div class="error-page">
-            <h2 class="headline text-yellow"> 404</h2>
+            <h2 class="headline text-yellow"> EOL </h2>
             <div class="error-content">
-              <h3><i class="fa fa-warning text-yellow"></i> Oops! Your Licence has expired.</h3>
+              <h3><i class="fa fa-warning text-yellow"></i> Oops! Your License has expired.</h3>
               <p>
                 Your License Has Expired. Please Contact Provider For Renewal.
-                Meanwhile, you may <a href="index.jsp">return to dashboard</a>.
+                Meanwhile, you may <a href="index.jsp">return to your AMAC </a>.<br>
+                Or <a href="index.jsp"> Go to License Management </a>.
               </p>
             </div><!-- /.error-content -->
           </div><!-- /.error-page -->
@@ -79,19 +80,7 @@ try {
 <!-- DataTables -->
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables/dataTables.bootstrap.js"></script>
-<script>
-  $(function () {
-	$("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false
-    });
-  });
-</script>
+
 <!-- Bootstrap 3.3.5 -->
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <!-- FastClick -->

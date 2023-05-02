@@ -1,11 +1,11 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<% ComExec cex = new ComExec(); MasterApi mg = new MasterApi(); Mao mao = new Mao(); String ipmessage = "", submitbtn = "", actpl = "collapse";
-String ident="", name="", address="", ip="", nm="", gateway="", pr="", gstat="", result="", dfi="", dfo="", dfm=""; %>
+<% ComExec cex = new ComExec(); MasterApi mg = new MasterApi(); Mao mao = new Mao(); String ipmessage = "", submitbtn = "", ipbtn = "", actpl = "collapse";
+String ident="", name="", address="", ip="", nm="", gateway="", pr="", gstat="", result="", dfi="", dfo="", dr="", drm=""; %>
 <%
 if(request.getParameter("q") != null && request.getParameter("q").equals("activate")) {
 	System.out.println("Activate");
@@ -14,7 +14,8 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("activa
 		name = request.getParameter("interf");
 		dfi = mg.getForwardingRule(name+"I");
 	 	dfo = mg.getForwardingRule(name+"O");
-	 	dfm = mg.getMangleRule(name);
+	 	dr = mg.WBRoute(name,"DefaultRoute");
+	 	drm = mg.WBRoute(name,"DefaultRouteMark");
 	 	//dfr = mg.getRouteRule(name);
 	 	actpl = "collapse in";
 		
@@ -47,7 +48,8 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 		String ipadd = nip+"/"+netmask;
 		String dfii = request.getParameter("dfi");
 		String dfoi = request.getParameter("dfo");
-		String dfmr = request.getParameter("dfm");
+		String dri = request.getParameter("dr");
+		String drmi = request.getParameter("drm");
 		String def = mao.getSetting("ip");
 		
 		try{
@@ -55,10 +57,10 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 				if(mao.updateSetting("ip"+nname.substring(3),nip)){
 					 mg.changeForwardingRule(nip, dfii, "dfi");
 					 mg.changeForwardingRule(nip, dfoi, "dfo");
-					 mg.changeMangleRule(ipadd, dfmr);
-					 mg.changeRouteRule(defgateway, nname);
-					 if(mg.changeMaster(nname, ipadd, network, defgateway)){
-						String rswar = dao.getIpPath().replace("setip", "restartwar");
+					 mg.changeRoute(defgateway, dri);
+					 mg.changeRoute(defgateway, drmi);
+					 if(mg.changeIp(iid, nname, ipadd, network, defgateway)){
+						String rswar = dao.getSetting("restart_path");
 						cex.comExec(""+rswar);
 						response.sendRedirect("http://"+def+"");
 					 }else{
@@ -80,13 +82,14 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    Alps Multi-WAN
-    <small>Multi-WAN Interface Settings</small>
+    WAN Settings
+    <small>WAN Interface Settings</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="#">Main</a></li>
-    <li class="active">Multi-WAN</li>
+    <li class="">WAN</li>
+    <li class="active">Interfaces</li>
   </ol>
 </section>
 <section class="content-header"><p></p></section>
@@ -112,7 +115,7 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 </div>
 <%} %>
 
-<%-- <section class="content-header">
+<section class="content">
 	<div class="panel box box-primary">
           <div class="box-header with-border">
             <h4 class="box-title">
@@ -123,60 +126,62 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
           </div>
           <div id="collapseOne" class="panel-collapse <%=actpl%>">
             <div class="box-body">
-            	<form class="form-horizontal">
+            	<form method="post" action="#">
 			    <div class="box-body">
-			      <input type="hidden" required class="form-control" readonly id="dfi" name="dfi" value="<%out.println(dfi);%>">
-			      <input type="hidden" required class="form-control" readonly id="dfo" name="dfo" value="<%out.println(dfo);%>">
-			      <input type="hidden" required class="form-control" readonly id="dfm" name="dfm" value="<%out.println(dfm);%>">
-			      <input type="hidden" required class="form-control" readonly id="ident" name="ident" value="<%out.println(ident);%>">
-			       
-			      <div class="form-group col-sm-4">
-			        <label for="ip" class="col-sm-6 control-label">Interface Name</label><br />
-			        <div class="col-sm-10">
-			          <input type="text" class="form-control" required id="interf" name="interf" value="<%out.println(name);%>">
-			        </div>
-			      </div>
-			      <div class="form-group col-sm-4">
-			        <label for="ip" class="col-sm-6 control-label">IP Address</label><br />
-			        <div class="col-sm-10">
-			          <input type="text" required class="form-control" id="ip" name="ip" placeholder="0.0.0.0">
-			        </div>
-			      </div>
-			      <div class="form-group col-sm-4">
-			        <label for="netmask" class="col-sm-6 control-label">Netmask</label><br />
-			        <div class="col-sm-10">
-			          <input type="text" required class="form-control" id="netmask" name="netmask" placeholder="0.0.0.0">
-			        </div>
-			      </div>
-			      <div class="form-group col-sm-4">
-			        <label for="netmask" class="col-sm-6 control-label">Network</label><br />
-			        <div class="col-sm-10">
-			          <input type="text" required class="form-control" id="network" name="network" placeholder="0.0.0.0">
-			        </div>
-			      </div>
-			      <div class="form-group col-sm-4">
-			        <label for="netmask" class="col-sm-6 control-label">Default Gateway</label><br />
-			        <div class="col-sm-10">
-			          <input type="text" required class="form-control" id="defgateway" name="defgateway" placeholder="0.0.0.0">
-			        </div>
-			      </div>
+					<input type="hidden" required class="form-control" readonly id="dfi" name="dfi" value="<%out.println(dfi);%>">
+					<input type="hidden" required class="form-control" readonly id="dfo" name="dfo" value="<%out.println(dfo);%>">
+					<input type="hidden" required class="form-control" readonly id="dr" name="dr" value="<%out.println(dr);%>">
+					<input type="hidden" required class="form-control" readonly id="drm" name="drm" value="<%out.println(drm);%>">
+					<input type="hidden" required class="form-control" readonly id="ident" name="ident" value="<%out.println(ident);%>">
+					<div class="row">
+						 <div class="form-group col-sm-4">
+						   <label for="ip" class="col-sm-12 control-label">Interface Name</label><br />
+						   <div class="col-sm-12">
+						     <input type="text" class="form-control" required readonly id="interf" name="interf" value="<%out.println(name);%>">
+						   </div>
+						 </div>
+						 <div class="form-group col-sm-4">
+						   <label for="ip" class="col-sm-12 control-label">IP Address</label><br />
+						   <div class="col-sm-12">
+						     <input type="text" required class="form-control" id="ip" name="ip" placeholder="0.0.0.0">
+						   </div>
+						 </div>
+						 <div class="form-group col-sm-4">
+						   <label for="netmask" class="col-sm-12 control-label">Netmask</label><br />
+						   <div class="col-sm-12">
+						     <input type="text" required class="form-control" id="netmask" name="netmask" placeholder="0.0.0.0">
+						   </div>
+						 </div>
+						 <div class="form-group col-sm-4">
+						   <label for="netmask" class="col-sm-12 control-label">Network</label><br />
+						   <div class="col-sm-12">
+						     <input type="text" required class="form-control" id="network" name="network" placeholder="0.0.0.0">
+						   </div>
+						 </div>
+						 <div class="form-group col-sm-4">
+						   <label for="netmask" class="col-sm-12 control-label">Default Gateway</label><br />
+						   <div class="col-sm-12">
+						     <input type="text" required class="form-control" id="defgateway" name="defgateway" placeholder="0.0.0.0">
+						   </div>
+						 </div>
+					</div>
 			    </div><!-- /.box-body -->
 			    <div class="box-footer">
 			      <a href="#" ><button class="btn btn-default">Cancel</button></a>
-			      <input type="submit" <%out.println(submitbtn);%> name="submit" class="btn btn-info pull-right" value="Activate Interface">
+			      <input type="submit" name="submit" class="btn btn-info pull-right" value="Activate Interface">
 			    </div><!-- /.box-footer -->
 			  </form>
             </div>
           </div>
         </div>
-</section> --%>
-<%try{
+
+<%
+try{
 	for (Map<String,String> mt : mg.interfaces()) {
 		String intname = mt.get("name");
 		String intid = mt.get(".id");
 		if(intname.contains("WAN")){
 		%>
-		<section class="content">
 			<!-- Horizontal Form -->
 			<div class="box box-info">
 			  <div class="box-header with-border">
@@ -188,12 +193,13 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 		%>
 				<div class="box-body" align="center">
 					<div class="form-group" align="center">
-				        <label for="netmask" class="control-label"><%out.println(intname);%>Activate This Interface</label><br />
-				        <div class="">
-				          <a href="?q=activate&interf=<%=intname%>&ident=<%=intid%>"><button class="btn btn-info col-sm-12">Activate <%out.println(intname);%></button></a>
-				          
-				        </div>
-			      </div>
+						<label for="netmask" class="control-label"><%out.println(intname);%>Activate This Interface</label><br />
+						<div class="">
+							<a href="?q=activate&interf=<%=intname%>&ident=<%=intid%>">
+								<button class="btn btn-info col-sm-12">Activate <%out.println(intname);%></button>
+							</a>
+						</div>
+					</div>
 				</div>
 		<%
 			}else{
@@ -207,6 +213,7 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 			 	gateway = mp.get("network");
 			 	pr = mg.getPriorityRule(name);
 			 	
+			 	ipbtn="<a href='multiwan_qki.jsp?interface="+name+"' ><button class='btn btn-default'>IP Setup</button></a>";
 			 	submitbtn="<a href='?q=prioritize&interf="+name+"&item="+pr+"'><button class='btn btn-info pull-right'>Set Priority</button></a>";
 		%>
 				<div class="box-body">
@@ -237,23 +244,24 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 			    </div> 
 		<%
 			}
-			
-		
 		%>
 			<div class="box-footer">
-		    <!-- <a href="#" ><button class="btn btn-default">Cancel</button></a> -->
-		    <%=submitbtn %>
-		  </div><!-- /.box-footer -->
+			    <%=ipbtn %>
+			    <%=submitbtn %>
+			</div><!-- /.box-footer -->
 		</div><!-- /.box -->
-		</section>
 		<%
 		}
 	}
 	
-}catch(Exception e){System.out.println(e);
-name = "WAN";
-response.sendRedirect("mw_prefs.jsp");
-}%>
+}catch(Exception e){
+	System.out.println(e);
+	name = "WAN";
+	response.sendRedirect("mw_prefs.jsp");
+}
+%>
+</section>
+
 </div><!-- /.content-wrapper -->
 <footer class="main-footer">
   <div class="pull-right hidden-xs">

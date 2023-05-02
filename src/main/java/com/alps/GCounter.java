@@ -9,12 +9,12 @@ import me.legrange.mikrotik.ApiConnection;
 
 public class GCounter {
 	static Dao dao = new Dao();
-	static String ip = dao.getip();
+	static String ip = dao.getSetting("default_ip");
 	//String pass = "admin";
-	static String pass = dao.getPass();
+	static String pass = dao.getSetting("password");
 	//String user = "";
-	static String user = dao.getUser();
-	//String ip = "172.27.5.99";
+	static String user = dao.getSetting("username");
+	//static String ip = "172.27.5.96";
 	Gateway g = new Gateway();
 
 	public static void main(String[] args) {
@@ -24,8 +24,6 @@ public class GCounter {
 			  System.out.println(r);
 			}
 	}
-	
-	//Methods
 	
 	// Count Users
 	public List<Map<String, String>> users() {
@@ -59,6 +57,21 @@ public class GCounter {
 		return rs;
 	}
 	
+	public List<Map<String, String>> BypassedUsers() {
+		List<Map<String, String>> rs = null;
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); // log in to router
+			
+			rs = con.execute("/ip/arp/print count-only where interface=Bypass");
+			
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
+		
+		return rs;
+	}
+	
 	// Count Hosts
 	public List<Map<String, String>> hosts() {
 		List<Map<String, String>> rs = null;
@@ -82,6 +95,22 @@ public class GCounter {
 			con.login(user,pass); // log in to router
 			
 			rs = con.execute("/interface/print count-only");
+			
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
+		
+		return rs;
+	}
+	
+	// Count Users
+	public List<Map<String, String>> vlans(String bn) {
+		List<Map<String, String>> rs = null;
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
+			
+			rs = con.execute("/interface/bridge/port/print count-only where bridge='"+bn+"'");;
 			
 			con.close();
 			

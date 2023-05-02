@@ -1,16 +1,15 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public InputStream data, error;
+<%!public InputStream data, error;
 String url = "",
-charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
-%>
+charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()%>
 <%
-String cl = dao.getClient().toString().replace(" ", "%20");
-url = dao.getSocJson()+"?all="+cl;
+String cl = dao.getDashValue("client").toString().replace(" ", "%20");
+url = dao.getSetting("socurl")+"?all="+cl;
 %>
 <div class="content-wrapper">
 <%if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>
@@ -145,7 +144,10 @@ function tableExport() {
 <script src="plugins/datatables/dataTables.bootstrap.js"></script>
 <script>
   $(function () {
-	$("#example1").DataTable({"responsive": true});
+	$("#example1").DataTable({
+		"lengthChange": true,
+		"responsive": true
+	});
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,

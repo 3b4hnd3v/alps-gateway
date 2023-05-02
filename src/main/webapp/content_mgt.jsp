@@ -1,13 +1,13 @@
 <%@include file="header.jsp" %>
 <!-- bootstrap wysihtml5 - text editor -->
 <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
 
-<%! public String edpan="collapse", cfile = "", cid = "", cname = "", ctype = "", cval = ""; %>
+<%!public String edpan="collapse", cfile = "", cid = "", cname = "", ctype = "", cval = "";%>
 
 <%
 if(request.getParameter("submit") != null && request.getParameter("submit").equals("Update")){

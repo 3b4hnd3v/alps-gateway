@@ -1,11 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@page import="
 javax.servlet.*,
 org.apache.commons.lang3.StringUtils,
 java.awt.EventQueue,
 java.awt.event.ActionListener,
-java.awt.event.ActionEvent,
-java.util.Date,
+java.awt.event.ActionEvent,java.util.Date,
 java.io.*,
 java.util.*,
 org.json.simple.JSONArray,
@@ -14,11 +14,11 @@ org.json.simple.JSONValue,
 org.json.simple.parser.JSONParser,
 java.net.URL,
 java.net.URLEncoder,
+javax.servlet.http.HttpUtils.*,
 java.net.*,
 java.net.HttpURLConnection,
 java.net.MalformedURLException,
-java.net.URLConnection,
-java.io.BufferedReader,
+java.net.URLConnection,java.io.BufferedReader,
 java.util.Properties,
 java.sql.Connection,
 java.sql.DriverManager,
@@ -28,52 +28,36 @@ java.sql.SQLException,
 java.sql.Statement,
 java.sql.ResultSetMetaData,
 java.sql.PreparedStatement,
-com.alps.Gateway,
-com.alps.Location,
-com.alps.AlpsLog,
-com.alps.ComExec,
-com.alps.Dao,
-com.alps.User,
-com.alps.License,
+com.alps.*,
 com.cronjob.OnlineCheck,
 com.mail.Licmail,
 com.alps.GCounter,
 org.apache.commons.lang3.ArrayUtils,
 java.util.Date,
-com.alps.DateUtils,
-com.alps.GwBackUp,
 java.text.DateFormat,
 java.text.SimpleDateFormat,
 java.util.Calendar,
 java.io.BufferedWriter,
-java.io.File,
-java.io.FileOutputStream,
-java.io.FileWriter,
-java.io.IOException,
+java.io.File,java.io.FileOutputStream,
+java.io.FileWriter,java.io.IOException,
 java.io.PrintWriter,
 java.io.BufferedReader,
 java.nio.charset.Charset,
 java.nio.file.Files,
 java.net.InetAddress,
-com.alps.Dhcp,
-com.alps.Captive,
-com.alps.Bypass,
-com.alps.LPContent,
 com.alps.master.*,
 com.ftp.FTPFunctions,
-java.nio.file.*
-"%>
-
-<% if(session.getAttribute("logged")==null) { 
-	response.sendRedirect("login.jsp");
-} %>
-
+java.nio.file.*"%>
 <%!
+Gateway g = new Gateway(); 
+MasterApi mg = new MasterApi(); 
+GCounter gc = new GCounter();
+AlpsLog al = new AlpsLog();
+Dao dao = new Dao();
+Dhcp d = new Dhcp();
 public String dbhost="127.0.0.1", dbport="3306", dbname="alpsgateway", dbuser="ebahn", dbpass="ebahn";
 public static Connection cn = null, cn1 = null;
-%>
 
-<%! 
 public Connection connect() {
 	Properties prop = new Properties();
 	
@@ -82,9 +66,6 @@ public Connection connect() {
 	} catch(Exception e) { System.out.println(e); }
 	return cn;
 }
-%>
-
-<%! 
 public Connection connectpms() {
 	String ptype = dao.getSetting("active_pms");
 	if(!ptype.isEmpty()&&ptype.equalsIgnoreCase("external_pms")){
@@ -101,15 +82,6 @@ public Connection connectpms() {
 	} catch(Exception e) { System.out.println(e); }
 	return cn1;
 }
-%>
-
-<%! 
-Gateway g = new Gateway(); 
-MasterApi mg = new MasterApi(); 
-GCounter gc = new GCounter();
-AlpsLog al = new AlpsLog();
-Dao dao = new Dao();
-Dhcp d = new Dhcp();
 %>
 
 <!DOCTYPE html>
@@ -130,13 +102,12 @@ Dhcp d = new Dhcp();
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.css">
+    <!-- .min AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"><!-- Morris charts -->
     <link rel="stylesheet" href="plugins/morris/morris.css">
     <!-- Bootstrap WYSIHTML5 -->
-	<script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 	<link rel="shortcut icon" href="dist/ico/favicon.png">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="dist/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="dist/ico/apple-touch-icon-114-precomposed.png">
@@ -258,32 +229,8 @@ Dhcp d = new Dhcp();
     </style>
     
   </head>
-<% 
-//CHECK IP
-if(session.getAttribute("ip")==null) { 
-	System.out.print("setting ip");
-	for(int i=0; i<=3; i++){
-		String ipadd = dao.getip(i);
-		String ipname = "";
-		if(i == 0){ipname = "ip";}else{ipname = "ip"+i;}
-		session.setAttribute(ipname, ipadd);
-	}
-}
-%>
-<% 
-//CHECK DNS
-/**
-try{
-	Dhcp dcon = d.getDhcp();
-	Map<String,String> currdns = g.getCaptiveDns(dcon.getIp());
-	if(currdns.get("address")!=null) { 
-		System.out.print("Wrong DNS"+dcon.getIp());
-		Map<String,String> ddns = g.getDefaultDns();
-		String cdid  = ddns.get(".id");
-		g.changeDns(dcon.getIp(), cdid);
-	}
-}catch(Exception e){System.out.print("DNS: "+e);}*/
-%>
-<%
-response.setIntHeader("Refresh", 500); 
-%>
+  <% 
+	  if(session.getAttribute("logged")==null) { 		
+		  try { response.sendRedirect("login.jsp"); }catch(Exception e){}
+	  } 
+  %>

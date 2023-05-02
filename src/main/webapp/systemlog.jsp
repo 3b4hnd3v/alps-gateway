@@ -1,19 +1,14 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public String location = "", client ="", fu ="", fp =""; %>
+<%!public String location = "", client ="", fu ="", fp ="";%>
 <%
-client = dao.getClient();
-location = dao.getLocation();
-fu = dao.getfreeUser();
-fp = dao.getfreePass();
 List<Map<String, String>> glogs = g.logs();
 %>
 <div class="content-wrapper">
-<p><br><br></p>
 <%if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>
 	<div class="alert alert-danger alert-dismissible">
 	  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -28,7 +23,7 @@ List<Map<String, String>> glogs = g.logs();
 	</div>
 <%}%>
 <!-- Content Header (Page header) -->
-<section class="content-header">
+<section class="content-header"  style="margin-bottom:20px;">
   <h1>
     Systems Log
     <small>Low Level System Log</small>
@@ -39,8 +34,7 @@ List<Map<String, String>> glogs = g.logs();
     <li class="active">Systems Logs</li>
   </ol>
 </section>
-<p><br><br></p>
-<hr class="style-eight">
+<!-- <hr class="style-eight"> -->
 <section class="content">
   <div class="row">
   <div class="col-md-12">

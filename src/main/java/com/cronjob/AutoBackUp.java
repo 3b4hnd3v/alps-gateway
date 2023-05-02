@@ -18,7 +18,7 @@ public class AutoBackUp {
     int minutes = 60;
     Dao rs = new Dao();
     Date but = new Date();
-    String client = rs.getClient().replaceAll("\\s","").toLowerCase();
+    String client = rs.getDashValue("client").replaceAll("\\s","").toLowerCase();
     public AutoBackUp() {
     	
     }
@@ -30,10 +30,10 @@ public class AutoBackUp {
             	doBackUp();
             }
             private void doBackUp() {
-                //System.out.println("Your egg is ready!");
+                //System.out.println("Your egg is ready!");lastbackup
                 try {
-                		String lbu = rs.getLastBackUp();
-                		String abu = rs.getAutoBackUp();
+                		String lbu = rs.getDashValue("lastbackup");
+                		String abu = rs.getDashValue("autobackup");
         				Date lb = formatter.parse(lbu);
         				System.out.println(lbu+"=="+abu+"=="+lb);
         				if(DateUtils.isBeforeDay(lb,Calendar.getInstance().getTime())||DateUtils.isToday(lb)){

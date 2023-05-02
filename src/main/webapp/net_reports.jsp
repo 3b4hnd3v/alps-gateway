@@ -1,14 +1,12 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
 <div class="content-wrapper">
-<%!
-public static String defip = "";
-%>
-<% defip = dao.getDefaultIp(); %>
+<%!public static String defip = "";%>
+<% defip = dao.getSetting("ip"); %>
 <%
 
 if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>
@@ -26,18 +24,17 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 <%}%>
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-	<br>
-	  <h1>
-	    Network Reports
-	    <small>Graphical Network Reports</small>
-	  </h1>
-	  <ol class="breadcrumb">
-	    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-	    <li><a href="hotspot.jsp?q=walledgarden">Reports</a></li>
-	    <li class="active">Network</li>
-	  </ol>
+		<br>
+		<h1>
+		  Network Reports
+		  <small>Graphical Network Reports</small>
+		</h1>
+		<ol class="breadcrumb">
+		  <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+		  <li><a href="hotspot.jsp?q=walledgarden">Reports</a></li>
+		  <li class="active">Network</li>
+		</ol>
 	</section>
-	<hr>
 	<!-- Main content -->
     <section class="content">
       <div class="callout callout-warning">
@@ -50,7 +47,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
           <!-- LINE CHART -->
           <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Location Packets</h3>
+              <h3 class="box-title">Packets Per Zone <small>Packets Transfered in Each Network Zone</small></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -68,7 +65,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
           <!-- LINE CHART -->
           <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Location Bytes</h3>
+              <h3 class="box-title">Bytes Per Zone  <small>Bytes Transfered in Each Network Zone</small></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -86,7 +83,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
         <div class="col-md-12">
           <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Location Error</h3>
+              <h3 class="box-title">Errors Per Zone <small>Connection Errors in Each Network Zone</small></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -103,7 +100,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
         <div class="col-md-12">
           <div class="box box-info">
             <div class="box-header with-border">
-              <h3 class="box-title">Location Drops</h3>
+              <h3 class="box-title">Packet Drops Per Zone <small>Packet Drops encountered in Each Network Zone</small></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -120,7 +117,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		<div class="col-md-12">
 		  <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">Vlan Packets</h3>
+              <h3 class="box-title">Packets Per VLAN <small>Packets Transfered in Each VLAN Network</small></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -137,7 +134,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		<div class="col-md-12">
 		  <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">Vlan Drops</h3>
+              <h3 class="box-title">Packet Drops Per Vlan <small>Packet Drops encountered in Each VLAN Network</small></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -154,7 +151,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		<div class="col-md-12">
 		  <div class="box box-danger">
             <div class="box-header with-border">
-              <h3 class="box-title">Vlan Errors</h3>
+              <h3 class="box-title">Errors Per VLAN <small>Connection Errors in Each VLAN Network</small></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -171,7 +168,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		<div class="col-md-12">
 		  <div class="box box-danger">
             <div class="box-header with-border">
-              <h3 class="box-title">Vlan Bytes</h3>
+              <h3 class="box-title">Bytes Per VLAN  <small>Bytes Transfered in Each VLAN Network</small></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -188,7 +185,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		<div class="col-md-12">
 		  <div class="box box-danger">
             <div class="box-header with-border">
-              <h3 class="box-title">Ether Drops</h3>
+              <h3 class="box-title">Packet Drops Per Line<small>Packet Drops encountered in Each Physical Ethernet Line</small></h3>
 
               <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -270,7 +267,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
  		return json;
  	})(); 
  	// AREA CHART
-     var area1 = new Morris.Area({
+     var area1 = new Morris.Bar({
        element: 'locpac',
        resize: true,
        data: locpac,
@@ -278,7 +275,9 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
        ykeys: ['a', 'b'],
        labels: ['Up', 'Down'],
        lineColors: ['#a0d0e0', '#3c8dbc'],
-       hideHover: 'auto'
+       hideHover: 'auto',
+		gridTextSize:8,
+		xLabelAngle: 60
      });
   });
   function locbyte() {
@@ -303,14 +302,16 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 			return json;
 		})(); 
 		var bar = new Morris.Bar({
-		  element: 'locbyt',
-		  resize: true,
-		  data: locbyt,
-		  barColors: ['#00a65a', '#f56954'],
-		  xkey: 'y',
-		  ykeys: ['a', 'b'],
-		  labels: ['Up', 'Down'],
-		  hideHover: 'auto'
+			element: 'locbyt',
+			resize: true,
+			data: locbyt,
+			barColors: ['#00a65a', '#f56954'],
+			xkey: 'y',
+			ykeys: ['a', 'b'],
+			labels: ['Up', 'Down'],
+			hideHover: 'auto',
+			gridTextSize:8,
+			xLabelAngle: 60
 		});
 	}  
  	function locerror() {
@@ -334,7 +335,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 			}); 
 			return json;
 		})(); 
-		var bar = new Morris.Area({
+		var bar = new Morris.Bar({
 		  element: 'locerr',
 		  resize: true,
 		  data: locerr,
@@ -342,7 +343,9 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		  xkey: 'y',
 		  ykeys: ['a', 'b'],
 		  labels: ['Up', 'Down'],
-		  hideHover: 'auto'
+		  hideHover: 'auto',
+			gridTextSize:8,
+			xLabelAngle: 60
 		});
 	}
  	function locdropp() {
@@ -366,7 +369,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 			}); 
 			return json;
 		})(); 
-		var bar = new Morris.Area({
+		var bar = new Morris.Bar({
 		  element: 'locdrop',
 		  resize: true,
 		  data: locdrop,
@@ -374,7 +377,9 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		  xkey: 'y',
 		  ykeys: ['a', 'b'],
 		  labels: ['Up', 'Down'],
-		  hideHover: 'auto'
+		  hideHover: 'auto',
+			gridTextSize:8,
+			xLabelAngle: 60
 		});
 	}
 	
@@ -399,7 +404,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 			}); 
 			return json;
 		})(); 
-		var bar = new Morris.Area({
+		var bar = new Morris.Bar({
 		  element: 'vlanpac',
 		  resize: true,
 		  data: vlanpac,
@@ -407,7 +412,9 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		  xkey: 'y',
 		  ykeys: ['a', 'b'],
 		  labels: ['Up', 'Down'],
-		  hideHover: 'auto'
+		  hideHover: 'auto',
+			gridTextSize:8,
+			xLabelAngle: 60
 		});
 	}
 	
@@ -432,7 +439,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 			}); 
 			return json;
 		})(); 
-		var bar = new Morris.Area({
+		var bar = new Morris.Bar({
 		  element: 'vlandro',
 		  resize: true,
 		  data: vlandro,
@@ -440,7 +447,9 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		  xkey: 'y',
 		  ykeys: ['a', 'b'],
 		  labels: ['Up', 'Down'],
-		  hideHover: 'auto'
+		  hideHover: 'auto',
+			gridTextSize:8,
+			xLabelAngle: 60
 		});
 	}
 	
@@ -465,7 +474,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 			}); 
 			return json;
 		})(); 
-		var bar = new Morris.Line({
+		var bar = new Morris.Bar({
 		  element: 'vlanerr',
 		  resize: true,
 		  data: vlanerr,
@@ -473,7 +482,9 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		  xkey: 'y',
 		  ykeys: ['a', 'b'],
 		  labels: ['Up', 'Down'],
-		  hideHover: 'auto'
+		  hideHover: 'auto',
+			gridTextSize:8,
+			xLabelAngle: 60
 		});
 	}
 	
@@ -506,7 +517,9 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		  xkey: 'y',
 		  ykeys: ['a', 'b'],
 		  labels: ['Up', 'Down'],
-		  hideHover: 'auto'
+		  hideHover: 'auto',
+			gridTextSize:8,
+			xLabelAngle: 60
 		});
 	}
 	function etherdrops() {
@@ -530,7 +543,7 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 			}); 
 			return json;
 		})(); 
-		var bar = new Morris.Line({
+		var bar = new Morris.Bar({
 		  element: 'etherdrop',
 		  resize: true,
 		  data: etherdrop,
@@ -538,7 +551,9 @@ if(request.getParameter("msg") != null && request.getParameter("type").equals("e
 		  xkey: 'y',
 		  ykeys: ['a', 'b'],
 		  labels: ['Up', 'Down'],
-		  hideHover: 'auto'
+		  hideHover: 'auto',
+			gridTextSize:8,
+			xLabelAngle: 60
 		});
 	}
 </script>

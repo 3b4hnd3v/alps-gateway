@@ -1,11 +1,11 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
 
-<%! String bn="0x0badf00d", ips="collapse", ipadd="Not Found", network="Not Found",id="", interf="Not Found"; %>
+<%!String bn="0x0badf00d", ips="collapse", ipadd="Not Found", network="Not Found",id="", interf="Not Found";%>
 
 <% 
 //remove walled garden
@@ -123,8 +123,8 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("remove
 		        <span class="pull-right"><% out.print(interf); %></span><br />
             </div>
             <div class="box-body">
-            	<a href='location_setting.jsp?location=<%=bn %>'><button class='btn btn-sm btn-warning'>Manage Settings</button></a>
-            	<a href='add_vlan.jsp?location=<%=bn %>'><button class='btn btn-sm btn-success pull-right'>Manage VLAN</button></a>
+            	<a href='location_setting.jsp?location=<%=bn %>' class='btn btn-sm btn-warning'> Manage Settings </a> 
+            	<a href='add_vlan.jsp?location=<%=bn %>' class='btn btn-sm btn-success pull-right'> Manage VLAN </a>
             </div>
           </div>
         </div>

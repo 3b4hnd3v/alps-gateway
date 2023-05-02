@@ -1,10 +1,10 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public String url = "SELECT * FROM `guestinfo` ORDER BY `chkodate` DESC", gid="counter", gnm="counter", lnm="", gpc="", cvp="collapse";%>
+<%!public String url = "SELECT * FROM `guestinfo` ORDER BY `chkodate` DESC", gid="counter", gnm="counter", lnm="", gpc="", cvp="collapse";%>
 <div class="content-wrapper">
 <%if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>
 	<div class="alert alert-danger alert-dismissible">
@@ -123,7 +123,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("create
 }else{cvp = "collapse";}
 %>
 <% if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("id")!= null) { %>
-<%! public String id = "", action = "", ln = "", gn = "", pc = "";  %>
+<%!public String id = "", action = "", ln = "", gn = "", pc = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">

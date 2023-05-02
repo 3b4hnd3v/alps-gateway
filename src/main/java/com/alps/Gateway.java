@@ -12,12 +12,9 @@ import me.legrange.mikrotik.ResultListener;
 public class Gateway {
 	PrimeCounter pc = new PrimeCounter();
 	static Dao dao = new Dao();
-	static String ip = dao.getip();
-	//String pass = "admin";
-	static String pass = dao.getPass();
-	//String user = "";
-	static String user = dao.getUser();
-	//static String ip = "172.27.5.96";
+	static String ip = dao.getSetting("default_ip");
+	static String pass = dao.getSetting("password");
+	static String user = dao.getSetting("username");
 
 	public static void main(String[] args) {
 		System.out.println(ip+"="+pass+"="+user);
@@ -81,7 +78,7 @@ public class Gateway {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); 
 			rs = con.execute("/interface/ethernet/print detail where name='"+name+"'");
-			System.out.println(rs);
+			//System.out.println(rs);
 			con.close();
 			
 		} catch(Exception e1) { System.out.println(e1); }
@@ -169,6 +166,20 @@ public class Gateway {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); 
 			rs = con.execute("/ip/arp/print");
+			
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
+		
+		return rs;
+	}
+	
+	public List<Map<String, String>> neighbors() {
+		List<Map<String, String>> rs = null;
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
+			rs = con.execute("/ip/neighbor/print detail");
 			
 			con.close();
 			
@@ -334,7 +345,7 @@ public class Gateway {
 			
 			con.close();
 			
-		} catch(Exception e1) { System.out.println(e1); }
+		} catch(Exception e1) {  }
 		
 		return rs;
 	}
@@ -2101,6 +2112,21 @@ public class Gateway {
 		} catch(Exception e1) { System.out.println(e1); }
 		
 	}
+	public void updateDNSServer(String servers) {
+		
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
+			String command = "/ip/dns/set servers="+servers;
+			
+			System.out.println("DEBUG: command=" + command);
+			con.execute(command);
+			
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
+		
+	}
 	public boolean changeIp(String ident, String name, String ipadd, String network, String defgateway) {
 		boolean success = false;
 		try {
@@ -2746,9 +2772,32 @@ public class Gateway {
 		try {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); 
-			
+			String com = "DefaultRoute"+intname;
+			rs = con.execute("/ip/route/print where comment='"+com+"'");
+			con.close();
+		} catch(Exception e1) { System.out.println(e1); }
+		
+		return rs;
+	}
+	public List<Map<String, String>> interfRouteGw(String intname) {
+		List<Map<String, String>> rs = new ArrayList<Map<String, String>>();
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
 			rs = con.execute("/ip/route/print where gateway='"+intname+"'");
 			
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
+		
+		return rs;
+	}
+	public List<Map<String, String>> CPU() {
+		List<Map<String, String>> rs = null;
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
+			rs = con.execute("/system/resource/cpu/print detail");
 			con.close();
 			
 		} catch(Exception e1) { System.out.println(e1); }

@@ -11,12 +11,12 @@ java.io.InputStreamReader,
 java.net.MalformedURLException,
 java.net.URL,
 java.net.URLConnection,
-com.alps.Dao
-"%>
+com.alps.Dao"
+%>
 <%
 URL url;
 Dao dao = new Dao();
-String gip = dao.getip();
+String gip = dao.getSetting("default_ip");
 String graph = "";
 if(request.getParameter("q")!=null){
 	graph = request.getParameter("q");
@@ -56,5 +56,4 @@ try {
 } catch (IOException e) {
 	e.printStackTrace();
 }
-
 %>

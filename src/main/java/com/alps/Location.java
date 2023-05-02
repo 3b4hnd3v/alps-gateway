@@ -1,21 +1,24 @@
 package com.alps;
 
+import java.util.Map;
+
+import com.alps.master.MasterApi;
+
 import me.legrange.mikrotik.ApiConnection;
 
 public class Location {
 	static Dao dao = new Dao();
-	static String ip = dao.getip();
-	//String pass = "admin";
-	static String pass = dao.getPass();
-	//String user = "";
-	static String user = dao.getUser();
-	//String ip = "172.27.5.99";
+	MasterApi g = new MasterApi();
+	static String ip = dao.getSetting("default_ip");
+	static String pass = dao.getSetting("password");
+	static String user = dao.getSetting("username");
 
 	public static void main(String[] args) {
 		Location loc = new Location();
 		
-		String locname = "test";
-		String vlanid = "999";
+		String locname = "Public";
+		loc.setWanBalancing(locname);
+		/**String vlanid = "999";
 		String vlname = "test999";
 		String poolname = "testpool";
 		String addrange = "192.168.3.3-192.168.3.255";
@@ -59,7 +62,7 @@ public class Location {
 		loc.add_DhcpNet(netadd, gwip, locname);
 		loc.addAddress(locname, ipmask, network );
 		loc.addhs_prof(pname, ip, ldp, loginby, cto);
-		loc.addhs_server(sname, pname, locname, poolname, "1", "0", "0");
+		loc.addhs_server(sname, pname, locname, poolname, "1", "0", "0");**/
 	}
 	
 	//Location Functions
@@ -294,30 +297,57 @@ public class Location {
 		return result;
 	}
     
-    public boolean addFirewallMangle(String locname, String network, String interfname, int count ) {
+    public boolean addMasqurade(String loc, String net) {
     	boolean result = false;
-    	System.out.println(locname+"=="+network+"=="+interfname);
-    	//locname, ip, netadd 
 		try {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); 
-			String gw_ports =  dao.getPorts();
-			String command = "chain=prerouting action=accept dst-address="+network+" in-interface="+locname+"  log=no log-prefix=''" ;
-			String command1 = "chain=prerouting action=mark-connection new-connection-mark="+interfname+"_conn passthrough=yes dst-address-type=!local in-interface="+locname+" per-connection-classifier=both-addresses-and-ports:"+gw_ports+"/"+count+" log=no log-prefix=''";
-			String command2 = "chain=prerouting action=mark-routing new-routing-mark=to_"+interfname+" passthrough=yes in-interface="+locname+"  connection-mark="+interfname+"_conn log=no log-prefix=''" ;
 			
-			if(con.execute(command) != null && con.execute(command1) != null && con.execute(command2) != null){
+			String command = "/ip/firewall/nat/add action=masquerade chain=srcnat comment='"+loc+"' src-address='"+net+"'";
+			
+			if(con.execute(command) != null){
 				result = true;
 				System.out.println("DEBUG: command=" + command);
 			}
 			con.close();
 			
 		} catch(Exception e1) { 
-			System.out.println("dhcpnet"+e1); 
+			System.out.println("Masq "+e1); 
 			if(String.valueOf(e1).contains("already") || String.valueOf(e1).contains("exists")){
 				result = true;
 			}
 			
+		}
+		return result;
+	}
+    
+    public boolean setWanBalancing(String locname) {
+    	boolean result = false;
+    	
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
+			String gw_ports =  dao.getSetting("gateway_ports");
+			int count = 0;
+			for (Map<String,String> mp : g.ethernet()) {
+				if(mp.get("name").contains("WAN")){
+					String interfname = mp.get("name");
+					//String command = "chain=prerouting action=accept dst-address="+network+" in-interface="+locname+"  log=no log-prefix=''" ;
+					String command1 = "/ip/firewall/mangle/add chain=prerouting action=mark-connection new-connection-mark="+interfname+"_conn passthrough=yes dst-address-type=!local in-interface="+locname+" per-connection-classifier=both-addresses-and-ports:"+gw_ports+"/"+count+" comment='Modify Connection Mark coming from "+locname+" to "+interfname+"'";
+					String command2 = "/ip/firewall/mangle/add chain=prerouting action=mark-routing new-routing-mark=to_"+interfname+" passthrough=yes in-interface="+locname+"  connection-mark="+interfname+"_conn comment='Route Packets coming from LAN under WAN_conn to "+interfname+"'" ;
+					System.out.println("DEBUG: command=" + command1);
+					System.out.println("DEBUG: command=" + command2);
+					result = con.execute(command1) != null && con.execute(command2) != null;
+					count =+ 1;
+				}
+			}
+			con.close();
+			
+		} catch(Exception e1) { 
+			System.out.println("Firewall Mangle"+e1); 
+			if(String.valueOf(e1).contains("already") || String.valueOf(e1).contains("exists")){
+				result = true;
+			}
 		}
 		return result;
 	}
@@ -328,7 +358,7 @@ public class Location {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); 
 			
-			String command = "/interface/vlan/remove .id=*19";
+			String command = "/interface/bridge/remove .id=*19";
 			
 			System.out.println("DEBUG: command=" + command);
 			//con.execute(command);

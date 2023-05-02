@@ -16,9 +16,12 @@ import me.legrange.mikrotik.ResultListener;
 public class TrafficMonitor {
 	static Dao dao = new Dao();
 	PrimeCounter pc = new PrimeCounter();
-	static String ip = dao.getip();//ip 
-	static String pass = dao.getPass();//pass
-	static String user = dao.getUser();//user
+	static String ip = dao.getSetting("default_ip");
+	//String pass = "admin";
+	static String pass = dao.getSetting("password");
+	//String user = "";
+	static String user = dao.getSetting("username");
+	//static String ip = "172.27.5.96";
 	
 	public static void main(String[] args) {
 		System.out.println(ip+"="+pass+"="+user);

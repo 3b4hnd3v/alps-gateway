@@ -1,6 +1,6 @@
 <%@include file="header.jsp" %>
 
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -258,7 +258,7 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 <%
 //pool_edit
 if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("pool")) { %>
-	<%! public String pid = "", pname = "", prange = "", nextpool = "";  %>
+	<%!public String pid = "", pname = "", prange = "", nextpool = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -330,7 +330,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
 <%
 //user_edit
 }else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("user")) { %>
-	<%! public String uid = "", username = "", password = "", profile = "", server = "", ip = "", mac = "", lu = "", lbi = "", lbo = "", lbt = "";  %>
+	<%!public String uid = "", username = "", password = "", profile = "", server = "", ip = "", mac = "", lu = "", lbi = "", lbo = "", lbt = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -446,7 +446,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       </div>
 	</section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("userprof")) { %>
-<%! public String prid = "", prname = "", pool = "", rlimit = "", cto = "", amc = "", sharelimit = "", statp = "", ito = "", sto = "", kat = "";  %>
+<%!public String prid = "", prname = "", pool = "", rlimit = "", cto = "", amc = "", sharelimit = "", statp = "", ito = "", sto = "", kat = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -544,7 +544,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </div>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("walledgarden")) { %>
-<%! public String dstadd = "", action = "", dstport = "", wgid = "", protocol = "";  %>
+<%!public String dstadd = "", action = "", dstport = "", wgid = "", protocol = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -607,7 +607,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </div>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("walledgardensite")) { %>
-<%! public String dst_host = "", comment = "", act = "", dst_port = "", wgsid = "", prot = "";  %>
+<%!public String dst_host = "", comment = "", act = "", dst_port = "", wgsid = "", prot = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -704,7 +704,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </div>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("ipaddress")) { %>
-	<%! public String ipid = "", address = "", network = "", addint = "";  %>
+	<%!public String ipid = "", address = "", network = "", addint = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -766,7 +766,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       </div>
 	</section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("hsserver")) { %>
-	<%! public String hssid = "", hssname = "", hssprof = "", hssint = "", hsspool = "", apm = "", idto = "", kato = "", https = "";  %>
+	<%!public String hssid = "", hssname = "", hssprof = "", hssint = "", hsspool = "", apm = "", idto = "", kato = "", https = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -853,7 +853,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       </div>
 	</section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("hsserverprof")) { %>
-	<%! public String hspid = "", hspname = "", hsadd = "", htdir = "", dnsname = "", loginby = "", cookieto = "", smtps = "", ratelim = "", htproxy = "";  %>
+	<%!public String hspid = "", hspname = "", hsadd = "", htdir = "", dnsname = "", loginby = "", cookieto = "", smtps = "", ratelim = "", htproxy = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -959,7 +959,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       </div>
 	</section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("interface")) { %>
-<%! public String intid = "", intname = "", inttype = "", mtu = "", mtu12 = "";  %>
+<%!public String intid = "", intname = "", inttype = "", mtu = "", mtu12 = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -1023,7 +1023,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </div>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("vlan")) { %>
-<%! public String vintid = "", vname = "", vtype = "", vmtu = "", vmtul2 = "", vlid = "";  %>
+<%!public String vintid = "", vname = "", vtype = "", vmtu = "", vmtul2 = "", vlid = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -1088,7 +1088,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </div>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("dns")) { %>
-	<%! public String did = "", dname = "", daddr = "", dttl = "";  %>
+	<%!public String did = "", dname = "", daddr = "", dttl = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">

@@ -14,7 +14,7 @@ public class FileEditor {
 	public boolean editIpScr(String newip,String newsmask,String newnetmask,String newgateway,String newbroadcast,String currip,String cursmask,String curnetmask,String curgateway,String curbroadcast){
 		boolean result = false;
 		
-		Path path = Paths.get(dao.getIpPath());
+		Path path = Paths.get(dao.getSetting("ws_ippath"));
 		Charset charset = StandardCharsets.UTF_8;
 		try {
 			String content = new String(Files.readAllBytes(path), charset);

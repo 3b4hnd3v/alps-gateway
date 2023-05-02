@@ -1,15 +1,18 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<% ComExec cex = new ComExec(); MasterApi mg = new MasterApi(); Mao mao = new Mao(); String ipmessage = "", submitbtn = "";
-String ident="", name="", address="", ip="", nm="", gateway="", gstat="", result="", dfi="", dfo="", dfm=""; %>
-<%
+<% 
+ComExec cex = new ComExec(); MasterApi mg = new MasterApi(); Mao mao = new Mao(); String ipmessage = "";
+String ident="", name="", address="", ip="", nm="", gateway="", gstat="", result="", dfi="", dfo="", vsf="", dr="", drm=""; 
+String intro = "Please Confirm Your Network Settings Before Changing.",
+submitbtn = "<input type='submit' name='submit' class='btn btn-info pull-right' value='Change IP'>";
+
 if(request.getParameter("q") != null && request.getParameter("q").equals("pingip")) {
 	try {
-		String gip = dao.getip();
+		String gip = dao.getSetting("ip");
 		InetAddress iaddress = InetAddress.getByName(gip);
 		boolean chkConnection = iaddress.isReachable(6000);
 		if (chkConnection == true){
@@ -24,7 +27,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("pingip
 %>
 <% 
 if(request.getParameter("submit") != null && request.getParameter("submit").equals("Change IP")) {
-	System.out.println("anas");
+	//System.out.println("");
 	try {
 		String id = request.getParameter("ident").toString();
 		String nip = request.getParameter("ip").toString();
@@ -35,30 +38,38 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 		String ipadd = nip+"/"+netmask;
 		String dfii = request.getParameter("dfi");
 		String dfoi = request.getParameter("dfo");
-		String dfmr = request.getParameter("dfm");
-		String dns = request.getParameter("dns");
+		String vsfi = request.getParameter("vsf");
+		String dri = request.getParameter("dr");
+		String drmi = request.getParameter("drm");
+		String def = mao.getSetting("ip");
 		
 		try{
 			boolean drf = true;
-			/*if(nname.equals("WAN")){
-				drf = dao.updateIP("default_ip",nip);
-			}else{drf=true;}*/
+			//If WAN Interface IP is changed, change default ip in settings
+			//if(nname.equals("WAN")){ drf = dao.updateIP("default_ip",nip);}
+			
 			if(drf){
+				 //Change the IP entry for ip, ip1 or Ip2
 				 mao.updateSetting(nname.replace("WAN", "ip"), nip);
-				 
+				 dao.updateSetting(nname.replace("WAN", "ip"), nip);
+
 				 //This changes default ip in masterset to the new ip. This is not needed.
 				 //mao.updateSetting("default_ip", nip);
 				 
 				 mg.changeForwardingRule(nip, dfii, "dfi");
 				 mg.changeForwardingRule(nip, dfoi, "dfo");
-				 mg.changeMangleRule(ipadd, dfmr);
-				 mg.changeRouteRule(defgateway, nname);
-				 if(mg.changeIp(id, nname, ipadd, network, defgateway, dns)){
-					String rswar = dao.getIpPath().replace("setip", "restartwar");
+				 mg.changeForwardingRule(nip, vsfi, "dfi");
+				 mg.changeRoute(defgateway, dri);
+				 mg.changeRoute(defgateway, drmi);
+				 //mg.changeRouteRule(defgateway, nname);
+				 if(mg.changeIp(id, nname, ipadd, network, defgateway)){
+					String rswar = dao.getSetting("restart_path");
 					cex.comExec(""+rswar);
-						
-					String def = mao.getSetting("ip");
-					response.sendRedirect("http://"+def+"");
+					
+					String home = String.valueOf(javax.servlet.http.HttpUtils.getRequestURL(request)).replace("/ipchange.jsp", "");
+					response.sendRedirect(home);
+					
+					
 				 }else{
 					ipmessage="Gateway Unreachable. Please Try Again. You can try pinging the default Ip address first";
 				 }
@@ -78,7 +89,7 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 <section class="content-header">
   <h1>
     Alps WAN Settings
-    <small>WAN IP Settings</small>
+    <small>WAN IP Settings <%= String.valueOf(javax.servlet.http.HttpUtils.getRequestURL(request)).replace("/ipchange.jsp", "") %> </small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -107,8 +118,8 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
   <h4><i class="icon fa fa-info"></i> Alert!</h4>
   <%out.println(ipmessage); %>
 </div>
-
 <%} %>
+<section class="content">
 <% 
 try{
 	for (Map<String,String> mp : mg.ipaddress()) {
@@ -116,80 +127,90 @@ try{
 			ident = mp.get(".id");
 			name = mp.get("interface");
 		 	address = mp.get("address");
-		 	String[] add = address.split("/");
-		 	ip = add[0];
-		 	nm = add[1];
+		 	
+		 	if(address.contains("/")){
+			 	String[] add = address.split("/");
+			 	ip = add[0];
+			 	nm = add[1];
+		 	}else{
+		 		ip = address;
+			 	nm = "29";
+		 	}
 		 	gateway = mp.get("network");
-		 	dfi = mg.getForwardingRule(name+"I");
-		 	dfo = mg.getForwardingRule(name+"O");
-		 	dfm = mg.getMangleRule(name);
+		 	dfi = mg.getForwardingRule(name+"I", "DefaultForwarding");
+		 	dfo = mg.getForwardingRule(name+"O", "DefaultForwarding");
+		 	vsf = mg.getForwardingRule(name, "VNC2SERVER");
+		 	dr = mg.WBRoute(name,"DefaultRoute");
+		 	drm = mg.WBRoute(name,"DefaultRouteMark");
+		 	
+		 	if(String.valueOf(dfi).equals("0") || String.valueOf(dfo).equals("0") || String.valueOf(dr).equals("0") || String.valueOf(drm).equals("0")){
+		 		submitbtn = "<input disabled type='submit' name='notallowed' value='Not Allowed' class='btn btn-info pull-right fa fa-block' value=''>";
+		 		intro = "IP for "+name+" can not be change because one of it's firewall rules are missing.";
+		 	}
+		 	//System.out.println("ADDRESS ON:"+address);
 %>
-<section class="content">
+
 <!-- Horizontal Form -->
 <div class="box box-info">
   <div class="box-header with-border">
-    <h3 class="box-title"><small>Please Confirm Your Network Settings Before Changing.</small></h3>
+    <h3 class="box-title"><small><%= intro %></small></h3>
   </div><!-- /.box-header -->
   <!-- form start -->
-  <form class="form-horizontal">
+  <form action="#" method="post">
     <div class="box-body">
       <input type="hidden" required class="form-control" readonly id="dfi" name="dfi" value="<%out.println(dfi);%>">
       <input type="hidden" required class="form-control" readonly id="dfo" name="dfo" value="<%out.println(dfo);%>">
+      <input type="hidden" required class="form-control" readonly id="vsf" name="vsf" value="<%out.println(vsf);%>">
       <input type="hidden" required class="form-control" readonly id="ident" name="ident" value="<%out.println(ident);%>">
-      <input type="hidden" required class="form-control" readonly id="dfm" name="dfm" value="<%out.println(dfm);%>">
-        
-      <div class="form-group col-sm-4">
-        <label for="ip" class="col-sm-6 control-label">Interface Name</label><br />
-        <div class="col-sm-10">
-          <input type="text" class="form-control" required id="interf" name="interf" value="<%out.println(name);%>">
-        </div>
-      </div>
-      <div class="form-group col-sm-4">
-        <label for="ip" class="col-sm-6 control-label">IP Address</label><br />
-        <div class="col-sm-10">
-          <input type="text" required class="form-control" id="ip" name="ip" placeholder="0.0.0.0" value="<%out.println(ip);%>">
-        </div>
-      </div>
-      <div class="form-group col-sm-4">
-        <label for="netmask" class="col-sm-6 control-label">Netmask</label><br />
-        <div class="col-sm-10">
-          <input type="text" required class="form-control" id="netmask" name="netmask" placeholder="0.0.0.0/24" value="<%out.println(nm);%>">
-        </div>
-      </div>
-      <div class="form-group col-sm-4">
-        <label for="netmask" class="col-sm-6 control-label">Network</label><br />
-        <div class="col-sm-10">
-          <input type="text" required class="form-control" id="network" name="network" placeholder="0.0.0.0/24" value="<%out.println(gateway);%>">
-        </div>
-      </div>
-      <div class="form-group col-sm-4">
-        <label for="netmask" class="col-sm-6 control-label">Default Gateway</label><br />
-        <div class="col-sm-10">
-          <input type="text" required class="form-control" id="defgateway" name="defgateway" placeholder="0.0.0.0">
-        </div>
-      </div>
-      <div class="form-group col-sm-4">
-        <label for="netmask" class="col-sm-6 control-label">DNS</label><br />
-        <div class="col-sm-12">
-          <input type="text" required class="form-control" id="dns" name="dns" value="8.8.8.8,8.8.4.4">
-          <small>Append More DNS with ","</small>
-        </div>
-        
+      <input type="hidden" required class="form-control" readonly id="dr" name="dr" value="<%out.println(dr);%>">
+      <input type="hidden" required class="form-control" readonly id="drm" name="drm" value="<%out.println(drm);%>">
+      <div class="row">
+	      <div class="form-group col-sm-6">
+	        <label for="ip" class="col-sm-12 control-label">Interface Name</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" class="form-control" readonly required id="interf" name="interf" value="<%out.println(name);%>">
+	        </div>
+	      </div>
+	      <div class="form-group col-sm-6">
+	        <label for="ip" class="col-sm-12 control-label">IP Address</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" required class="form-control" id="ip" name="ip" placeholder="0.0.0.0" value="<%out.println(ip);%>">
+	        </div>
+	      </div>
+	      <div class="form-group col-sm-6">
+	        <label for="netmask" class="col-sm-12 control-label">Netmask</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" required class="form-control" style="width:100%" id="netmask" name="netmask" placeholder="0.0.0.0/24" value="<%out.println(nm);%>">
+	        </div>
+	      </div>
+	      <div class="form-group col-sm-6">
+	        <label for="netmask" class="col-sm-12 control-label">Network</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" required class="form-control" id="network" name="network" placeholder="0.0.0.0/24" value="<%out.println(gateway);%>">
+	        </div>
+	      </div>
+	      <div class="form-group col-sm-12">
+	        <label for="netmask" class="col-sm-12 control-label">Default Gateway</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" required class="form-control" id="defgateway" name="defgateway" placeholder="0.0.0.0">
+	        </div>
+	      </div>
+	      
       </div>
     </div><!-- /.box-body -->
     <div class="box-footer">
-      
-      <input type="submit" <%out.println(submitbtn);%> name="submit" class="btn btn-info pull-right" value="Change IP">
+     	<%= submitbtn %>
     </div><!-- /.box-footer -->
   </form>
 </div><!-- /.box -->
-</section>
-<% }
+
+<% 		}
 	}
-}catch(Exception e){System.out.println(e);
-name = "WAN";
-response.sendRedirect("mw_prefs.jsp");
+}catch(Exception e){
+	System.out.println(e);
+	response.sendRedirect("mw_prefs.jsp");
 }%>
+</section>
 </div><!-- /.content-wrapper -->
 <footer class="main-footer">
   <div class="pull-right hidden-xs">

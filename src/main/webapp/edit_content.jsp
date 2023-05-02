@@ -10,16 +10,13 @@ java.sql.Statement,
 java.sql.ResultSetMetaData,
 com.alps.AlpsLog,
 com.alps.Dao,
-java.sql.PreparedStatement, 
-java.io.* 
-"%>  
-<%! String name = "", filename="", filedir = ""; %>
-<%! 
-public String dbhost="127.0.0.1", dbport="3306", dbname="alpsgateway", dbuser="ebahn", dbpass="ebahn";
+java.sql.PreparedStatement,
+java.io.*"%>  
+<%!String name = "", filename="", filedir = "";%>
+<%!public String dbhost="127.0.0.1", dbport="3306", dbname="alpsgateway", dbuser="ebahn", dbpass="ebahn";
 public static Connection cn = null;
 AlpsLog al = new AlpsLog();
-Dao dao = new Dao();
-%>
+Dao dao = new Dao();%>
 
 <%! 
 public Connection connect() {
@@ -47,7 +44,7 @@ while (files.hasMoreElements()) {
     name = (String) files.nextElement();
     filename = m.getFilesystemName(name);
 }
-String imgdir = dao.getlpimg();
+String imgdir = dao.getSetting("lpimg");
 filedir = imgdir + filename;
 
 connect();

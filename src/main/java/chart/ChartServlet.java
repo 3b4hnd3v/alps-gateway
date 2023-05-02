@@ -52,9 +52,9 @@ public class ChartServlet extends HttpServlet {
 	static Dao dao = new Dao();
 	Gateway gt = new Gateway();
 	TrafficMonitor tm = new TrafficMonitor();
-	static String pass = dao.getPass();
-	static String user = dao.getUser();
-	static String ip = dao.getip();
+	static String ip = dao.getSetting("default_ip");
+	static String pass = dao.getSetting("password");
+	static String user = dao.getSetting("username");
 	public Connection connect() {
 		
 		try { Class.forName("com.mysql.jdbc.Driver");
@@ -106,7 +106,7 @@ public class ChartServlet extends HttpServlet {
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		
 		try{
-		   String jsonurl = dao.getSocJson();
+		   String jsonurl = dao.getSetting("socurl");
 		
 		   String url = jsonurl+"?cli="+URLEncoder.encode(cid, "UTF-8")+"&username="+URLEncoder.encode(uid, "UTF-8");
 		   //System.out.println(url);

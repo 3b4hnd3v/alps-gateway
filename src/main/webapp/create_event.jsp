@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public String venue="",venueno="",evn="",comp="",cont="",phone="",email="",stdate="",puser="",ppass="",endate="",days="",dayrate="",pax="",paxrate="",server="",total1="",plan="",planname="",prof="",planid="",lbi="",lbo="",vid="",vn="",lu=""; 
-	public double subtotal=0.00,total=0.00,subtax=0.00;
-%>
-<%! Licmail lm = new Licmail(); %>
+<%!public String venue="",venueno="",evn="",comp="",cont="",phone="",email="",stdate="",puser="",ppass="",endate="",days="",dayrate="",pax="",paxrate="",server="",total1="",plan="",planname="",prof="",planid="",lbi="",lbo="",vid="",vn="",lu=""; 
+	public double subtotal=0.00,total=0.00,subtax=0.00;%>
+<%!Licmail lm = new Licmail();%>
 <%
 if(request.getParameter("submit") != null && request.getParameter("submit").equals("Confirm Create Event")) {
 	

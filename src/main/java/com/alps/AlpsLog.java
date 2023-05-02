@@ -35,7 +35,7 @@ public class AlpsLog {
 		String logtime = dateFormat1.format(date);
 		String daylog = "AlpsLog "+today+".txt";
 		Dao dao = new Dao();
-		String logdir = dao.getLogdir();
+		String logdir = dao.getSetting("log_location");
 		String logfile = logdir + daylog;
 		String content = logtime+":"+action;
 		System.out.println(logfile);

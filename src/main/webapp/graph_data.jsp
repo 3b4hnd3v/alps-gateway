@@ -171,7 +171,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 			  	String a = mp.get("tx-packet");
 			  	String b = mp.get("rx-packet");
 			  	BarGraph bg = new BarGraph();
-			  	bg.setY(data.indexOf(mp)+" "+y);
+			  	bg.setY(y);
 			  	bg.setA(Integer.parseInt(a));
 			  	bg.setB(Integer.parseInt(b));
 			  	
@@ -208,7 +208,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-packet");
 		  	String b = mp.get("rx-packet");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+" "+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -244,7 +244,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-drop");
 		  	String b = mp.get("rx-drop");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -279,7 +279,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-error");
 		  	String b = mp.get("rx-error");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+" "+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -313,8 +313,8 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-byte");
 		  	String b = mp.get("rx-byte");
 		  	BarGraph bg = new BarGraph();
-		  	//bg.setY(data.indexOf(mp)+""+y);
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	//bg.setY(y);
+		  	bg.setY(y);
 		  	bg.setA(Long.parseLong(a));
 		  	bg.setB(Long.parseLong(b));
 		  	
@@ -348,7 +348,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-packet");
 		  	String b = mp.get("rx-packet");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -382,7 +382,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-drop");
 		  	String b = mp.get("rx-drop");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -416,7 +416,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-error");
 		  	String b = mp.get("rx-error");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Long.parseLong(a));
 		  	bg.setB(Long.parseLong(b));
 		  	
@@ -450,7 +450,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-byte");
 		  	String b = mp.get("rx-byte");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Long.parseLong(a));
 		  	bg.setB(Long.parseLong(b));
 		  	
@@ -484,7 +484,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-drop");
 		  	String b = mp.get("rx-drop");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -518,7 +518,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("packets-in");
 		  	String b = mp.get("packets-out");
 		  	UserGraph bg = new UserGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setItem1(Integer.parseInt(a));
 		  	bg.setItem2(Integer.parseInt(b));
 		  	
@@ -552,7 +552,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("bytes-in");
 		  	String b = mp.get("bytes-out");
 		  	UserGraph bg = new UserGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setItem1(Integer.parseInt(a));
 		  	bg.setItem2(Integer.parseInt(b));
 		  	

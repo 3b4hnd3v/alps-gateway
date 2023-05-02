@@ -1,9 +1,85 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
+<% 
+ComExec cex = new ComExec(); MasterApi mg = new MasterApi(); Mao mao = new Mao(); String ipmessage = "", act_int = "";
+String ident="", name="", address="", ip="", nm="", gateway="", gstat="", result="", dfi="", dfo="", dr="", drm=""; 
+String intro = "Please Confirm Your Network Settings Before Changing.",
+submitbtn = "<input type='submit' name='submit' class='btn btn-info pull-right' value='Change IP'>";
+if(request.getParameter("interface") != null) {
+	act_int = request.getParameter("interface");
+}
+if(request.getParameter("q") != null && request.getParameter("q").equals("pingip")) {
+	try {
+		String gip = dao.getSetting("ip");
+		InetAddress iaddress = InetAddress.getByName(gip);
+		boolean chkConnection = iaddress.isReachable(6000);
+		if (chkConnection == true){
+			gstat = "Reached";
+			result = "Reachable";
+		} else {
+			gstat = "Unreached";
+			result = "Unreachable";
+		}
+	} catch (Exception e1) { System.out.println(e1); }
+}
+
+if(request.getParameter("submit") != null && request.getParameter("submit").equals("Change IP")) {
+	//System.out.println("");
+	try {
+		String id = request.getParameter("ident").toString();
+		String nip = request.getParameter("ip").toString();
+		String nname = request.getParameter("interf").toString();
+		String netmask = request.getParameter("netmask").toString();
+		String network = request.getParameter("network").toString();
+		String defgateway = request.getParameter("defgateway").toString();
+		String ipadd = nip+"/"+netmask;
+		String dfii = request.getParameter("dfi");
+		String dfoi = request.getParameter("dfo");
+		String dri = request.getParameter("dr");
+		String drmi = request.getParameter("drm");
+		String def = mao.getSetting("ip");
+		
+		try{
+			boolean drf = true;
+			//If WAN Interface IP is changed, change default ip in settings
+			//if(nname.equals("WAN")){ drf = dao.updateIP("default_ip",nip);}
+			
+			if(drf){
+				 //Change the IP entry for ip, ip1 or Ip2
+				 mao.updateSetting(nname.replace("WAN", "ip"), nip);
+				 
+				 //This changes default ip in masterset to the new ip. This is not needed.
+				 //mao.updateSetting("default_ip", nip);
+				 
+				 mg.changeForwardingRule(nip, dfii, "dfi");
+				 mg.changeForwardingRule(nip, dfoi, "dfo");
+				 mg.changeRoute(defgateway, dri);
+				 mg.changeRoute(defgateway, drmi);
+				 //mg.changeRouteRule(defgateway, nname);
+				 if(mg.changeIp(id, nname, ipadd, network, defgateway)){
+					 String rswar = dao.getSetting("restart_path");
+					cex.comExec(""+rswar);
+					
+					ipmessage="multiwan_int.jsp?msg=IP Setup Sucessfully Done&type=success";					
+					
+				 }else{
+					ipmessage="multiwan_int.jsp?msg=Gateway Unreachable. Please Try Again. You can try pinging the default Ip address first&type=error";
+				 }
+			}
+		} catch(Exception e) {
+			ipmessage="multiwan_int.jsp?msg=Gateway Unreachable. Please Try Again. You can try pinging the default Ip address first!&type=error";
+		}
+		
+		String logact = "IP address changed to "+ipadd+"/"+netmask+" added By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
+		al.addLog(logact);
+		response.sendRedirect(ipmessage);
+	} catch (Exception e1) { System.out.println(e1); }
+}
+%>
 <div class="content-wrapper">
 <%if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>
 	<div class="alert alert-danger alert-dismissible">
@@ -18,234 +94,132 @@
 	  <%out.println(request.getParameter("msg")); %>
 	</div>
 <%}%>
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
   <h1>
-    MultiWan - Quick Install
-    <small>Quick Installation</small>
+    WAN Settings
+    <small>Interface IP Setup</small>
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="#">MultiWan</a></li>
-    <li class="active">Quick Install</li>
+    <li class="active">Quick IP Setup</li>
   </ol>
 </section>
-<section class="content">
-  <div class="col-md-12" style="background-color:#549ED1;" align="center">
-  <br>
-	<!--  div class="well" style="background-color:#549ED1;">-->
-	<% String[] iparray = dao.getWANIP();
-	   for(int i = 0; i < iparray.length; i++) { 
-		   
-		   if (iparray[i] != null){
-		   		InetAddress iaddress = InetAddress.getByName(iparray[i]);
-		   		boolean chkConnection = iaddress.isReachable(3000);
-		   		if (chkConnection == true){
-	    %>
-	   				<!-- green ip -->
-	   				<div class="well col-md-3 col-xs-6" style="background-color:green;">
-	   					<div class="col-md-3">
-	   						<img alt="" class="img-responsive" src="dist/img/reached.png">
-	   					</div>
-	   					<div class="col-md-9">
-	   						<p>Reachable</p>
-	   					</div>
-	   				</div>
-	    <% 		} else{ %>
-	  		   		<!-- red ip -->
-	  		   		<div class="well col-md-3 col-xs-6" style="background-color:orange;">
-	   					<div class="col-md-3">
-	   						<img alt="" class="img-responsive" src="dist/img/unreached.png">
-	   					</div>
-	   					<div class="col-md-9">
-	   						<p>Un-Reachable</p>
-	   					</div>
-	   				</div>
-	  
-	  	<%	}}else{ %>
-	  			<!-- empty/inactive -->
-	  			<div class="well col-md-3 col-xs-6" style="background-color:red;">
-   					<div class="col-md-3">
-   						<img alt="" class="img-responsive"  src="dist/img/inactive.png">
-   					</div>
-   					<div class="col-md-9">
-   						<p>Inactive</p>
-   					</div>
-	   			</div>
-	  	
-	  	<%	}}%>
-		
-	</div>
-</section>
+
+<section class="content-header"><p></p></section>
+<%if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>
+<div class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <h4><i class="icon fa fa-ban"></i> Oops :( !</h4>
+  <%out.println(request.getParameter("msg")); %>
+</div>
+<%}else if(request.getParameter("msg") != null && request.getParameter("type").equals("success")){ %>
+<div class="alert alert-info alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <h4><i class="icon fa fa-info"></i> Alert!</h4>
+  <%out.println(request.getParameter("msg")); %>
+</div>
+
+<%} %>
+<%if(ipmessage != null && !ipmessage.equals("")){ %>
+<div class="alert alert-info alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <h4><i class="icon fa fa-info"></i> Alert!</h4>
+  <%out.println(ipmessage); %>
+</div>
+<%} %>
 
 <section class="content">
- <!-- Small boxes (Stat box) -->
- <div class="row col-md-12">
-   <div class="col-lg-3 col-xs-6">
-     <!-- small box -->
-     <div class="small-box bg-aqua">
-       <div class="inner">
-         <h3>1 Port</h3>
-         <p>No Wan Balancing</p>
-         <p>3 ports Inactive</p>
-       </div>
-       <div class="icon">
-         <i class="ion ion-bag"></i>
-       </div>
-       <a href="?q=1WAN" class="small-box-footer">Activate Now <i class="fa fa-arrow-circle-right"></i></a>
-     </div>
-   </div><!-- ./col -->
-   <div class="col-lg-3 col-xs-6">
-     <!-- small box -->
-     <div class="small-box bg-green">
-       <div class="inner">
-         <h3>2 Port</h3>
-         <p>2 Line-Wan Balancing</p>
-         <p>2 ports Inactive</p>
-       </div>
-       <div class="icon">
-         <i class="ion ion-stats-bars"></i>
-       </div>
-       <a href="?q=2WAN" class="small-box-footer">Activate Now <i class="fa fa-arrow-circle-right"></i></a>
-     </div>
-   </div><!-- ./col -->
-   <div class="col-lg-3 col-xs-6">
-     <!-- small box -->
-     <div class="small-box bg-yellow">
-       <div class="inner">
-         <h3>3 Ports</h3>
-         <p>3 Line-Wan Balancing</p>
-         <p>1 port Inactive</p>
-       </div>
-       <div class="icon">
-         <i class="ion ion-person-add"></i>
-       </div>
-       <a href="?q=3WAN" class="small-box-footer">Activate Now <i class="fa fa-arrow-circle-right"></i></a>
-     </div>
-   </div><!-- ./col -->
-   <div class="col-lg-3 col-xs-6">
-     <!-- small box -->
-     <div class="small-box bg-red">
-       <div class="inner">
-         <h3>4 Ports</h3>
-         <p>3 Line-Wan Balancing</p>
-         <p>All ports Active</p>
-       </div>
-       <div class="icon">
-         <i class="ion ion-pie-graph"></i>
-       </div>
-       <a href="?q=4WAN" class="small-box-footer">Activate Now <i class="fa fa-arrow-circle-right"></i></a>
-     </div>
-   </div><!-- ./col -->
- </div><!-- /.row -->
-</section>
- 
-<section class="content" id="activate">
-<% if(request.getParameter("q") != null && request.getParameter("q").equals("1WAN")) { %>
-	<div class="example-modal">
-      <div class="modal modal-info">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="activebox">1 Port WAN</h4>
-            </div>
-            <div class="modal-body">
-              <h4>Before you proceed &hellip;</h4>
-              <p>By Activating this quick set up;</p>
-              <p>ALL previous setup will be deleted and ALPS will reset to default.</p>
-              <p>MultiWan functionality will be suspended. This can however be re-activated any time through this same process</p>
-              <p>IP Address will be reset to default too. So you will need to change IP to your address range. Please refer to manual to see how to change IP.</p>
-              <p>Click Proceed to continue.</p>
-            </div>
-            <div class="modal-footer">
-              <a href="multiwan_qki.jsp"><button type="button" class="btn btn-outline pull-left">Cancel</button></a>
-              <a href="action.jsp?q=multiwan&port=<%out.print(request.getParameter("q"));%>"><button type="button" class="btn btn-outline">Activate</button></a>
-            </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
-    </div><!-- /.example-modal -->
-    <script type="text/javascript">document.getElementById("activebox").scrollIntoView();</script>
-<%}else if(request.getParameter("q") != null && request.getParameter("q").equals("2WAN")) { %>
-	<div class="example-modal">
-     <div class="modal modal-success">
-       <div class="modal-dialog">
-         <div class="modal-content">
-           <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-             <h4 class="modal-title">2 Port MultiWan</h4>
-           </div>
-           <div class="modal-body" id="activebox">
-             <h4>Before you proceed &hellip;</h4>
-             <p>By Activating this quick set up;</p>
-             <p>ALL previous setup will be deleted and ALPS will reset to default.</p>
-             <p>MultiWan functionality will be suspended. This can however be re-activated any time through this same process</p>
-             <p>IP Address will be reset to default too. So you will need to change IP to your address range. Please refer to manual to see how to change IP.</p>
-             <p>Click Proceed to continue.</p>
-           </div>
-           <div class="modal-footer">
-             <a href="multiwan_qki.jsp"><button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button></a>
-             <a href="action.jsp?q=multiwan&port=<%out.print(request.getParameter("q"));%>"><button type="button" class="btn btn-outline">Activate</button></a>
-           </div>
-         </div><!-- /.modal-content -->
-       </div><!-- /.modal-dialog -->
-     </div><!-- /.modal -->
-   </div><!-- /.example-modal -->
-   <script type="text/javascript">document.getElementById("activebox").scrollIntoView();</script>
-<%}else if(request.getParameter("q") != null && request.getParameter("q").equals("3WAN")) { %>
-   <div class="example-modal">
-     <div class="modal modal-warning">
-       <div class="modal-dialog">
-         <div class="modal-content">
-           <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-             <h4 class="modal-title">3 Port MultiWan</h4>
-           </div>
-           <div class="modal-body" id="activebox">
-             <h4>Before you proceed &hellip;</h4>
-             <p>By Activating this quick set up;</p>
-             <p>ALL previous setup will be deleted and ALPS will reset to default.</p>
-             <p>MultiWan functionality will be suspended. This can however be re-activated any time through this same process</p>
-             <p>IP Address will be reset to default too. So you will need to change IP to your address range. Please refer to manual to see how to change IP.</p>
-             <p>Click Proceed to continue.</p>
-           </div>
-           <div class="modal-footer">
-             <a href="multiwan_qki.jsp"><button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button></a>
-             <a href="action.jsp?q=multiwan&port=<%out.print(request.getParameter("q"));%>"><button type="button" class="btn btn-outline">Activate</button></a>
-           </div>
-         </div><!-- /.modal-content -->
-       </div><!-- /.modal-dialog -->
-     </div><!-- /.modal -->
-   </div><!-- /.example-modal -->
-  <script type="text/javascript">document.getElementById("activebox").scrollIntoView();</script>
-<%}else if(request.getParameter("q") != null && request.getParameter("q").equals("4WAN")) { %>
-  <div class="example-modal">
-   <div class="modal modal-danger">
-     <div class="modal-dialog">
-       <div class="modal-content">
-         <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-           <h4 class="modal-title">4 Port MultiWan</h4>
-         </div>
-         <div class="modal-body" id="activebox">
-           <h4>Before you proceed &hellip;</h4>
-           <p>By Activating this quick set up;</p>
-           <p>ALL previous setup will be deleted and ALPS will reset to default.</p>
-           <p>MultiWan functionality will be suspended. This can however be re-activated any time through this same process</p>
-           <p>IP Address will be reset to default too. So you will need to change IP to your address range. Please refer to manual to see how to change IP.</p>
-           <p>Click Proceed to continue.</p>
-         </div>
-         <div class="modal-footer">
-           <a href="multiwan_qki.jsp"><button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancel</button></a>
-           <a href="action.jsp?q=multiwan&port=<%out.print(request.getParameter("q"));%>"><button type="button" class="btn btn-outline">Activate</button></a>
-         </div>
-       </div><!-- /.modal-content -->
-     </div><!-- /.modal-dialog -->
-   </div><!-- /.modal -->
- </div><!-- /.example-modal -->
-<script type="text/javascript">document.getElementById("activebox").scrollIntoView();</script>
-<%} %>
+<% 
+try{
+	for (Map<String,String> mp : mg.ipaddress()) {
+		if(mp.get("interface").equals(act_int)){ 
+			ident = mp.get(".id");
+			name = mp.get("interface");
+		 	address = mp.get("address");
+		 	
+		 	if(address.contains("/")){
+			 	String[] add = address.split("/");
+			 	ip = add[0];
+			 	nm = add[1];
+		 	}else{
+		 		ip = address;
+			 	nm = "29";
+		 	}
+		 	gateway = mp.get("network");
+		 	dfi = mg.getForwardingRule(name+"I");
+		 	dfo = mg.getForwardingRule(name+"O");
+		 	dr = mg.WBRoute(name,"DefaultRoute");
+		 	drm = mg.WBRoute(name,"DefaultRouteMark");
+		 	
+		 	if(String.valueOf(dfi).equals("0") || String.valueOf(dfo).equals("0") || String.valueOf(dr).equals("0") || String.valueOf(drm).equals("0")){
+		 		submitbtn = "<input disabled type='submit' name='notallowed' value='Not Allowed' class='btn btn-info pull-right fa fa-block' value=''>";
+		 		intro = "IP for "+name+" can not be change because one of it's firewall rules are missing.";
+		 	}
+		 	//System.out.println("ADDRESS ON:"+address);
+%>
+
+<!-- Horizontal Form -->
+<div class="box box-info">
+  <div class="box-header with-border">
+    <h3 class="box-title"><small><%= intro %></small></h3>
+  </div><!-- /.box-header -->
+  <!-- form start -->
+  <form action="#" method="post">
+    <div class="box-body">
+      <input type="hidden" required class="form-control" readonly id="dfi" name="dfi" value="<%out.println(dfi);%>">
+      <input type="hidden" required class="form-control" readonly id="dfo" name="dfo" value="<%out.println(dfo);%>">
+      <input type="hidden" required class="form-control" readonly id="ident" name="ident" value="<%out.println(ident);%>">
+      <input type="hidden" required class="form-control" readonly id="dr" name="dr" value="<%out.println(dr);%>">
+      <input type="hidden" required class="form-control" readonly id="drm" name="drm" value="<%out.println(drm);%>">
+      <div class="row">
+	      <div class="form-group col-sm-6">
+	        <label for="ip" class="col-sm-12 control-label">Interface Name</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" class="form-control" readonly required id="interf" name="interf" value="<%out.println(name);%>">
+	        </div>
+	      </div>
+	      <div class="form-group col-sm-6">
+	        <label for="ip" class="col-sm-12 control-label">IP Address</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" required class="form-control" id="ip" name="ip" placeholder="0.0.0.0" value="<%out.println(ip);%>">
+	        </div>
+	      </div>
+	      <div class="form-group col-sm-6">
+	        <label for="netmask" class="col-sm-12 control-label">Netmask</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" required class="form-control" style="width:100%" id="netmask" name="netmask" placeholder="0.0.0.0/24" value="<%out.println(nm);%>">
+	        </div>
+	      </div>
+	      <div class="form-group col-sm-6">
+	        <label for="netmask" class="col-sm-12 control-label">Network</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" required class="form-control" id="network" name="network" placeholder="0.0.0.0/24" value="<%out.println(gateway);%>">
+	        </div>
+	      </div>
+	      <div class="form-group col-sm-12">
+	        <label for="netmask" class="col-sm-12 control-label">Default Gateway</label><br />
+	        <div class="col-sm-12">
+	          <input type="text" required class="form-control" id="defgateway" name="defgateway" placeholder="0.0.0.0">
+	        </div>
+	      </div>
+	      
+      </div>
+    </div><!-- /.box-body -->
+    <div class="box-footer">
+     	<%= submitbtn %>
+    </div><!-- /.box-footer -->
+  </form>
+</div><!-- /.box -->
+
+<% 		}
+	}
+}catch(Exception e){
+	System.out.println(e);
+	response.sendRedirect("mw_prefs.jsp");
+}%>
 </section>
 </div><!-- /.content-wrapper -->
 <footer class="main-footer">

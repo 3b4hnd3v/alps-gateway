@@ -1,21 +1,18 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public InputStream data, error;
+<%!public InputStream data, error;
 String url = "",
-charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
-%>
-<%!
-public void changeStat(String id){
+charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()%>
+<%!public void changeStat(String id){
 	try{
 		URL jsonpage = new URL("prepaid.alpsgateway.com/changestat.php?id="+id);
 		URLConnection urlcon = jsonpage.openConnection();
 	}catch(Exception e){System.out.println(e);}
-}
-%>
+}%>
 <%
 connect();
 try {

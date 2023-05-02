@@ -1,7 +1,7 @@
 <%@include file="header.jsp" %>
 <!-- bootstrap wysihtml5 - text editor -->
 <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -89,19 +89,21 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
 	</div>
 <%} %>
 </div>
-</section>
+ <!-- Table List -->
+  <div class="row">
+    <div class="col-xs-12"><!-- /.box -->
 <%if(request.getParameter("q") != null && request.getParameter("q").equals("content")){ 
 	String il = request.getParameter("img");
 	String name = request.getParameter("name");
 	String item = request.getParameter("item");
 	led = lc.getOne("captive",name);
+	if(led.getFeatures() == null){
+		response.sendRedirect("captive.jsp?type=success&msg=Captive Content not found!");
+	}
 	String f = led.getFeatures();
 	String[] feats = f.split(",");
 %>
- <!-- Table List -->
-<section class="content">
-  <div class="row">
-    <div class="col-xs-12"><!-- /.box -->
+
 		<div class="panel-group" id="accordion">
 			<div class="panel box box-primary">
 			 	<div class="box-header with-border">
@@ -403,10 +405,11 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
 				</div>
 			 </div>
 		</div>
-    </div><!-- /.col -->
+    
+<%} %>
+</div><!-- /.col -->
   </div><!-- /.row -->
 </section><!-- /.content -->
-<%} %>
 </div><!-- /.content-wrapper -->
 <footer class="main-footer">
   <div class="pull-right hidden-xs">

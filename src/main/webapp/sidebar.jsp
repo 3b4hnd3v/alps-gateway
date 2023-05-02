@@ -10,21 +10,19 @@ java.sql.ResultSet,
 java.sql.SQLException,
 java.sql.Statement,
 java.sql.ResultSetMetaData,
-java.util.HashMap,
 com.alps.Dao,
-java.sql.PreparedStatement
-"%>
+java.util.HashMap,
+java.sql.PreparedStatement"
+%>
 <%
 Dao sdao = new Dao();
 HashMap<String, String> hm = new HashMap<String, String>();
 String serialno="", sysver="";
-%>
 
-<%
 try{
 	hm = sdao.getMenuItems();
-	serialno = sdao.getSerial();
-	sysver = sdao.getVersion();
+	serialno = sdao.getSetting("serialno");
+	sysver = sdao.getDashValue("version");
 }catch(Exception e){}
 %>
 
@@ -47,7 +45,7 @@ try{
     
     <!-- /.search form -->
     <!-- sidebar menu: : style can be found in sidebar.less -->
-    <ul class="sidebar-menu" style="overflow-y: scroll; max-height:850px; min-height:400px;">
+    <ul class="sidebar-menu" >
       <li class="header text-danger">MAIN NAVIGATION</li>
       <li id="index">
        <a href="index.jsp">
@@ -56,17 +54,45 @@ try{
        		 <i class="fa fa-angle-left pull-right"></i>
        </a>
       </li>
+      <li id="tool">
+       <a href="toolmain.jsp">
+       		<i class="fa fa-wrench text-blue"></i> 
+       		<span>ALPS Tools</span>
+       		<i class="fa fa-angle-left pull-right"></i>
+       </a>
+      </li>
       <li id="gwsetting" class="treeview">
         <a href="#">
-          <i class="fa fa-cogs text-blue"></i> <span>Gateway Settings</span> <i class="fa fa-angle-left pull-right"></i>
+          <i class="fa fa-cogs text-blue"></i> <span>System Settings</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="quickset.jsp"><i class="fa fa-circle-o"></i> Preferences</a></li>
-          <li><a href="ipchange.jsp"><i class="fa fa-circle-o"></i>IP Change Wizard</a></li>
+          <li><a href="quickset.jsp"><i class="fa fa-circle-o"></i>System Preferences</a></li>
+          <li><a href="license_mgt.jsp"><i class="fa fa-circle-o"></i>System License</a></li>
           <!-- <li><a href="dhcpws.jsp"><i class="fa fa-circle-o"></i>Admin Port</a></li> -->
         </ul>
       </li>
-      <li class="header">NETWORK</li>
+      <li class="header">WAN NETWORK</li>
+      <%if(hm.get("multiwan").toString() != null && hm.get("multiwan").toString().equals("1")) { %>
+      <li id="multiwan">
+        <a href="multiwan_int.jsp">
+          <i class="fa fa-code-fork text-yellow"></i> <span>WAN Interfaces</span>
+          <i class="fa fa-angle-right pull-right"></i>
+        </a>
+      </li>
+      <li id="ipchange">
+      	<a href="ipchange.jsp">
+      		<i class="fa fa-slack text-success"></i> <span>WAN IP Setup</span>
+      		<i class="fa fa-angle-right pull-right"></i>
+      	</a>
+      </li>
+      <li id="dns_servers">
+      	<a href="dns_servers.jsp">
+      		<i class="fa fa-database text-danger"></i> <span>Gateway DNS</span>
+      		<i class="fa fa-angle-right pull-right"></i>
+      	</a>
+      </li>
+      <%}%>
+      <li class="header">LAN NETWORK</li>
       <% if(hm.get("hs_mgt").toString() != null && hm.get("hs_mgt").toString().equals("1")) { %>
       <li id="hotspot" class="treeview">
         <a href="#">
@@ -81,7 +107,7 @@ try{
           <li><a href="hotspot.jsp?q=hosts"><i class="fa fa-circle-o"></i> Pre-Auth Devices</a></li>
           <li><a href="hotspot.jsp?q=throttled"><i class="fa fa-circle-o"></i> Throttled</a></li>
           <li><a href="hotspot.jsp?q=walledgarden"><i class="fa fa-circle-o"></i> Walled Garden</a></li>
-          <li><a href="hotspot.jsp?q=cookies"><i class="fa fa-circle-o"></i> Stored Session</a></li>
+          <li><a href="hotspot.jsp?q=cookies"><i class="fa fa-circle-o"></i> Stored Sessions</a></li>
         </ul>
       </li>
       <li id="schedb">
@@ -91,7 +117,7 @@ try{
         </a>
       </li> 
       <%} %>
-      <% if(hm.get("hs_server").toString() != null && hm.get("hs_server").toString().equals("1")) { %>
+      <% if(hm.get("hs_server").toString() != null && hm.get("hs_server").toString().equals("1") && session.getAttribute("role").equals("Super")) { %>
       <li id="hs_server" class="treeview">
         <a href="#">
           <i class="fa fa-cubes text-green"></i>
@@ -110,20 +136,20 @@ try{
       <li id="ippadd" class="treeview">
         <a href="#">
           <i class="fa fa-connectdevelop text-yellow"></i>
-          <span>IP Setting</span>
+          <span>IP Lists</span>
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li><a href="ippadd.jsp?q=arp"><i class="fa fa-circle-o"></i> ARP</a></li>
-          <li><a href="ippadd.jsp?q=ipaddress"><i class="fa fa-circle-o"></i> IP Address</a></li>
-          <li><a href="ippadd.jsp?q=pool"><i class="fa fa-circle-o"></i> Pool</a></li>
+          <li><a href="ippadd.jsp?q=around"><i class="fa fa-circle-o"></i> Neighboring Devices </a></li>
+          <!-- <li><a href="ippadd.jsp?q=pooSettingl"><i class="fa fa-circle-o"></i> Pool</a></li> -->
           <li><a href="ippadd.jsp?q=lease"><i class="fa fa-circle-o"></i> Assigned IPs</a></li>
         </ul>
       </li>
       <li id="dns" class="treeview">
         <a href="#">
           <i class="fa fa-database text-orange"></i>
-          <span>DNS</span>
+          <span>Internal DNS</span>
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
@@ -134,7 +160,14 @@ try{
       </li>
       <%} %>
       <% if(hm.get("interface").toString() != null && hm.get("interface").toString().equals("1")) { %>
-      <li id="interfaces" class="treeview">
+      <li id="interfaces">
+      	<a href="vlan_bypass.jsp">
+          <i class="fa fa-refresh text-blue"></i>
+          <span>Bypassed VLANs</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+      </li>
+      <!-- <li id="interfaces" class="treeview">
         <a href="#">
           <i class="fa fa-share-alt text-blue"></i>
           <span>Interface</span>
@@ -143,14 +176,20 @@ try{
         <ul class="treeview-menu">
           <li><a href="interfaces.jsp?q=interfaces"><i class="fa fa-circle-o"></i>Interface Addresses</a></li>
           <li><a href="interfaces.jsp?q=vlan"><i class="fa fa-circle-o"></i> Vlan</a></li>
-          <!-- <li><a href="interfaces.jsp?q=bridge"><i class="fa fa-circle-o"></i> Bridges</a></li> -->
+          <li><a href="interfaces.jsp?q=bridge"><i class="fa fa-circle-o"></i> Bridges</a></li>
           <li><a href="interfaces.jsp?q=bypassed"><i class="fa fa-circle-o"></i> Vlan Bypass</a></li>
         </ul>
-      </li>
+      </li> -->
       <%} %>
       <li class="header">Policy</li>
       <% if(hm.get("location-zoning").toString() != null && hm.get("location-zoning").toString().equals("1")){%>
-      <li id="loc" class="treeview">
+      <li id="loc">
+        <a href="zone_manager.jsp">
+          <i class="fa fa-sitemap text-green"></i> <span>Zone Manager</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+      </li>
+      <!-- <li id="loc" class="treeview">
         <a href="#">
           <i class="fa fa-sitemap text-green"></i> <span>Zones</span>
           <i class="fa fa-angle-left pull-right"></i>
@@ -160,7 +199,7 @@ try{
           <li><a href="new_location.jsp"><i class="fa fa-circle-o"></i>Add Location</a></li>
           <li><a href="add_vlan.jsp"><i class="fa fa-circle-o"></i>Location VLAN</a></li>
         </ul>
-      </li>
+      </li> -->
       <%}%>
       <%if(hm.get("firewall").toString() != null && hm.get("firewall").toString().equals("1")) { %>
        <li id="firewall" class="treeview">
@@ -176,18 +215,7 @@ try{
         </ul>
       </li>
       <%}%>
-      <%if(hm.get("multiwan").toString() != null && hm.get("multiwan").toString().equals("1")) { %>
-       <li id="multiwan" class="treeview">
-        <a href="#">
-          <i class="fa fa-code-fork text-yellow"></i> <span>Multi Wan</span>
-          <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="multiwan_int.jsp"><i class="fa fa-circle-o"></i>Interfaces</a></li>
-          <!-- <li><a href="multiwan_qki.jsp"><i class="fa fa-circle-o"></i>Quick Install</a></li> -->
-        </ul>
-      </li>
-      <%}%>
+      
       <%if(hm.get("backup").toString() != null && hm.get("backup").toString().equals("1")) { %>
       <li id="backup">
         <a href="backup.jsp">
@@ -219,7 +247,7 @@ try{
       <%}%>
       <li class="header">Portal Control</li>
       <% if(hm.get("quickads").toString() != null && hm.get("quickads").toString().equals("1")) { %>
-      <li id="content_mgt">
+      <li id="quickads">
         <a href="quick_ads.jsp">
           <i class="fa fa-bullhorn text-blue"></i> <span>Quick Ads</span>
           <i class="fa fa-angle-right pull-right"></i>

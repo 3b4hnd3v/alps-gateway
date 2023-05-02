@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-<body>
-
-<p></p>
 
 <p id="demo"></p>
 
@@ -22,7 +17,7 @@ out.println(pagename.substring(0,pagename.length()-4)+"<br>");
 String section = pagename.substring(0,pagename.length()-4);
 String sectionid = "index";
 
-String[] gwsetting = {"quickset","ipchange","ipchange_single","dhcpws"};
+String[] gwsetting = {"quickset","license_mgt","dhcpws"};
 String[] hotspot = {"hotspot","hotspot_wg"};
 String[] locmw = {"locations_mw","new_location_mw","new_vlanloc_mw","add_vlan_mw"};
 String[] loc = {"locations","new_location","new_vlanloc","add_vlan"};
@@ -66,6 +61,8 @@ if(section.equals("activemod")){
 	sectionid = "subscr";
 }else if(section.equals("sched_bypass")){
 	sectionid = "schedb";
+}else if(section.equals("quick_ads")){
+	sectionid = "quickads";
 }else{
 	//out.println(section);
 	sectionid = section;
@@ -78,11 +75,8 @@ document.addEventListener("DOMContentLoaded", function(){
 	    var el = document.getElementById(sec);
 	    if(el) {
 	      el.className += el.className ? ' active' : 'active';
-	      el.scrollIntoView({block: "end", behavior: "smooth"});
+	      //el.scrollIntoView({block: "end", behavior: "smooth"});
 	    }
 	    //alert(sec);
 	},false);
 </script>
-
-</body>
-</html>

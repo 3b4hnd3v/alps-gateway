@@ -1,10 +1,10 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! String location = ""; %>
+<%!String location = "";%>
 <%
 if(request.getParameter("location") != null){
 	location = request.getParameter("location").toString();

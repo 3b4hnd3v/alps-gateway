@@ -1,10 +1,11 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<% String gip = dao.getDefaultIp();
+<% 
+String gip = dao.getSetting("default_ip");
 //String gip = "10.11.12.1"; %>
 <div class="content-wrapper">
 	<section class="content-header">

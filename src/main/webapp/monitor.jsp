@@ -1,20 +1,18 @@
 <%@include file="header.jsp" %>
 
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>      
 <!-- =============================================== -->
-<%!
-public String mobile = "";
+<%!public String mobile = "";
 public String tablet = "";
 public String pc ="";
 public String all ="";
 public double totuptime = 0.0;
 public int totpacin =0;
-public int totpacout =0;
-%>	
+public int totpacout =0;%>	
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
       

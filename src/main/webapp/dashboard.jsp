@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
-<body class="hold-transition skin-blue layout-boxed sidebar-mini">
+<body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
 	<div class="wrapper"><!-- Site wrapper -->
 		<%@include file="header2.jsp" %>
 		<%@include file="sidebar.jsp" %>    
@@ -22,7 +22,7 @@
 		 int totpacin =0;
 		 int totpacout =0;
 		String defip = "";
-		defip = dao.getDefaultIp(); 
+		defip = dao.getSetting("default_ip"); 
 %> 
 		<div class="content-wrapper"><!-- Content Wrapper. Contains page content -->
 			<!-- Content Header (Page header) -->
@@ -478,11 +478,11 @@
 					            		String pcon = "danger";
 					            		if(Boolean.valueOf(running)){ tc = "green"; caret = "up";}
 					            		if(Boolean.valueOf(disable)){ tc = "orange"; caret = "down";}
-					            		String addCon = "X Not Found";
+					            		String addCon = "X Not Found", ip="";
 					            		for (Map<String,String> mpi : g.interfRoute("Master")) {
 											addCon = mpi.get("gateway-status");
-											String ip =  mpi.get("pref-src");
-											if(dao.pingConnect(ip)){pcon="green";}
+											ip =  mpi.get("pref-src");
+											if(String.valueOf(addCon.split(" ", 0)[1]).equalsIgnoreCase("Reachable")){pcon="green";}
 					            		}
 					            		
 					            %>
@@ -501,6 +501,7 @@
 					          </div><!-- /.col -->
 					          <div class="col-sm-3 col-xs-6">
 					            <% try{ 
+					            	
 					            	for (Map<String,String> mp : mg.ethernet("WAN")) {
 					            		String name = mp.get("name");
 					            		String running = mp.get("running");
@@ -512,10 +513,10 @@
 					            		String pcon = "danger";
 					            		if(Boolean.valueOf(running)){ tc = "green"; caret = "up";}
 					            		if(Boolean.valueOf(disable)){ tc = "orange"; caret = "down";}
-										for (Map<String,String> mpi : mg.interfRoute(name)) {
+										for (Map<String,String> mpi : mg.WBRoute(name)) {
 											addCon = mpi.get("gateway-status");
-											String ip =  mpi.get("pref-src");
-											if(dao.pingConnect(ip)){pcon="green";}
+											String ip =  addCon.split(" ", 0)[0];
+											if(String.valueOf(addCon.split(" ", 0)[1]).equalsIgnoreCase("Reachable")){pcon="green";}
 					            		}
 					            %>
 					            	<div class="description-block border-right">
@@ -544,10 +545,10 @@
 					            		if(Boolean.valueOf(running)){ tc = "green"; caret = "up";}
 					            		if(Boolean.valueOf(disable)){ tc = "orange"; caret = "down";}
 					            		String addCon = "Not Found";
-					            		for (Map<String,String> mpi : mg.interfRoute(name)) {
+					            		for (Map<String,String> mpi : mg.WBRoute(name)) {
 											addCon = mpi.get("gateway-status");
-											String ip =  mpi.get("pref-src");
-											if(dao.pingConnect(ip)){pcon="green";}
+											String ip =  addCon.split(" ", 0)[0];
+											if(String.valueOf(addCon.split(" ", 0)[1]).equalsIgnoreCase("Reachable")){pcon="green";}
 					            		}
 					            %>
 					            	<div class="description-block border-right">
@@ -577,10 +578,10 @@
 					            		if(Boolean.valueOf(running)){ tc = "green"; caret = "up";}
 					            		if(Boolean.valueOf(disable)){ tc = "orange"; caret = "down";}
 					            		String addCon = "Not Found";
-					            		for (Map<String,String> mpi : mg.interfRoute(name)) {
+					            		for (Map<String,String> mpi : mg.WBRoute(name)) {
 											addCon = mpi.get("gateway-status");
-											String ip =  mpi.get("pref-src");
-											if(dao.pingConnect(ip)){pcon="green";}
+											String ip =  addCon.split(" ", 0)[0];
+											if(String.valueOf(addCon.split(" ", 0)[1]).equalsIgnoreCase("Reachable")){pcon="green";}
 					            		}
 					            %>
 					            	<div class="description-block">

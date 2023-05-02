@@ -17,8 +17,8 @@ com.alps.FileEditor,
 com.alps.Gateway,
 java.net.InetAddress,
 java.net.UnknownHostException,
-java.sql.PreparedStatement
-"%>
+java.sql.PreparedStatement"
+%>
 
 <%
 Dao dao = new Dao();
@@ -54,7 +54,7 @@ if(request.getParameter("updatestat") != null) {
 			try { 
 				d.setDhcp(adip, netmask, smask, gateway, bc);
 			} catch(Exception e3) { System.out.println(e3);}
-			String rswar = dao.getIpPath().replace("setip", "restartwar");
+			String rswar = dao.getSetting("ip_path").replace("setip", "restartwar");
 			cex.comExec(""+rswar);
 			response.sendRedirect("http://"+adip+"");
 		}

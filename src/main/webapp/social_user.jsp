@@ -1,17 +1,15 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! 
-public int totlog=0;
-public static String user="", email="", flog="", clid="", defip = "";
-%>
+<%!public int totlog=0;
+public static String user="", email="", flog="", clid="", defip = "";%>
 <%
-defip = dao.getDefaultIp();
+String defip = dao.getSetting("default_ip");
 %>
-<div class="content-wrapper"  align="center">
+<div class="content-wrapper">
 <%if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>
 	<div class="alert alert-danger alert-dismissible">
 	  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -26,19 +24,31 @@ defip = dao.getDefaultIp();
 	</div>
 <%}%>
 <br>
- <div class="row" style="margin-top: 10px;">
-	   <div class="col-md-12">
-	     <div class="box box-primary">
-	       <div class="box-header">
-	         <h3 class="box-title"><i class="fa fa-user"></i>Social Login Profile</h3>
-	       </div>
-	       <div class="box-body">
+<section class="content-header">
+  <h1>
+    Social User Analytics
+    <small> User : <%= String.valueOf(request.getParameter("user")) %></small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a href="#">Social Auth</a></li>
+    <li class="active">User</li>
+  </ol>
+</section>
+<section class="content">
+	<div class="row" style="margin-top: 10px;">
+		<div class="col-md-12">
+		  <div class="box box-primary">
+		    <div class="box-header">
+		      <h3 class="box-title">Social Login Profile <i class="pull-right fa fa-user"></i></h3>
+		    </div>
+		    <div class="box-body">
 <%
 try {
 	totlog=0;
-   String jsonurl = dao.getSocJson();
+   String jsonurl = dao.getSetting("socurl");
    user = request.getParameter("user").toString(); 
-   clid = dao.getClient().toString().replace(" ", "%20"); 
+   clid = dao.getDashValue("client").replace(" ", "%20"); 
    String url = jsonurl+"?cli="+clid+"&username="+ URLEncoder.encode(user,"UTF-8");
    System.out.println(url);
    String recv;
@@ -132,15 +142,16 @@ try {
 	</div>
   <% 
    } catch(Exception e) { System.out.println(e);
-    		 	out.println("<div>Could Not Get User Records at the Moment</div>");
-	}
-%>
+   		out.println("<div>Could Not Get User Records at the Moment</div>");
+   }
+  %>
 
 
 			</div><!-- /.box-body -->
 		</div><!-- /.box -->
 	</div><!-- /.col -->
 </div><!-- /.row -->
+</section>
 </div>
 <footer class="main-footer">
   <div class="pull-right hidden-xs">

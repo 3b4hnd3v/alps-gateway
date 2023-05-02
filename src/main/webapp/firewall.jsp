@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -259,7 +259,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("remove
 						<li><a href="#" onClick ="$('#example1').tableExport({type:'doc',escape:'false'});"><img src='dist/img/icons/word.png' width="24"/> Word</a></li>
 					</ul>
                  </div>
-                 <hr>
+                 
                </div><!-- /.box-header -->
                <div class="box-body">
                <div class="dataTable_wrapper">

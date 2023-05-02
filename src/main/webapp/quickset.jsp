@@ -1,6 +1,6 @@
 <%@include file="header.jsp" %>
 
-<body class="hold-transition skin-blue layout-boxed sidebar-mini">
+<body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -25,24 +25,6 @@ if(request.getParameter("update") != null && request.getParameter("update").equa
 		}else{
 			response.sendRedirect("quickset.jsp?type=error&msg=Cannot Update Settings at the moment");
 		}
-		
-	} catch (Exception e1) { System.out.println(e1); }
-}
-%>
-<% 
-if(request.getParameter("q") != null && request.getParameter("q").equals("delete")) {
-	
-	try {
-		String stid = request.getParameter("stid").toString();
-		
-		if(dao.deleteSetting(stid)){
-			String logact = "Setting with ID: "+stid+" removed By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
-			al.addLog(logact);
-			response.sendRedirect("quickset.jsp?type=success&msg=Setting Successfully Deleted.");
-		}else{
-			response.sendRedirect("quickset.jsp?type=error&msg=Setting Cannot Be Deleted At The Moment.");
-		}
-		
 		
 	} catch (Exception e1) { System.out.println(e1); }
 }
@@ -121,7 +103,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("blackh
 <%
 boolean bha = g.BHRuleStatusA();
 boolean bhf = g.BHRuleStatusF();
-bh = bha&&bhf;
+bh = bha && bhf;
 %>
 <div class="content-wrapper">
 <!-- Error Message -->

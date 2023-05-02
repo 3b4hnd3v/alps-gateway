@@ -1,11 +1,11 @@
 Introduction
 ============
 
-eBahnGATEWAY
+ALPS Gateway
 
-Mannir
+Developed By Anas Muhammad Tukur
 ------------------------------
-**ADDED BY MANNIR**
+**Authored BY Anas Muhammad Tukur**
 
 ```
 import this file into Virtual Box routeros-x86-6.0.ova
@@ -48,11 +48,7 @@ interface enable ether3
 /ip address add address=10.0.0.10/24 interface=ether1
 
 
-
-
-
-
-MIKROTIK SNIPPEST
+MIKROTIK SNIPPETS
 Open Virtualbox
 File - Import Apliance
 select routeros-x86-6.0.ova

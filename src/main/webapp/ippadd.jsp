@@ -1,6 +1,6 @@
 <%@include file="header.jsp" %>
 
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -135,8 +135,8 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("delete
          </h1>
          <ol class="breadcrumb">
            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-           <li><a href="#">IP</a></li>
-           <li class="active">Addresses</li>
+           <li><a href="#">LAN Network</a></li>
+           <li class="active">IP LIST</li>
          </ol>
        </section>
        <section class="content-header">
@@ -291,14 +291,74 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("delete
                    <tbody>
                    <%
 	                for (Map<String,String> mp : g.arp()) {
-					    //System.out.println(r);
-					  	out.println("<tr>");
+					    if(!mp.get("DHCP").equalsIgnoreCase("false")){
+					    	out.println("<tr>");
+							out.println("<td>"+mp.get("interface")+"</td>");
+							out.println("<td>"+mp.get("address")+"</td>");
+							out.println("<td>"+mp.get("mac-address")+"</td>");
+							out.println("<td>"+mp.get("DHCP")+"</td>");
+							out.println("<td>"+mp.get("dynamic")+"</td>");
+							out.println("</tr>");
+					    }
+					}%>
+                   </tbody>
+                   
+                 </table>
+               </div><!-- /.box-body -->
+             </div><!-- /.box -->
+           </div><!-- /.col -->
+         </div><!-- /.row -->
+       </section><!-- /.content -->   
+<%}else if(request.getParameter("q") != null && request.getParameter("q").equals("around")) { %>
+	
+	<!-- Content Header (Page header) -->
+       <section class="content-header">
+         <h1>
+           ARP
+           <small>- Address Resolution Protocol</small>
+         </h1>
+         <ol class="breadcrumb">
+           <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+           <li><a href="#">IP Lists</a></li>
+           <li class="active">Devices Around</li>
+         </ol>
+       </section>
+       <!-- Table List -->
+       <section class="content">
+         <div class="row">
+           <div class="col-xs-12"><!-- /.box -->
+
+             <div class="box">
+               <div class="box-header">
+                 <h3 class="box-title">Device List</h3>
+                 <%@include file="import.jsp" %>
+               </div><!-- /.box-header -->
+               <div class="box-body table-responsive" style="min-height:197vh; max-height:197vh; overflow-y:scroll;">
+                 <table id="exampleX" class="table table-bordered table-striped">
+                   <thead>
+                     <tr>
+                       <th>Interface</th>
+                       <th>IP Address</th>
+                       <th>MAC Address</th>
+                       <th>Identity</th>
+                       <th>Platform</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                   <%
+	                for (Map<String,String> mp : g.neighbors()) {
+					    //if(!mp.get("DHCP").equalsIgnoreCase("false")){
+				    	out.println("<tr>");
 						out.println("<td>"+mp.get("interface")+"</td>");
 						out.println("<td>"+mp.get("address")+"</td>");
 						out.println("<td>"+mp.get("mac-address")+"</td>");
-						out.println("<td>"+mp.get("DHCP")+"</td>");
-						out.println("<td>"+mp.get("dynamic")+"</td>");
+						out.println("<td>"+mp.get("identity")+"</td>");
+						out.println("<td>"+mp.get("platform")+"</td>");
 						out.println("</tr>");
+						out.println("<tr>");
+						out.println("<td class='text-center' colspan='5'>"+mp.get("system-description")+"</td>");
+						out.println("</tr>");
+					    //}
 					}%>
                    </tbody>
                    

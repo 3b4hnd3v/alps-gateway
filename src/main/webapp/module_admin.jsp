@@ -1,6 +1,6 @@
 <%@include file="header.jsp" %>
 <%
-if(request.getParameter("q") != null && request.getParameter("q").equals("enable")&& request.getParameter("type").equals("module")) {
+	if(request.getParameter("q") != null && request.getParameter("q").equals("enable")&& request.getParameter("type").equals("module")) {
 	
 	try {
 		String item = request.getParameter("item").toString();
@@ -58,7 +58,7 @@ else if(request.getParameter("q") != null && request.getParameter("q").equals("r
 %>
 
 
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>

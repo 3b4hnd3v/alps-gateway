@@ -1,10 +1,13 @@
 package com.cronjob;
 
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import com.alps.Dao;
 import com.alps.Db;
 import com.alps.Gateway;
@@ -16,7 +19,7 @@ public class OnlineCheck {
     private final int minutes;
     Gateway g = new Gateway();
     Dao dao = new Dao();
-    Db db = new Db();
+    Db db = new Db("jdbc:mysql://localhost/alpsgateway" , "ebahn", "ebahn");
     UrlCon http = new UrlCon();
 	static Connection cn = null;
 
@@ -50,7 +53,7 @@ public class OnlineCheck {
         			
         			for (Map<String,String> mp : g.activeUsers()) {
         				String ut = mp.get("uptime");
-        				System.out.println("Uptime"+ut);
+        				System.out.println("UT "+ut);
         				ut = ut.replace("h", ":");
         				ut = ut.replace("m", ":");
         				ut = ut.replace("s", "");
@@ -60,19 +63,13 @@ public class OnlineCheck {
         				}
         			}
         			
-        			long timestamp = System.currentTimeMillis()/1000; 
-                    //System.out.println("ALL Done Update Session Time!");
-        			try{
-        				http.sendGet("http://localhost:1313/action.jsp?q=onlinecheck&time="+String.valueOf(timestamp));
-        				//System.out.println("action url work");e.printStackTrace();
-        			}catch (Exception e) {}
         			cn.close();
         		} catch (Exception e) { e.printStackTrace(); } 
                 
                 // Start a new thread to play a sound...
                 start();
             }
-        }, 60000, minutes * 60 * 1000);
+        }, minutes * 60 * 1000);
     }
 
     public static void main(String[] args) {

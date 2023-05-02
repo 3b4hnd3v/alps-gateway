@@ -10,23 +10,20 @@ java.sql.SQLException,
 java.sql.Statement,
 java.sql.ResultSetMetaData,
 com.alps.AlpsLog,
-com.alps.Dao,
 com.alps.ComExec,
-java.sql.PreparedStatement
+com.alps.Dao,
+java.sql.PreparedStatement"%>
 
-"%>
-
-<%! 
+<%!
 public String dbhost="127.0.0.1", dbport="3306", dbname="alpsgateway", dbuser="ebahn", dbpass="ebahn";
 public static Connection cn = null;
 AlpsLog al = new AlpsLog();
 Dao dao = new Dao();
-ComExec cex = new ComExec();
-%>
+ComExec cex = new ComExec();%>
 
 <%
 try{
-	if(dao.getInstallStatus().equals("New")){
+	if(dao.getSetting("installation").equals("New")){
 		response.sendRedirect("home.jsp?type=success&msg=Lets get through some installation process!"); 
 	}
 }catch(Exception e) { System.out.println(e); }
@@ -97,12 +94,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("logout
 	String logact = "Valid Login By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
 	al.addLog(logact);
 
-	session.setAttribute("name", null);
-	session.setAttribute("username", null);
-	session.setAttribute("password", null);
-	session.setAttribute("dept", null);
-	session.setAttribute("role", null);
-	session.setAttribute("logged", null);
+	session.invalidate();
 	
 }
 
@@ -125,39 +117,74 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("restar
   
   <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans:600'>
   <link rel="stylesheet" href="stylesheets/style.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="shortcut icon" href="dist/ico/favicon.png">
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="dist/ico/apple-touch-icon-144-precomposed.png">
   <link rel="apple-touch-icon-precomposed" sizes="114x114" href="dist/ico/apple-touch-icon-114-precomposed.png">
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="dist/ico/apple-touch-icon-72-precomposed.png">
   <link rel="apple-touch-icon-precomposed" href="dist/ico/apple-touch-icon-57-precomposed.png">
-
+  <style>
+  	body{
+  		padding-top:70px;
+  		background-image: url(https://lh4.googleusercontent.com/-XplyTa1Za-I/VMSgIyAYkHI/AAAAAAAADxM/oL-rD6VP4ts/w1184-h666/Android-Lollipop-wallpapers-Google-Now-Wallpaper-2.png);
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
+		min-height: 100vh;
+  	}
+  	.title-box{
+  		align-content:center;
+  		margin:auto;
+		max-width:525px;
+  		box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+  		background: rgba(255, 255, 255, 0.1);
+  		border: 3px solid transparent;
+  		border-radius: 10px;
+  	}
+  </style>
 </head>
 
-<body style="padding-top:10px">
-  <div class="col-lg-6" align="center">
-        <a href="/"><img alt="LOGO" src="dist/img/alpslogo.png"></a>
+<body style="">
+  <!-- <div class="title-box" align="center">
+        <a href="/">
+        	<img width="200px" height="60px" alt="LOGO" src="dist/img/alpslogo.png">
+        </a>
         <h2>AMAC</h2>
-  </div>
-  <div class="login-wrap">
-	<div class="login-html">
-		<h3 class="login-box-msg"  align="center">
-			<% if(request.getParameter("msg") != null) {
-				out.println(request.getParameter("msg"));
-        	   }else{out.println("Sign in to start your session");}
-        	   %>
-        	   <br />
-        </h3>
-		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
-		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">About ALPS</label>
+        
+  </div> -->
+  <div class="login-wrap" style="border-radius:25px; min-height:90vh;">
+  	
+	<div class="login-html" style="border-radius:25px;">
+		<div class="login-box-msg"  align="center" style="margin-bottom:30px; margin-top:10px;">
+			<div class="title-box" align="center">
+		        <a href="/">
+		        	<img width="50%" class="img-responsive" alt="LOGO" src="dist/img/alpslogo.png">
+		        </a>
+		        <h2>AMAC</h2>
+		    </div>
+        </div>
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+		<label for="tab-1" class="tab" style="padding-right:30%;">
+			<i class="ion-log-in"></i>
+		</label>
+		<input id="tab-2" type="radio" name="tab" class="sign-up">
+		<label for="tab-2" class="tab" style="padding-right:30px;">
+			<i class="ion-information-circled"></i>
+		</label>
 		<div class="login-form">
 			<div class="sign-in-htm" style="padding-top:30px;">
 				<form action="login.jsp" method="post">
 					<div class="group">
-						<label for="user" class="label">Username</label>
+						<label for="user" class="label" style="padding-left:20px; padding-bottom:10px; font-size:2em;">
+							<i class="ion-ios-person"></i>
+						</label>
 						<input id="user" name="username" type="text" class="input">
 					</div>
 					<div class="group">
-						<label for="pass" class="label">Password</label>
+						<label for="pass" class="label" style="padding-left:20px; padding-bottom:10px; font-size:2em;">
+							<i class="ion-android-lock"></i>
+						</label>
 						<input id="pass" name="password" type="password" class="input" data-type="password">
 					</div>
 					<div class="group" style="padding-top:20px;padding-bottom:20px;">
@@ -170,7 +197,14 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("restar
 				</form>
 				<div class="hr"></div>
 				<div class="foot-lnk">
-					<a href="#forgot">Network Simplified ! ! !</a>
+					<% 
+					String sm = "Sign in to start your session";
+					if(request.getParameter("msg") != null) {
+						sm = request.getParameter("msg");
+        	   		}
+        	   		%>
+					<label for="tab-1"><%= sm %></label>
+					
 				</div>
 			</div>
 			<div class="sign-up-htm" style="padding-top:30px;">
@@ -179,7 +213,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("restar
 				</div>
 				<div class="hr"></div>
 				<div class="foot-lnk">
-					<label for="tab-1">Network Simplified!!!</a>
+					<label for="tab-1"><a href="#forgot">Network Simplified ! ! !</a></label>
 				</div>
 			</div>
 		</div>

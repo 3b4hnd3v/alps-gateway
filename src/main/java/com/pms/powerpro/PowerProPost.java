@@ -84,7 +84,7 @@ public class PowerProPost {
 				sb.append(charArray, 0, numCharsRead);
 			}
 			String result = sb.toString();
-			System.out.println(result);				
+			//System.out.println(result);				
 		    DocumentBuilder db = null;
 			try {
 				db = DocumentBuilderFactory.newInstance().newDocumentBuilder();

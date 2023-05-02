@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -18,7 +18,7 @@
 	  <%out.println(request.getParameter("msg")); %>
 	</div>
 <%}%>
-<%! public String url = "SELECT * FROM `mr_purchase_line` ORDER BY `purchase` DESC", mrid="", mrn="", lnm="", gpc="", cvp="collapse";%>
+<%!public String url = "SELECT * FROM `mr_purchase_line` ORDER BY `purchase` DESC", mrid="", mrn="", lnm="", gpc="", cvp="collapse";%>
 <%
 if(request.getParameter("q") != null && request.getParameter("q").equals("delete")&& request.getParameter("id")!= null) {
 	
