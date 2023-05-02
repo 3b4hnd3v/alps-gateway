@@ -171,7 +171,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 			  	String a = mp.get("tx-packet");
 			  	String b = mp.get("rx-packet");
 			  	BarGraph bg = new BarGraph();
-			  	bg.setY(data.indexOf(mp)+" "+y);
+			  	bg.setY(y);
 			  	bg.setA(Integer.parseInt(a));
 			  	bg.setB(Integer.parseInt(b));
 			  	
@@ -203,12 +203,13 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 	List<Map<String,String>> data = au.getInterface();
 	for (Map<String, String> mp : data) {
 	  	 String intype = mp.get("type");
-	  	 if(intype.equalsIgnoreCase("bridge")){
+	  	 String iname = mp.get("name");
+	  	 if(intype.equalsIgnoreCase("bridge") && !iname.contains("Default")){
 		  	String y = mp.get("name");
 		  	String a = mp.get("tx-packet");
 		  	String b = mp.get("rx-packet");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+" "+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -239,12 +240,13 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 	List<Map<String,String>> data = au.getInterface();
 	for (Map<String, String> mp : data) {
 	  	 String intype = mp.get("type");
-	  	 if(intype.equalsIgnoreCase("bridge")){
+	  	 String iname = mp.get("name");
+	  	 if(intype.equalsIgnoreCase("bridge") && !iname.contains("Default")){
 		  	String y = mp.get("name");
 		  	String a = mp.get("tx-drop");
 		  	String b = mp.get("rx-drop");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -274,12 +276,13 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 	List<Map<String,String>> data = au.getInterface();
 	for (Map<String, String> mp : data) {
 	  	 String intype = mp.get("type");
-	  	 if(intype.equalsIgnoreCase("bridge")){
+	  	 String iname = mp.get("name");
+	  	 if(intype.equalsIgnoreCase("bridge") && !iname.contains("Default")){
 		  	String y = mp.get("name");
 		  	String a = mp.get("tx-error");
 		  	String b = mp.get("rx-error");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+" "+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -308,13 +311,14 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 	List<Map<String, String>> data = au.getInterface();
 	for (Map<String, String> mp : data) {
 	  	 String intype = mp.get("type");
-	  	 if(intype.equalsIgnoreCase("bridge")){
+	  	 String iname = mp.get("name");
+	  	 if(intype.equalsIgnoreCase("bridge") && !iname.contains("Default")){
 		  	String y = mp.get("name");
 		  	String a = mp.get("tx-byte");
 		  	String b = mp.get("rx-byte");
 		  	BarGraph bg = new BarGraph();
-		  	//bg.setY(data.indexOf(mp)+""+y);
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	//bg.setY(y);
+		  	bg.setY(y);
 		  	bg.setA(Long.parseLong(a));
 		  	bg.setB(Long.parseLong(b));
 		  	
@@ -348,7 +352,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-packet");
 		  	String b = mp.get("rx-packet");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -382,7 +386,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-drop");
 		  	String b = mp.get("rx-drop");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -416,7 +420,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-error");
 		  	String b = mp.get("rx-error");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Long.parseLong(a));
 		  	bg.setB(Long.parseLong(b));
 		  	
@@ -450,7 +454,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("tx-byte");
 		  	String b = mp.get("rx-byte");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Long.parseLong(a));
 		  	bg.setB(Long.parseLong(b));
 		  	
@@ -476,15 +480,16 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 }
 else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnoreCase("ether_drops")){
 	List<BarGraph> bar = new ArrayList<BarGraph>();
-	List<Map<String, String>> data = au.getInterface();
+	List<Map<String, String>> data = au.getWanInterface();
 	for (Map<String, String> mp : data) {
 	  	 String intype = mp.get("type");
-	  	 if(intype.equalsIgnoreCase("ether")){
+	  	 String iname = mp.get("name");
+	  	 if(intype.equalsIgnoreCase("ether") && !iname.contains("LAN")){
 		  	String y = mp.get("name");
 		  	String a = mp.get("tx-drop");
 		  	String b = mp.get("rx-drop");
 		  	BarGraph bg = new BarGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setA(Integer.parseInt(a));
 		  	bg.setB(Integer.parseInt(b));
 		  	
@@ -518,7 +523,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("packets-in");
 		  	String b = mp.get("packets-out");
 		  	UserGraph bg = new UserGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setItem1(Integer.parseInt(a));
 		  	bg.setItem2(Integer.parseInt(b));
 		  	
@@ -552,7 +557,7 @@ else if(request.getParameter("q")!=null && request.getParameter("q").equalsIgnor
 		  	String a = mp.get("bytes-in");
 		  	String b = mp.get("bytes-out");
 		  	UserGraph bg = new UserGraph();
-		  	bg.setY(data.indexOf(mp)+""+y);
+		  	bg.setY(y);
 		  	bg.setItem1(Integer.parseInt(a));
 		  	bg.setItem2(Integer.parseInt(b));
 		  	

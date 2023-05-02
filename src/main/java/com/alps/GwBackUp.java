@@ -10,15 +10,13 @@ import com.ftp.FTPFunctions;
 import me.legrange.mikrotik.ApiConnection;
 
 public class GwBackUp {	
-	
-	
 	static Dao dao = new Dao();
-	static String ip = dao.getip();
+	static String ip = dao.getSetting("default_ip");
 	//String pass = "admin";
-	static String pass = dao.getPass();
+	static String pass = dao.getSetting("password");
 	//String user = "";
-	static String user = dao.getUser();
-	//String ip = "172.27.5.99";
+	static String user = dao.getSetting("username");
+	//static String ip = "172.27.5.96";
 	public GwBackUp(){
 		
 	}

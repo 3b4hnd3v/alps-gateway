@@ -1,13 +1,12 @@
 <%@include file="header.jsp" %>
 
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public String editpool=""; 
-public String poolsec="collapse"; 
-%>
+<%!public String editpool=""; 
+public String poolsec="collapse";%>
 <% //Walled Garden
 if(request.getParameter("submit") != null && request.getParameter("submit").equals("Add DNS")) {
 	
@@ -173,13 +172,14 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("delete
                    <tbody>
                    <%
 	                for (Map<String,String> mp : g.dnscache()) {
-	                	if(!String.valueOf(mp.get("address")).contains("10.11.12") && !String.valueOf(mp.get("name")).contains("alps"))
+	                	if(!String.valueOf(mp.get("address")).contains("10.11.12") || String.valueOf(mp.get("address")).contains("192.169.0") || !String.valueOf(mp.get("name")).contains("alps")){
 						  	out.println("<tr>");
 							out.println("<td>"+mp.get("address")+"</td>");
 							out.println("<td>"+mp.get("name")+"</td>");
 							out.println("<td>"+mp.get("ttl")+"</td>");
 							out.println("<td>"+mp.get("static")+"</td>");
 							out.println("</tr>");
+	                	}
 				  }%>
                   </tbody>
                    
@@ -256,44 +256,47 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("delete
                    <tbody>
                    <%
 	                for (Map<String,String> mp : g.staticdns()) {
-	                	if(mp.containsKey("comment") && !String.valueOf(mp.get("comment")).equalsIgnoreCase("Default") && !String.valueOf(mp.get("comment")).contains("Default")&& !String.valueOf(mp.get("comment")).contains("default")){
-						    String actbtn = "";
-						  	if(mp.get("disabled").equals("true")){
-						  		actbtn = "<a href='?q=enable&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-success'>Enable</button></a>";
-						  	}else{
-						  		actbtn = "<a href='?q=disable&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-danger'>Disable</button></a>";
-						  	}
-						  	String btn_ed = "<a href='update.jsp?q=edit&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-info'>Edit</button></a>";
-						  	String btn_dl = "<a href='?q=delete&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-danger'>Delete &times;</button></a>";
-		
-						  	out.println("<tr>");
-							out.println("<td>"+btn_ed+" "+mp.get(".id")+"</td>");
-							out.println("<td>"+mp.get("address")+"</td>");
-							out.println("<td>"+mp.get("name")+"</td>");
-							out.println("<td>"+mp.get("ttl")+"</td>");
-							out.println("<td>"+mp.get("disabled")+"</td>");
-							out.println("<td>"+mp.get("regexp")+"</td>");
-							out.println("<td class='noExl'>"+actbtn+"   "+btn_dl+"</td>");
-							out.println("</tr>");
-	                	}else{
-	                		String actbtn = "";
-						  	if(mp.get("disabled").equals("true")){
-						  		actbtn = "<a href='?q=enable&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-success'>Enable</button></a>";
-						  	}else{
-						  		actbtn = "<a href='?q=disable&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-danger'>Disable</button></a>";
-						  	}
-						  	String btn_ed = "<a href='update.jsp?q=edit&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-info'>Edit</button></a>";
-						  	String btn_dl = "<a href='?q=delete&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-danger'>Delete &times;</button></a>";
-		
-						  	out.println("<tr>");
-							out.println("<td>"+btn_ed+" "+mp.get(".id")+"</td>");
-							out.println("<td>"+mp.get("address")+"</td>");
-							out.println("<td>"+mp.get("name")+"</td>");
-							out.println("<td>"+mp.get("ttl")+"</td>");
-							out.println("<td>"+mp.get("disabled")+"</td>");
-							out.println("<td>"+mp.get("regexp")+"</td>");
-							out.println("<td class='noExl'>"+actbtn+"   "+btn_dl+"</td>");
-							out.println("</tr>");
+	                	if(!String.valueOf(mp.get("address")).contains("10.11.12") || !String.valueOf(mp.get("name")).contains("alps")){
+
+		                	if(mp.containsKey("comment") && !String.valueOf(mp.get("comment")).equalsIgnoreCase("Default") && !String.valueOf(mp.get("comment")).contains("Default")&& !String.valueOf(mp.get("comment")).contains("default")){
+							    String actbtn = "";
+							  	if(mp.get("disabled").equals("true")){
+							  		actbtn = "<a href='?q=enable&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-success'>Enable</button></a>";
+							  	}else{
+							  		actbtn = "<a href='?q=disable&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-danger'>Disable</button></a>";
+							  	}
+							  	String btn_ed = "<a href='update.jsp?q=edit&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-info'>Edit</button></a>";
+							  	String btn_dl = "<a href='?q=delete&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-danger'>Delete &times;</button></a>";
+			
+							  	out.println("<tr>");
+								out.println("<td>"+btn_ed+" "+mp.get(".id")+"</td>");
+								out.println("<td>"+mp.get("address")+"</td>");
+								out.println("<td>"+mp.get("name")+"</td>");
+								out.println("<td>"+mp.get("ttl")+"</td>");
+								out.println("<td>"+mp.get("disabled")+"</td>");
+								out.println("<td>"+mp.get("regexp")+"</td>");
+								out.println("<td class='noExl'>"+actbtn+"   "+btn_dl+"</td>");
+								out.println("</tr>");
+		                	}else{
+		                		String actbtn = "";
+							  	if(mp.get("disabled").equals("true")){
+							  		actbtn = "<a href='?q=enable&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-success'>Enable</button></a>";
+							  	}else{
+							  		actbtn = "<a href='?q=disable&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-danger'>Disable</button></a>";
+							  	}
+							  	String btn_ed = "<a href='update.jsp?q=edit&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-info'>Edit</button></a>";
+							  	String btn_dl = "<a href='?q=delete&type=dns&item="+mp.get(".id")+"'><button class='btn btn-xs btn-danger'>Delete &times;</button></a>";
+			
+							  	out.println("<tr>");
+								out.println("<td>"+btn_ed+" "+mp.get(".id")+"</td>");
+								out.println("<td>"+mp.get("address")+"</td>");
+								out.println("<td>"+mp.get("name")+"</td>");
+								out.println("<td>"+mp.get("ttl")+"</td>");
+								out.println("<td>"+mp.get("disabled")+"</td>");
+								out.println("<td>"+mp.get("regexp")+"</td>");
+								out.println("<td class='noExl'>"+actbtn+"   "+btn_dl+"</td>");
+								out.println("</tr>");
+		                	}
 	                	}
 					}%>
                   </tbody>
@@ -328,7 +331,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("delete
            </div>
            <div id="collapseOne" class="panel-collapse collapse in">
              <div class="box-body">
-             <%! public static String servers="", arr="", mups="", qsto="", qtto="", csize="", cmttl="", cused="";%>
+             <%!public static String servers="", arr="", mups="", qsto="", qtto="", csize="", cmttl="", cused="";%>
              <%
                for (Map<String,String> mp : g.dns()) {
             	   servers=mp.get("servers");
@@ -341,10 +344,10 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("delete
             	   cused=mp.get("cache-used");
                }
              %>
-             <form>
-	             <label>Servers</label>
-					<input type="text" class="form-control" name="servers" value="<% out.println(servers);%>">
-					<small>To add server, append <b class="text-danger">",0.0.0.0"</b> to this field and click Update Setting.</small><br />
+             <form action="#" method="post">
+	             <!-- <label>Servers</label> -->
+					<input type="hidden" class="form-control" name="servers" value="<% out.println(servers);%>">
+					<!-- <small>To add server, append <b class="text-danger">",0.0.0.0"</b> to this field and click Update Setting.</small><br /> -->
 	             <label>Allow Remote Request</label>
 					<input type="text" class="form-control" name="arr" value="<% out.println(arr);%>"><br />
 				 <label>Max UDP Packet Size</label>
@@ -353,11 +356,11 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("delete
 					<input type="text" class="form-control" name="qsto" value="<% out.println(qsto);%>"><br />
 	             <label>Query Total Time Out</label>
 					<input type="text" class="form-control" name="qtto" value="<% out.println(qtto);%>"><br />
-				 <label>Cache Size</label>
+				 <label>Cache Size (KiB)</label>
 					<input type="text" class="form-control" name="csize" value="<% out.println(csize);%>"><br />
-				<label>Cache Max Time To Leave</label>
+				<label>Cache Max Time To Leave(dd 00:00:00)</label>
 					<input type="text" class="form-control" name="cmttl" value="<% out.println(cmttl);%>"><br />
-				<label>Cache Used</label>
+				<label>Cache Used (KiB)</label>
 					<input type="text" readonly class="form-control" name="cused" value="<% out.println(cused);%>"><br />
 					
 				 <input type="submit" name="submit" class="form-control btn btn-info col-md-12" value="Update Settings" />

@@ -1,15 +1,15 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public String location = "", client ="", fu ="", fp =""; %>
+<%!public String location = "", client ="", fu ="", fp ="";%>
 <%
-client = dao.getClient();
-location = dao.getLocation();
-fu = dao.getfreeUser();
-fp = dao.getfreePass();
+client = dao.getDashValue("client");
+location = dao.getDashValue("location");
+fu = dao.getSetting("free_user");
+fp = dao.getSetting("free_pass");
 %>
 <div class="content-wrapper">
 <%if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>
@@ -55,17 +55,17 @@ fp = dao.getfreePass();
     </div>
     <div class="box-body">
       <div class="row">
-      <%! public static String servername = "", serveradd = "", linklogin = "", linklogindir = "", linkloginsoc = ""; %>
+      <%!public static String servername = "", serveradd = "", linklogin = "", linklogindir = "", linkloginsoc = "";%>
       <% 
 		try{
 			for (Map<String,String> mp : g.hsserverprof()) { 
 				servername = mp.get("name");
-				serveradd = mp.get("hotspot-address");
-				linklogin = "http://"+serveradd+"/login";
-				linklogindir = "http://"+serveradd+"/login?username="+fu+"&password="+fp;
-				linkloginsoc = "http://developers.alpsgateway.com/login.php?li="+linklogin+"&location="+location+"&clientid="+client;
-			
-			%>
+				if(!servername.contains("default") && !servername.contains("Default")){
+					serveradd = mp.get("hotspot-address");
+					linklogin = "http://"+serveradd+"/login";
+					linklogindir = "http://"+serveradd+"/login?username="+fu+"&password="+fp;
+					linkloginsoc = "http://developers.alpsgateway.com/login.php?li="+linklogin+"&location="+location+"&clientid="+client;
+	  %>
          <div class="col-lg-4 col-xs-8">
            <!-- small box -->
            <div class="small-box bg-aqua">
@@ -93,7 +93,9 @@ fp = dao.getfreePass();
              <span class="small-box-footer"><%out.println(servername);%> &nbsp; - Social&nbsp;&nbsp;<i class="fa fa-qrcode"></i></span>
            </div>
          </div><!-- ./col -->
-       <%    }
+       <%    
+				}
+			}
 		 }catch(Exception e){System.out.println(e);}%>
         </div>
     </div><!-- /.box-body -->

@@ -1,10 +1,10 @@
 {
-  "name": "AdminLTE",
+  "name": "ALPS Gateway",
   "homepage": "http://www.alpsgateway.com",
   "authors": [
-    "eBahn Technology <support@almsaeedstudio.com>"
+    "ALPS Gateway <support@alpsgateway.com>"
   ],
-  "description": "Admin dashboard and control panel template",
+  "description": "Internet Gateway Administator portal",
   "main": [
     "index2.html",
     "dist/css/AdminLTE.css",

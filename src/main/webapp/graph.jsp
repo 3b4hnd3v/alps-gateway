@@ -11,15 +11,15 @@ java.io.InputStreamReader,
 java.net.MalformedURLException,
 java.net.URL,
 java.net.URLConnection,
-com.alps.Dao
-"%>
+com.alps.Dao"
+%>
 <%
 URL url;
 Dao dao = new Dao();
-String gip = dao.getip();
+String gip = dao.getSetting("default_ip");
 try {
 	String src="http://"+gip+"/graphs/";
-	System.out.println(src);
+	//System.out.println(src);
 	// get URL content
 	url = new URL(src);
 	URLConnection conn = url.openConnection();
@@ -35,6 +35,8 @@ try {
 		content = content + inputLine;
 	}
 	content = content.replace("Traffic and system resource graphing", "ALPS System Resource Graph");
+	content = content.replace("Queue", "Network");
+	content = content.replace("queues", "Networks");
 	content = content.replace("href='", "href='showgraphs.jsp?src=grabber.jsp?q=");
 	out.println(content);
 	br.close();
@@ -47,5 +49,4 @@ try {
 } catch (IOException e) {
 	e.printStackTrace();
 }
-
 %>

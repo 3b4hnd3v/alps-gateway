@@ -10,13 +10,24 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 public class test {
 	public static void main(String[] args) {
-		try{
+		/*try{
 		Path c = download("http://update.alpsgateway.com/files/image.zip", "C:/Users/USER/Desktop/Alps/");
 		System.out.print(c);
 		}catch(MalformedURLException mue){System.out.print(mue);}
-		catch(IOException ioe){System.out.print(ioe);}
+		catch(IOException ioe){System.out.print(ioe);}*/
+		int[] reserved = {1313, 13131, 8080, 8001, 8000, 1212, 8728, 8729};
+		String options = "";
+        for(int i = 1024; i < 49151; i++){
+        	if(!ArrayUtils.contains( reserved, 1)){
+        		options = options+"\n"+"<option value='"+i+"'>"+i+"</option>";
+        		
+        	}
+        }
+        System.out.println(options);
 	}
 	public static Path download(String sourceUrl,
 	        String targetDirectory) throws MalformedURLException, IOException

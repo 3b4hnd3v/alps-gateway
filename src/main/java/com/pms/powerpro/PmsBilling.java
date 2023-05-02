@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,11 +58,19 @@ public class PmsBilling {
 	}
 	
 	public Connection cn() {
+		try { 
+			
+		} catch(Exception e) { System.out.println(e); }
 		String dbhost="127.0.0.1", dbport="3306", dbname="pms", dbuser="ebahn", dbpass="ebahn";
 		Connection cn1 = null;
-		try { Class.forName("com.mysql.jdbc.Driver");
-		cn1 = DriverManager.getConnection("jdbc:mysql://"+dbhost+":"+dbport+"/"+dbname, dbuser, dbpass);
-		} catch(Exception e) { System.out.println(e); }
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			cn1 = DriverManager.getConnection("jdbc:mysql://"+dbhost+":"+dbport+"/"+dbname, dbuser, dbpass);
+		} catch (SQLException e) { 
+			System.out.println(e); 
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}	
 		return cn1;
 	}
 	

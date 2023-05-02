@@ -1,27 +1,15 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<% String gip = dao.getDefaultIp();
-//String gip = "10.11.12.1"; %>
+<% String gip = dao.getSetting("default_ip"); %>
 <div class="content-wrapper">
-	<section class="content-header">
-		  <h1>
-		    System Reports
-		    <small>Graphical Usage and Health Reports</small>
-		  </h1>
-		  <ol class="breadcrumb">
-		    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-		    <li><a href="#">Analytics</a></li>
-		    <li class="active">System Report</li>
-		  </ol>
-	</section>
 	<section class="content">
 		<div class="row">
-		  <div class="bs-example col-md-12 well">
-		    <div id="graphic" class="embed-responsive embed-responsive-16by9 well" style="min-height:900px; max-height:900px; overflow-y:scroll;">
+		  <div class="bs-example col-md-12">
+		    <div id="graphic" class="embed-responsive embed-responsive-16by9" style="min-height:900px; max-height:900px; overflow-y:scroll;">
 		      
 		      <!-- <iframe height="100px" class="embed-responsive-item" src="//<% //out.println(gip); %>/graphs/"></iframe>
 		      <div id="graphic"></div> -->

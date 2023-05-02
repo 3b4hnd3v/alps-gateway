@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -78,18 +78,27 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("change
 <br><br>
 <section class="content">
 	<div class="row">
-		<div class="col-sm-12">
-			<div class="panel-group" id="accordion">
+		<div class="col-md-12">
+          <!-- DIRECT CHAT PRIMARY -->
+          <div class="box box-primary direct-chat direct-chat-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Zone Quick Ads</h3>
+              
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <!-- Conversations are loaded here -->
+              <div class="direct-chat-messages" style="min-height:80vh;">
+                <div class="panel-group" id="accordion">
 			<% 
 			List<Map<String, String>> lmp = g.userprofile();
 	        for (Map<String,String> mp : lmp) {
-	        	System.out.println(mp);
+	        	//System.out.println(mp);
 	 			String s = mp.get("name");
 	 			int i = lmp.indexOf(mp);
 	 			String btn_st = "<a title='Disable Advertising On This User Plan' class='fa fa-power-off text-danger' href='?q=changestat&stat=false&item="+mp.get(".id")+"'></a>";
-	 			if(mp.containsKey("advertise") && Boolean.valueOf(mp.get("advertise")) && !Boolean.valueOf(mp.get("default"))){
+	 			if(mp.containsKey("advertise") && Boolean.valueOf(mp.get("advertise")) && !Boolean.valueOf(mp.get("default")) && !s.contains("Default")){
 	        %>
-					  <div class="panel box box-primary">
+					  <div class="panel box box-primary" style="margin-bottom:20px;">
 					    <div class="box-heading">
 					      <h4 class="box-title">
 					        <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= i %>">
@@ -125,14 +134,15 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("change
 					    </div>
 					  </div>
 			<% 
-	        	}else if(mp.containsKey("advertise") && !Boolean.valueOf(mp.get("advertise")) && !Boolean.valueOf(mp.get("default"))){
+	        	}else if(mp.containsKey("advertise") && !Boolean.valueOf(mp.get("advertise")) && !Boolean.valueOf(mp.get("default"))  && !s.contains("Default")){
 		 			btn_st = "<a title='Enable Advertising On This User Plan' class='pull-right fa fa-power-off text-success' href='?q=changestat&stat=true&item="+mp.get(".id")+"'></a>";
 	        %>
-					  <div class="panel box box-primary">
+					  <div class="panel box box-primary" style="margin-bottom:20px;">
 					    <div class="box-heading">
 					      <h4 class="box-title">
 					        <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= i %>">
-					        <%= s %></a>
+					        	<%= s %>
+					        </a>
 					        <span style='padding:10px;' class='pull-right'><%= btn_st %></span>
 					      </h4>
 					    </div>
@@ -169,6 +179,15 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("change
 	        }
 	        %>
 			</div>
+              
+            </div><!-- /.box-body -->
+            <div class="box-footer">
+              
+            </div><!-- /.box-footer-->
+          </div><!--/.direct-chat -->
+        </div><!-- /.col -->
+		<div class="col-sm-12">
+			
 		</div>
 	</div>
 </section>

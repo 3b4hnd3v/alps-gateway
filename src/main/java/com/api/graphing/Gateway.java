@@ -33,7 +33,7 @@ public class Gateway {
 	public Gateway(int t){
 		
 		try{
-			ip = getSetting("ip");
+			ip = getSetting("default_ip");
 			username = getSetting("username");
 			password = getSetting("password");
 			
@@ -44,7 +44,7 @@ public class Gateway {
 	public Gateway getInfo(){
 		Gateway g = new Gateway();
 		try{
-			g.setIp(getSetting("ip"));
+			g.setIp(getSetting("default_ip"));
 			g.setUsername(getSetting("username"));
 			g.setPassword(getSetting("password"));
 		}catch(Exception e){e.printStackTrace();}

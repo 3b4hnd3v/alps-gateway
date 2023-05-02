@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -8,7 +8,7 @@
 <% //Walled Garden
 String def = mao.getSetting("default_ip");
 if(request.getParameter("q") != null && request.getParameter("q").equals("rt")){
-	String rswar = dao.getIpPath().replace("setip", "restartwar");
+	String rswar = dao.getSetting("restart_path");
 	cex.comExec(""+rswar);
 		
 	response.sendRedirect("http://"+def+"");

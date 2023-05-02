@@ -1,7 +1,7 @@
 {
-  "name": "almasaeed2010/adminlte",
-  "description": "AdminLTE - admin control panel and dashboard that's based on Bootstrap 3",
-  "homepage": "http://mannir.org/",
+  "name": "ALPS Gateway",
+  "description": "ALPS Gateway - An Internet Gateway",
+  "homepage": "http://www.alpsgateway.com/",
   "keywords": [
     "css",
     "js",
@@ -15,12 +15,12 @@
   ],
   "authors": [
     {
-      "name": "Abdullah Almsaeed",
-      "email": "support@almsaeedstudio.com"
+      "name": "Tukur Anas Muhammad",
+      "email": "dgreat91@gmail.com"
     }
   ],
   "license": "MIT",
   "support": {
-    "issues": "https://github.com/almasaeed2010/AdminLTE/issues"
+    "issues": "http://www.alpsgateway.com/issues"
   }
 }

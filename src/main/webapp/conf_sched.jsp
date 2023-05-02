@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public String url = "SELECT * FROM `mr_purchase_line` ORDER BY `purchase` DESC", gid="", gnm="", lnm="", gpc="", cvp="collapse";%>
+<%!public String url = "SELECT * FROM `mr_purchase_line` ORDER BY `purchase` DESC", gid="", gnm="", lnm="", gpc="", cvp="collapse";%>
 <%
 if(request.getParameter("q") != null && request.getParameter("q").equals("delete")&& request.getParameter("id")!= null) {
 	

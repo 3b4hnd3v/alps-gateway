@@ -17,7 +17,8 @@ import java.util.List;
 import com.alps.Db;
 
 public class Mao {
-	Db db = new Db("jdbc:mysql://localhost/alpsgateway" , "ebahn", "ebahn");
+	//Db db = new Db("jdbc:mysql://localhost/alpsgateway?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT" , "ebahn", "ebahn");
+	Db db = new Db();
 	static Connection cn = null;
 	
 	public Mao() {
@@ -102,9 +103,10 @@ public class Mao {
 			while(rs.next()){
 				String wip = rs.getString("setting_value");
 				wanIp[i] = wip;
-				System.out.println("Wan:"+wanIp[i]);
+				System.out.println("Wan"+i+":"+wanIp[i]);
+				i++;
 			}
-			i++;
+			
 			
 		} catch (SQLException e) { e.printStackTrace(); }
 		

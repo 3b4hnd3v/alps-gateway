@@ -20,8 +20,7 @@ com.alps.AlpsLog,
 com.alps.Dao,
 com.alps.License,
 com.mail.Licmail,
-com.alps.GCounter
-"%>
+com.alps.GCounter"%>
 <%
 String tp = request.getParameter("type");
 String mt = request.getParameter("method");

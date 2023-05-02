@@ -1,12 +1,12 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public String location = "", client = "", buloc = ""; SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy"); Date but = new Date(); %>
+<%!public String location = "", client = "", buloc = ""; SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy"); Date but = new Date();%>
 <%
-client = dao.getClient().replaceAll("\\s","").toLowerCase();
+client = dao.getDashValue("client").replaceAll("\\s","").toLowerCase();
 buloc = "/home/alps/ALPS/Backup/";
 GwBackUp gb = new GwBackUp();
 %>

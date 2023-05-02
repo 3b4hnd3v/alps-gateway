@@ -24,7 +24,7 @@ public class Licmail {
 	static Dao dao = new Dao();
 	
 	final static String userName = "ebahnsolutions@gmail.com";  // GMail user name (just the part before "@gmail.com")
-	final static String password = "ebahn123"; // GMail password
+	final static String password = "4dmin@3b4hn123"; // GMail password
     final static String RECIPIENT = "gadanyaa@yahoo.com";
     //final static String msg_body = dao.getLicenseMail();
     public static String [] to = dao.getRecipients();

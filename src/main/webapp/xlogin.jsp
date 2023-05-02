@@ -12,21 +12,18 @@ java.sql.ResultSetMetaData,
 com.alps.AlpsLog,
 com.alps.Dao,
 com.alps.ComExec,
-java.sql.PreparedStatement
+java.sql.PreparedStatement"
+%>
 
-"%>
-
-<%! 
-public String dbhost="127.0.0.1", dbport="3306", dbname="alpsgateway", dbuser="ebahn", dbpass="ebahn";
+<%!public String dbhost="127.0.0.1", dbport="3306", dbname="alpsgateway", dbuser="ebahn", dbpass="ebahn";
 public static Connection cn = null;
 AlpsLog al = new AlpsLog();
 Dao dao = new Dao();
-ComExec cex = new ComExec();
-%>
+ComExec cex = new ComExec();%>
 
 <%
 try{
-	if(dao.getInstallStatus().equals("New")){
+	if(dao.getSetting("installation").equals("New")){
 		response.sendRedirect("home.jsp?type=success&msg=Lets get through some installation process!"); 
 	}
 }catch(Exception e) { System.out.println(e); }

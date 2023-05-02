@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -25,25 +25,7 @@ if(request.getParameter("update") != null && request.getParameter("update").equa
 	} catch (Exception e1) { System.out.println(e1); }
 }
 %>
-<% 
-//remove walled garden
-if(request.getParameter("q") != null && request.getParameter("q").equals("delete")) {
-	
-	try {
-		String stid = request.getParameter("stid").toString();
-		
-		if(dao.deleteSetting(stid)){
-			String logact = "Setting with ID: "+stid+" removed By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
-			al.addLog(logact);
-			response.sendRedirect("mwsettings.jsp?type=success&msg=Setting Successfully Deleted.");
-		}else{
-			response.sendRedirect("mwsettings.jsp?type=error&msg=Setting Cannot Be Deleted At The Moment.");
-		}
-		
-		
-	} catch (Exception e1) { System.out.println(e1); }
-}
-%>
+
 <div class="content-wrapper">
 <!-- Error Message -->
 <%if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>

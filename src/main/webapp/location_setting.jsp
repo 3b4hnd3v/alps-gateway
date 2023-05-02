@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -182,13 +182,13 @@ if(request.getParameter("location") != null){
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="#">Network</a></li>
-    <li><a href="#">Location</a></li>
+    <li><a href="#">Zone</a></li>
     <li class="active">Setting</li>
   </ol>
 </section>
 
 <!-- Table List -->
-<section class="content">
+<section class="content" style="margin-top:20px;">
   <div class="row">
     <div class="col-md-12"><!-- /.box -->
     <!-- /Location -->
@@ -212,17 +212,13 @@ if(request.getParameter("location") != null){
           		String interf = mp.get("interface");
 			%>
 				<form action="location_setting.jsp?location=<%= location %>" method="post">
-					
-			      	<div class="form-group">
-			            <label>IDs</label>
-			      		<input type="text" name="ipid" id="ipid" readonly class="form-control col-md-5" value="<% out.println(id); %>"><br />
-			      		<%
-						String com = "/ip/dhcp-server/network/print where comment="+location;
-				      	for (Map<String,String> mpn : g.quickCommand(com)) {
-				      	%>
-				      	<input type="text" name="dnetid" id="dnetid" readonly class="form-control col-md-5" value="<% out.println(mpn.get(".id")); %>">
-				      	<%}%>
-			      	</div>
+		      		<input type="hidden" name="ipid" id="ipid" readonly class="form-control col-md-5" value="<% out.println(id); %>"><br />
+		      		<%
+					String com = "/ip/dhcp-server/network/print where comment="+location;
+			      	for (Map<String,String> mpn : g.quickCommand(com)) {
+			      	%>
+			      	<input type="hidden" name="dnetid" id="dnetid" readonly class="form-control col-md-5" value="<% out.println(mpn.get(".id")); %>">
+			      	<%}%>
 			      	<div class="form-group">
 		                <label>Location</label>
 		          		<input type="text" name="interf" id="interf" class="form-control" value="<%= interf %>"><br />
@@ -280,10 +276,7 @@ if(request.getParameter("location") != null){
 	    	
 		 %>
 		         <form action="location_setting.jsp?location=<%= location %>" method="post">
-		          	<div class="form-group">
-		                <label>ID</label>
-		          		<input type="text" name="pid" id="pid" class="form-control" value="<% out.println(poolid); %>"><br />
-		          	</div>
+		          	<input type="hidden" name="pid" id="pid" class="form-control" value="<% out.println(poolid); %>"><br />
 		          	<div class="form-group">
 		                <label>Pool Name</label>
 		          		<input type="text" name="poolname" readonly id="poolname" class="form-control" value="<% out.println(pname); %>"><br />
@@ -339,10 +332,7 @@ if(request.getParameter("location") != null){
 		    	
 		 %>
           <form action="location_setting.jsp?location=<%= location %>" method="post">
-          	<div class="form-group">
-                <label>ID</label>
-          		<input type="text" name="hssid" id="hssid" readonly class="form-control" value="<% out.println(hssid); %>"><br />
-          	</div>
+          	<input type="hidden" name="hssid" id="hssid" readonly class="form-control" value="<% out.println(hssid); %>"><br />
           	<div class="form-group">
                 <label>Name</label>
           		<input type="text" name="hssname" readonly id="hssname" class="form-control" value="<% out.println(hssname); %>"><br />
@@ -359,19 +349,20 @@ if(request.getParameter("location") != null){
                 <label>Pool</label>
           		<input type="text" name="pool" readonly id="pool" class="form-control" value="<% out.println(hsspool); %>"><br />
           	</div>
-          	<div class="form-group col-md-4">
-                <label>Address Per Mac</label>
-          		<input type="text" name="apm" id="apm" class="form-control" value="<% out.println(apm); %>"><br />
+          	<div class="row">
+	          	<div class="form-group col-md-4">
+	                <label>Address Per Mac</label>
+	          		<input type="text" name="apm" id="apm" class="form-control" value="<% out.println(apm); %>"><br />
+	          	</div>
+	          	<div class="form-group col-md-4">
+	                <label>Keep Alive</label>
+	          		<input type="text" name="kato" id="kato" class="form-control" value="<% out.println(kato); %>"><br />
+	          	</div>
+	          	<div class="form-group col-md-4">
+	                <label>Idle Timeout</label>
+	          		<input type="text" name="idto" id="idto" class="form-control" value="<% out.println(idto); %>"><br />
+	          	</div>
           	</div>
-          	<div class="form-group col-md-4">
-                <label>Keep Alive</label>
-          		<input type="text" name="kato" id="kato" class="form-control" value="<% out.println(kato); %>"><br />
-          	</div>
-          	<div class="form-group col-md-4">
-                <label>Idle Timeout</label>
-          		<input type="text" name="idto" id="idto" class="form-control" value="<% out.println(idto); %>"><br />
-          	</div>
-          	
           	<input type="submit" id="submit" name="submit" class="btn btn-success" value="Update Access Setting">
           </form>
           <%} %>
@@ -407,10 +398,7 @@ if(request.getParameter("location") != null){
 		      		String htproxy = mp.get("http-proxy");
 		 %>
           <form action="location_setting.jsp?location=<%= location %>" method="post">
-          	<div class="form-group">
-                <label>ID </label>
-          		<input type="text" name="hspid" id="hspid" readonly class="form-control" value="<% out.println(hspid); %>"><br />
-          	</div>
+          	<input type="hidden" name="hspid" id="hspid" readonly class="form-control" value="<% out.println(hspid); %>"><br />
           	<div class="form-group">
                 <label>Profile Name</label>
           		<input type="text" name="hsprof" id="hsprof" readonly class="form-control" value="<% out.println(hspname); %>"><br />
@@ -515,17 +503,8 @@ if(request.getParameter("location") != null){
 	      </div>
 	    </div>
 	  </div>
-    
-    </div>
-  </div>
-</section>
-
-<!-- Table List -->
-<section class="content">
-  <div class="row">
-    <div class="col-md-12"><!-- /.box -->
-
-      <div class="box">
+	  
+	  <div class="panel box box-primary">
         <div class="box-header">
           <h3 class="box-title">Vlans</h3>
         </div><!-- /.box-header -->
@@ -562,6 +541,17 @@ if(request.getParameter("location") != null){
           </table>
         </div><!-- /.box-body -->
       </div><!-- /.box -->
+    
+    </div>
+  </div>
+</section>
+
+<!-- Table List -->
+<section class="content">
+  <div class="row">
+    <div class="col-md-12"><!-- /.box -->
+
+     
     </div><!-- /.col -->
   </div><!-- /.row -->
 </section><!-- /.content -->

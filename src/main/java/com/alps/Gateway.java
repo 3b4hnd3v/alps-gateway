@@ -12,11 +12,11 @@ import me.legrange.mikrotik.ResultListener;
 public class Gateway {
 	PrimeCounter pc = new PrimeCounter();
 	static Dao dao = new Dao();
-	static String ip = dao.getip();
+	static String ip = dao.getSetting("default_ip");
 	//String pass = "admin";
-	static String pass = dao.getPass();
+	static String pass = dao.getSetting("password");
 	//String user = "";
-	static String user = dao.getUser();
+	static String user = dao.getSetting("username");
 	//static String ip = "172.27.5.96";
 
 	public static void main(String[] args) {
@@ -81,7 +81,7 @@ public class Gateway {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); 
 			rs = con.execute("/interface/ethernet/print detail where name='"+name+"'");
-			System.out.println(rs);
+			//System.out.println(rs);
 			con.close();
 			
 		} catch(Exception e1) { System.out.println(e1); }
@@ -169,6 +169,20 @@ public class Gateway {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); 
 			rs = con.execute("/ip/arp/print");
+			
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
+		
+		return rs;
+	}
+	
+	public List<Map<String, String>> neighbors() {
+		List<Map<String, String>> rs = null;
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
+			rs = con.execute("/ip/neighbor/print detail");
 			
 			con.close();
 			
@@ -427,6 +441,28 @@ public class Gateway {
 			
 		} catch(Exception e1) { System.out.println(e1); }
 		
+	}
+	public void resetActiveProfileUsers(String profile) {
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); // log in to router
+			List<Map<String, String>> users = con.execute("/ip/hotspot/user/print where profile="+profile);
+			
+			for (Map<String,String> user : users) {
+				System.out.println("Delete All Active On: "+user.get("name"));
+				//System.out.println(user);
+				String username = user.get("name");
+				List<Map<String, String>> actives = con.execute("/ip/hotspot/active/print where user="+username);
+				for (Map<String,String> active : actives) {
+					String aid = active.get(".id");
+					String com = "/ip/hotspot/active/remove .id="+aid;
+					System.out.println("DEBUG : Command = "+com);
+					con.execute(com);
+				}
+			}
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
 	}
 	public void removeUserProfile(String id) {
 		try {
@@ -1560,7 +1596,7 @@ public class Gateway {
 		try {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); // log in to router
-			String command = "/ip/hotspot/cookie/remove numbers="+item;
+			String command = "/ip/hotspot/cookie/remove .id="+item;
 			
 			System.out.println("DEBUG: command=" + command);
 			con.execute(command);
@@ -2092,6 +2128,21 @@ public class Gateway {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); 
 			String command = "/ip/dns/set servers="+servers+" allow-remote-requests="+arr+" max-udp-packet-size="+mups+" query-server-timeout="+qsto+" query-total-timeout="+qtto+" cache-size="+csize+" cache-max-ttl="+cmttl;
+			
+			System.out.println("DEBUG: command=" + command);
+			con.execute(command);
+			
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
+		
+	}
+	public void updateDNSServer(String servers) {
+		
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
+			String command = "/ip/dns/set servers="+servers;
 			
 			System.out.println("DEBUG: command=" + command);
 			con.execute(command);
@@ -2746,9 +2797,111 @@ public class Gateway {
 		try {
 			ApiConnection con = ApiConnection.connect(ip); // connect to router
 			con.login(user,pass); 
-			
+			String com = "DefaultRoute"+intname;
+			rs = con.execute("/ip/route/print where comment='"+com+"'");
+			con.close();
+		} catch(Exception e1) { System.out.println(e1); }
+		
+		return rs;
+	}
+	public List<Map<String, String>> interfRouteGw(String intname) {
+		List<Map<String, String>> rs = new ArrayList<Map<String, String>>();
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
 			rs = con.execute("/ip/route/print where gateway='"+intname+"'");
 			
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
+		
+		return rs;
+	}
+	public List<Map<String,String>> getNetWatch(){
+		List<Map<String,String>> rs = null;
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass);
+			rs = con.execute("/tool/netwatch/print");
+			
+			con.close();
+		} catch(Exception e1) { System.out.println(e1); }
+		return rs;
+	}
+	public boolean addNetWatchX(String host, String to, String interval, String mac, String notes){
+		boolean res = false;
+		String command = "";
+		String up_url = "http://192.168.3.253/alpsTools/notify_monitor.php?q=monitor_up&host="+host+"&notes="+notes;
+		String down_url = "http://192.168.3.253/alpsTools/notify_monitor.php?q=monitor_down&host="+host+"&notes="+notes;
+		String up = "/tool fetch http-method=get mode=http url="+up_url;
+		String down = "/tool fetch http-method=get mode=http url="+down_url;
+		try {
+			ApiConnection con = ApiConnection.connect(ip); 
+			con.login(user,pass); 
+			//dst-address to-addresses
+			command = "/tool/netwatch/add host="+host+" timeout="+to+" interval="+interval+" interval="+mac+" up-script='"+up+"' down-script='"+down+"'";
+			
+			System.out.println("DEBUG: command=" + command);
+			if(con.execute(command)!=null){
+				res = true;
+			}
+			con.close();
+		} catch(Exception e1) { System.out.println(e1); }
+		return res;
+	}
+	public boolean addNetWatch(String host, String to, String interval, String mac, String notes, boolean internal){
+		boolean res = false;
+		String command = "";
+		String url = "http://192.168.3.253/alpsTools/notify_monitor.php";
+		String up_url = "http-method=post http-content-type=\"application/json\" http-data=\"{\\\"q\\\":\\\"monitor_up\\\",\\\"host\\\":\\\""+host+"\\\",\\\"notes\\\":\\\""+notes+"\\\"}\"";
+		String down_url = "http-method=post http-content-type=\"application/json\" http-data=\"{\\\"q\\\":\\\"monitor_down\\\",\\\"host\\\":\\\""+host+"\\\",\\\"notes\\\":\\\""+notes+"\\\"}\"";
+		String up = "/tool fetch mode=http url="+url+" "+up_url;
+		String down = "/tool fetch mode=http url="+url+" "+down_url;
+		try {
+			ApiConnection con = ApiConnection.connect(ip); 
+			con.login(user,pass); 
+			//dst-address to-addresses
+			command = "/tool/netwatch/add host="+host+" timeout="+to+" interval="+interval+" comment="+mac+" up-script='"+up+"' down-script='"+down+"' comment="+notes;
+			String command1 = "/ip/hotspot/ip-binding/add address="+host+" mac-address="+mac+" type=bypassed comment="+notes;
+			System.out.println("DEBUG: command=" + command);
+			if(con.execute(command)!=null){
+				if(internal) {
+					con.execute(command1);
+				}
+				res = true;
+			}
+			con.close();
+		} catch(Exception e1) { 
+			System.out.println(e1);
+			if(String.valueOf(e1).contains("client already exists")) {
+				res = true;
+			}
+		}
+		return res;
+	}
+	public boolean removeNetWatch(String id){
+		boolean res = false;
+		String command = "";
+		try {
+			ApiConnection con = ApiConnection.connect(ip); 
+			con.login(user,pass); 
+
+			command = "/tool/netwatch/remove .id="+id;
+			
+			System.out.println("DEBUG: command=" + command);
+			if(con.execute(command)!=null){
+				res = true;
+			}
+			con.close();
+		} catch(Exception e1) { System.out.println(e1); }
+		return res;
+	}
+	public List<Map<String, String>> CPU() {
+		List<Map<String, String>> rs = null;
+		try {
+			ApiConnection con = ApiConnection.connect(ip); // connect to router
+			con.login(user,pass); 
+			rs = con.execute("/system/resource/cpu/print detail");
 			con.close();
 			
 		} catch(Exception e1) { System.out.println(e1); }

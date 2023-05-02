@@ -1,6 +1,6 @@
 <%@include file="header.jsp" %>
 
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -59,20 +59,23 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 if(request.getParameter("submit") != null && request.getParameter("submit").equals("Update Plan")) {
 	
 	try {
-		String uid = request.getParameter("uid").toString();
-		String name = request.getParameter("name").toString();
-		String pool = request.getParameter("pool").toString();
+		String uid = request.getParameter("uid");
+		String name = request.getParameter("name");
+		String pool = request.getParameter("pool");
 		String rate = request.getParameter("rate");
-		String share = request.getParameter("share").toString();
-		String cookieto = request.getParameter("cookieto").toString();
-		String addcookie = request.getParameter("addcookie").toString();
-		String statpage = request.getParameter("statpage").toString();
-		String sessionto = request.getParameter("sessionto").toString();
-		String idleto = request.getParameter("idleto").toString();
-		String keepal = request.getParameter("keepal").toString();
+		String share = request.getParameter("share");
+		String cookieto = request.getParameter("cookieto");
+		String addcookie = request.getParameter("addcookie");
+		String statpage = request.getParameter("statpage");
+		String sessionto = request.getParameter("sessionto");
+		String idleto = request.getParameter("idleto");
+		String keepal = request.getParameter("keepal");
+		String bw = request.getParameter("bandwidth");
 		System.out.println("Update sebd Rate"+rate);
 		g.updateUserProf(uid , name, pool, rate, addcookie, cookieto, share, statpage, sessionto, idleto, keepal);
-		
+		if(String.valueOf(bw).equalsIgnoreCase("yes")){
+			g.resetActiveProfileUsers(name);
+		}
 		String logact = "User profile "+name+" updated By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
 		al.addLog(logact);
 		
@@ -258,7 +261,7 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 <%
 //pool_edit
 if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("pool")) { %>
-	<%! public String pid = "", pname = "", prange = "", nextpool = "";  %>
+	<%!public String pid = "", pname = "", prange = "", nextpool = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -330,7 +333,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
 <%
 //user_edit
 }else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("user")) { %>
-	<%! public String uid = "", username = "", password = "", profile = "", server = "", ip = "", mac = "", lu = "", lbi = "", lbo = "", lbt = "";  %>
+	<%!public String uid = "", username = "", password = "", profile = "", server = "", ip = "", mac = "", lu = "", lbi = "", lbo = "", lbt = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -446,7 +449,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       </div>
 	</section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("userprof")) { %>
-<%! public String prid = "", prname = "", pool = "", rlimit = "", cto = "", amc = "", sharelimit = "", statp = "", ito = "", sto = "", kat = "";  %>
+<%!public String prid = "", prname = "", pool = "", rlimit = "", cto = "", amc = "", sharelimit = "", statp = "", ito = "", sto = "", kat = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -490,51 +493,68 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
     	}
 	 %>
 	  <form action="update.jsp" method="post">
-	  	 <div class="form-group col-md-6">
-            <label>ID</label>
-      		<input type="text" name="uid" id="uid" readonly class="form-control" value="<% out.println(prid); %>"><br />
-      	</div>
-      	<div class="form-group col-md-6">
-		 	<label>Name:</label>
-			<input type="text" class="form-control" name="name" value="<% out.println(prname); %>"><br />
-			<input type="hidden" class="form-control" name="pool" value="none">
+	  	<div class="row">
+		  	<div class="form-group col-md-6">
+	            <label>ID</label>
+	      		<input type="text" name="uid" id="uid" readonly class="form-control" value="<% out.println(prid); %>"><br />
+	      	</div>
+	      	<div class="form-group col-md-6">
+			 	<label>Name:</label>
+				<input type="text" class="form-control" name="name" value="<% out.println(prname); %>"><br />
+				<input type="hidden" class="form-control" name="pool" value="none">
+			</div>
 		</div>
-		
-		 <label>Rate Limit:</label>
-			<input type="text" class="form-control" name="rate" value="<% if(rlimit != null){out.println(rlimit);} %>"><br />
-		 <label>Sharing Limit</label>
+		<div class="row">
+			<div class="col-sm-8">
+			 	<label>Rate Limit:</label>
+				<input type="text" onkeyup="applyBandwidth();" class="form-control" name="rate" value="<% if(rlimit != null){out.println(rlimit);} %>"><br />
+			</div>
+			<div class="checkbox col-sm-4">
+				<br>
+	            <label>
+	              <input type="checkbox" name="bandwidth" id="bandwidth" value='yes'> Apply Bandwidth
+	            </label>
+            </div>
+	    </div>
+		<div class="form-group">
+			<label>Sharing Limit</label>
 			<input type="text" class="form-control" name="share" value="<% out.println(sharelimit); %>"><br />
-		 <div class="form-group">
+		</div>
+		<div class="form-group">
              <label>Open Status Page</label>
              <select class="form-control" name="statpage">
               	<option value="http-login">HTTP Login</option>
               	<option value="always">always</option>
              </select>
          </div>
-         <div class="col-sm-3">
-            <label>Add Mac-cookie</label>
-			<select class="form-control" name="addcookie">
-				<option>true</option>
-				<option>false</option>
-			</select>
-			<br />
-        </div>
-        <div class="col-sm-3">
-         	<label>Mac Cookie Timeout</label>
-			<input type="text" class="form-control" name="cookieto" value='<% if(cto != null){out.println(cto);}else{out.println("3d 00:00:00");} %>'><br />
-        </div>
-        <div class="col-sm-3">
-             <label>Idle Timeout</label>
-			 <input type="text" class="form-control" name="idleto" value='<% if(ito != null){out.println(ito);}else{out.println("00:02:00");} %>'><br />
-        </div>
-        <div class="col-sm-3">
-             <label>Session Timeout</label>
-			 <input type="text" class="form-control" name="sessionto" value='<% if(sto != null){out.println(sto);}else{out.println("00:00:00");} %>'><br />
-        </div>
-        <div class="col-sm-3">
-             <label>Keep Alive Timeout</label>
-			 <input type="text" class="form-control" name="keepal" value='<% if(kat != null){out.println(kat);}else{out.println("none");} %>'><br />
-        </div>
+         <div class="row">
+	         <div class="col-sm-4">
+	            <label>Add Mac-cookie</label>
+				<select class="form-control" name="addcookie">
+					<option>true</option>
+					<option>false</option>
+				</select>
+				<br />
+	        </div>
+	        <div class="col-sm-4">
+	         	<label>Mac Cookie Timeout</label>
+				<input type="text" class="form-control" name="cookieto" value='<% if(cto != null){out.println(cto);}else{out.println("3d 00:00:00");} %>'><br />
+	        </div>
+	        <div class="col-sm-4">
+	             <label>Idle Timeout</label>
+				 <input type="text" class="form-control" name="idleto" value='<% if(ito != null){out.println(ito);}else{out.println("00:02:00");} %>'><br />
+	        </div>
+	    </div>
+	    <div class="row">
+		    <div class="col-sm-6">
+	             <label>Session Timeout</label>
+				 <input type="text" class="form-control" name="sessionto" value='<% if(sto != null){out.println(sto);}else{out.println("00:00:00");} %>'><br />
+	        </div>
+	        <div class="col-sm-6">
+	             <label>Keep Alive Timeout</label>
+				 <input type="text" class="form-control" name="keepal" value='<% if(kat != null){out.println(kat);}else{out.println("none");} %>'><br />
+	        </div>
+	    </div>
 		<input type="submit" id="submit" name="submit" class="btn btn-success col-sm-12" value="Update Plan"><br>
 	  </form>
 	  <p><br><br></p>
@@ -542,9 +562,14 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       </div>
     </div>
   </div>
+  <script>
+  	function applyBandwidth(){
+  		document.getElementById("bandwidth").checked = true;
+  	}
+  </script>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("walledgarden")) { %>
-<%! public String dstadd = "", action = "", dstport = "", wgid = "", protocol = "";  %>
+<%!public String dstadd = "", action = "", dstport = "", wgid = "", protocol = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -607,7 +632,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </div>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("walledgardensite")) { %>
-<%! public String dst_host = "", comment = "", act = "", dst_port = "", wgsid = "", prot = "";  %>
+<%!public String dst_host = "", comment = "", act = "", dst_port = "", wgsid = "", prot = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -704,7 +729,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </div>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("ipaddress")) { %>
-	<%! public String ipid = "", address = "", network = "", addint = "";  %>
+	<%!public String ipid = "", address = "", network = "", addint = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -766,7 +791,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       </div>
 	</section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("hsserver")) { %>
-	<%! public String hssid = "", hssname = "", hssprof = "", hssint = "", hsspool = "", apm = "", idto = "", kato = "", https = "";  %>
+	<%!public String hssid = "", hssname = "", hssprof = "", hssint = "", hsspool = "", apm = "", idto = "", kato = "", https = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -853,7 +878,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       </div>
 	</section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("hsserverprof")) { %>
-	<%! public String hspid = "", hspname = "", hsadd = "", htdir = "", dnsname = "", loginby = "", cookieto = "", smtps = "", ratelim = "", htproxy = "";  %>
+	<%!public String hspid = "", hspname = "", hsadd = "", htdir = "", dnsname = "", loginby = "", cookieto = "", smtps = "", ratelim = "", htproxy = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">
@@ -959,7 +984,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       </div>
 	</section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("interface")) { %>
-<%! public String intid = "", intname = "", inttype = "", mtu = "", mtu12 = "";  %>
+<%!public String intid = "", intname = "", inttype = "", mtu = "", mtu12 = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -1023,7 +1048,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </div>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("vlan")) { %>
-<%! public String vintid = "", vname = "", vtype = "", vmtu = "", vmtul2 = "", vlid = "";  %>
+<%!public String vintid = "", vname = "", vtype = "", vmtu = "", vmtul2 = "", vlid = "";%>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -1088,7 +1113,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </div>
 </section>
 <%}else if(request.getParameter("q") != null && request.getParameter("q").equals("edit") && request.getParameter("type").equals("dns")) { %>
-	<%! public String did = "", dname = "", daddr = "", dttl = "";  %>
+	<%!public String did = "", dname = "", daddr = "", dttl = "";%>
 	
 	<!-- Content Header (Page header) -->
     <section class="content-header">

@@ -1,20 +1,19 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public InputStream data, error;
+<%!public InputStream data, error;
 String url = "", upbtn="",
-charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
-%>
+charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()%>
 <%
 connect();
 try {
   	ResultSet rs = cn.createStatement().executeQuery("SELECT * FROM `settings` where `setting_name`='update_json'");
   	
   	while(rs.next()){
-  		url = rs.getString("setting_value")+"?ver="+dao.getVersion();
+  		url = rs.getString("setting_value")+"?ver="+dao.getDashValue("version");
   		//url = "http://clients.alpsgateway.com/json.php?all=Level%204%20Demo";
   		System.out.println(url);
   	}
@@ -62,9 +61,7 @@ if(dao.checklicense().equals("valid")){
 	 </div><!-- /.box -->
    </div><!-- /.col -->
   </div><!-- /.row -->
-</section>
-<!-- Table List -->
-<section class="content">
+  
   <div class="row">
     <div class="col-xs-12"><!-- /.box -->
       <div class="box box-warning">

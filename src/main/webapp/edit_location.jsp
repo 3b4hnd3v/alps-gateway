@@ -1,6 +1,6 @@
 <%@include file="header.jsp" %>
 
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -46,7 +46,7 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 		String logact = "Interface "+intname+" updated By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
 		al.addLog(logact);
 		
-		response.sendRedirect("locations.jsp");
+		response.sendRedirect("zone_manager.jsp");
 		
 	} catch (Exception e1) { System.out.println(e1); }
 }
@@ -110,7 +110,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
   </ol>
 </section>
 
-<section class="content">
+<section class="content" style="margin-top:33px;">
 	<div class="panel box box-primary">
     <div class="box-header with-border">
       <h4 class="box-title">
@@ -150,9 +150,26 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("edit")
       		<label>Location Name:</label>
 			<input type="text" class="form-control" name="intname" id="intname" value="<% out.println(intname); %>"><br />
 		</div>
-      	<input type="submit" id="submit" name="submit" class="btn btn-success" value="Update Interface">
+      	<input type="submit" id="submit" name="submit" class="btn btn-block btn-success" value="Update Interface">
+      	
       </form>
-      <a href="reset.jsp?type=interface&item=<%out.println(intid);%>"></a><button class="btn btn-info pull-right">Reset Counter</button></a>
+      
+      <form action="edit_location.jsp" method="post">
+      	<div class="form-group">
+      		<input type="hidden" name="intid" id="intid" readonly class="form-control" value="<%= intid %>">
+      		<input type="hidden" name="ipid" id="ipid" readonly class="form-control" value="<%= ipsetid %>">
+      		<input type="hidden" name="dhcpid" id="dhcpid" readonly class="form-control" value="<%= dhcpid %>">
+      		<input type="hidden" name="dnetid" id="dnetid" readonly class="form-control" value="<%= dnetid %>">
+      		<input type="hidden" name="hsid" id="hsid" readonly class="form-control" value="<%= hsid %>">
+      		<input type="hidden" name="hspid" id="hspid" readonly class="form-control" value="<%= hspid %>">
+      		<input type="hidden" name="poolid" id="poolid" readonly class="form-control" value="<%= poolid %>">
+      		<input type="hidden" class="form-control" name="inttype" id="inttype" value="<%= inttype %>">
+      		<input type="hidden" class="form-control" name="mtu" id="mtu" value="<%= mtu %>">
+      	</div>
+      	<input type="submit" id="submit" name="submit" class="btn btn-block btn-danger" value="Delete Location">
+      </form>
+      
+      <a href="zone_manager.jsp"> Return To Zone Manager</a>
       </div>
     </div>
   </div>

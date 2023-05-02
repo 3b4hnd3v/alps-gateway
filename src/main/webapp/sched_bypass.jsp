@@ -1,6 +1,6 @@
 <%@include file="header.jsp" %>
 
-<body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+<body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
 <!-- Site wrapper -->
 <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -229,8 +229,8 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("schedu
           <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>Device</th>
-                <!-- <th>MAC</th>
+                <th width="50%">Device</th>
+                <th width="30%">MAC</th>
                 <!-- <th>IP</th>
                 <th>Zone</th> -->
                 <th><i class="fa fa-cog"></i></th>
@@ -245,7 +245,7 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("schedu
            			String dbtn = "<a title='Period Bypass' class='btn btn-sm btn-success' href='?q=schedule&type=period&device="+dev+"&mac="+mac+"'><i class='fa fa-calendar-o'></i></a>";
 				  	out.println("<tr>");
 					out.println("<td>"+String.valueOf(mp.get("host-name")).replace("null", mp.get("mac-address"))+"</td>");
-					//out.println("<td>"+mp.get("mac-address")+"</td>");
+					out.println("<td>"+mp.get("mac-address")+"</td>");
 					//out.println("<td>"+mp.get("address")+"</td>");
 					//out.println("<td>"+mp.get("server")+"</td>");
 					out.println("<td>"+btn+" | "+dbtn+"</td>");

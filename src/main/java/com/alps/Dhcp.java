@@ -51,7 +51,7 @@ public class Dhcp {
 	public Dhcp getDhcp(){
 		Dhcp d = new Dhcp();
 		try { 
-			String wsip = dao.getWsip();
+			String wsip = dao.getSetting("wsip");
 			String[] prop = wsip.split("-");
 			System.out.println("current wsip : "+wsip);
 			d.setIp(prop[0]);
@@ -69,7 +69,7 @@ public class Dhcp {
 		try { 
 			String wsip = ip+"-"+submask+"-"+netmask+"-"+gateway+"-"+broadcast;
 			System.out.println(wsip);
-			d = dao.updateIP("wsip", wsip);
+			d = dao.updateSetting("wsip", wsip);
 		} catch(Exception e3) { System.out.println(e3); }
 		return d;
 	}
@@ -79,7 +79,7 @@ public class Dhcp {
 		try { 
 			String wsip = ip+"-"+submask+"-"+netmask+"-"+gateway+"-"+broadcast;
 			System.out.println(wsip);
-			d = dao.updateIP("wsip", wsip);
+			d = dao.updateSetting("wsip", wsip);
 		} catch(Exception e3) { System.out.println(e3); }
 		return d;
 	}

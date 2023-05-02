@@ -35,7 +35,7 @@ public class CronJobs implements ServletContextListener {
     public void contextInitialized(ServletContextEvent arg0)  { 
         // TODO Auto-generated method stub
     	PowerProPost ppp = new PowerProPost();
-    	OnlineCheck oc = new OnlineCheck(5);
+    	AccessControl ac = new AccessControl(5);
     	Schedule b = new Schedule(1);
     	AutoBackUp ab = new AutoBackUp();
     	SubBills sb = new SubBills();
@@ -47,11 +47,14 @@ public class CronJobs implements ServletContextListener {
     		if(apms.containsKey("name")){
     			String name = apms.get("name");
     			switch (name) {
+	    	         case "None":
+	    	             System.out.println("No Internal PMS");
+	    	             break;
 	    	         case "PowerPro":
 	    	             ap = new PowerProPost(5);
 	    	             break;
 	    	         default:
-	    	        	 System.out.print("No PMS");
+	    	             throw new IllegalArgumentException("PMS Not Recognised: " + name);
     			}
     		}
     	}
@@ -60,14 +63,17 @@ public class CronJobs implements ServletContextListener {
     			
     			String name = apms.get("name");
     			switch (name) {
+	    			case "None":
+		   	            System.out.println("No Internal PMS");
+		   	            break;
 	    	         case "PowerPro":
 	    	        	 ((PowerProPost) ap).start();
 	    	             break;
 	    	         default:
-	    	        	 System.out.print("No PMS");
+	    	             throw new IllegalArgumentException("PMS Not Recognised: " + name);
     			}
     		}
-	        oc.start();
+	        ac.startTask();
 	        ab.start();
 	        sb.start();
 	        b.start();

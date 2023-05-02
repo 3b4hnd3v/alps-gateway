@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -71,7 +71,7 @@
 	            		 	out.println("<td>"+rs1.getString("description")+"</td>");
 	            		 	out.println("<td>"+rs1.getString("company_name")+"</td>");
 	            		 	out.println("<td>"+rs1.getString("contact_person")+"</td>");
-	            		 	out.println("<td>"+rs1.getString("start_date")+""+rs1.getString("unit")+"</td>");
+	            		 	out.println("<td>"+rs1.getString("start_date")+"</td>");
 	            		 	out.println("<td>"+rs1.getString("end_date")+"</td>");
 	            		 	out.println("<td>"+rs1.getString("mr_name")+"</td>");
 	            		 	out.println("<td>"+rs1.getString("username")+"</td>");

@@ -42,7 +42,7 @@ public class GatewayApi {
 		username = gw.getUsername();
 		pass = gw.getPassword();
 		ip = gw.getIp();
-		System.out.println(ip+"-"+username+"-"+pass);
+		//System.out.println(ip+"-"+username+"-"+pass);
 	}
 	
 	public ApiConnection connectApi(){

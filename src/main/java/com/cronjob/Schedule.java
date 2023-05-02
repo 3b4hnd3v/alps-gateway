@@ -25,7 +25,7 @@ public class Schedule {
         this.minutes = minutes;
     }
     public void start() {
-    	System.out.println("Schedule Thread Started");
+    	//System.out.println("Schedule Thread Started");
         timer.schedule(new TimerTask() {
             public void run() {
             	bypassSched();
@@ -36,7 +36,7 @@ public class Schedule {
             	String str = sdf.format(new Date());
             	String sdt = sdd.format(new Date());
             	String day = DateUtils.CurrentDay();
-            	System.out.println(" Check By : "+sdt+" - "+str+" - "+day);
+            	//System.out.println(" Check By : "+sdt+" - "+str+" - "+day);
             	activateDaily(day, str);
             	suspendDaily(day, str);
             	activatePeriod(sdt);
@@ -63,7 +63,7 @@ public class Schedule {
        			String en = mp.getEnd();
        			String it = mp.getItem();
        			String dip = g.leaseIP(mac);
-       			System.out.print(dev+" : "+mac+" : "+dip);
+       			//System.out.print(dev+" : "+mac+" : "+dip);
        			if(!it.equals("None")){
        				g.enableBypassed(it);
        			}else if(dip!=null){
@@ -92,7 +92,7 @@ public class Schedule {
        			if(!it.equals("None")){
        				g.disableBypassed(it);
        			}
-       			System.out.print(dev+" : "+mac);
+       			//System.out.print(dev+" : "+mac);
        			
     		}
     	}catch(Exception e){}
@@ -111,7 +111,7 @@ public class Schedule {
        			String en = mp.getEnd();
        			String it = mp.getItem();
        			String dip = g.leaseIP(mac);
-       			System.out.print(dev+" : "+mac+" : "+dip);
+       			//System.out.print(dev+" : "+mac+" : "+dip);
        			if(!it.equals("None")){
        				g.enableBypassed(it);
        			}else if(dip!=null){
@@ -140,7 +140,7 @@ public class Schedule {
        			if(!it.equals("None")){
        				g.disableBypassed(it);
        			}
-       			System.out.print(dev+" : "+mac);
+       			//System.out.print(dev+" : "+mac);
        			
     		}
     	}catch(Exception e){}

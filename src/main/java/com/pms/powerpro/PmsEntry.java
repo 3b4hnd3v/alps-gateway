@@ -86,7 +86,7 @@ public class PmsEntry {
 		String dbhost="127.0.0.1", dbport="3306", dbname="alpsgateway", dbuser="ebahn", dbpass="ebahn";
 		Connection cn1 = null;
 		try { Class.forName("com.mysql.jdbc.Driver");
-		cn1 = DriverManager.getConnection("jdbc:mysql://"+dbhost+":"+dbport+"/pms", dbuser, dbpass);
+		cn1 = DriverManager.getConnection("jdbc:mysql://"+dbhost+":"+dbport+"/pms?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT", dbuser, dbpass);
 		} catch(Exception e) { System.out.println(e); }
 		return cn1;
 	}

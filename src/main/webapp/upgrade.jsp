@@ -22,16 +22,13 @@ java.net.MalformedURLException,
 java.net.URL,
 java.nio.charset.Charset,
 java.nio.file.*,
-com.alps.Dao
-
-"%>
+com.alps.Dao"
+%>
    
-<%!
-Update upd = new Update();
+<%!Update upd = new Update();
 ComExec cex = new ComExec();
 Dao dao = new Dao();
-boolean dbresult = false;
-%>
+boolean dbresult = false;%>
 
 <% 
 if(request.getParameter("q")!=null && request.getParameter("q").equals("upgrade")){

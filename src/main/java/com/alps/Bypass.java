@@ -141,7 +141,7 @@ public class Bypass {
 				us.setAdded(rs.getString("addedon"));
 				all.add(us);
 			}
-			System.out.println(all.size());
+			//System.out.println(all.size());
 			cn.close();
 		} catch(Exception e) { System.out.println(e); }
 		return all;
@@ -166,7 +166,7 @@ public class Bypass {
 				us.setAdded(rs.getString("addedon"));
 				all.add(us);
 			}
-			System.out.println(all.size());
+			//System.out.println(all.size());
 			cn.close();
 		} catch(Exception e) { System.out.println(e); }
 		return all;
@@ -191,8 +191,8 @@ public class Bypass {
 				us.setAdded(rs.getString("addedon"));
 				all.add(us);
 			}
-			System.out.println("Found "+all.size());
-			cn.close();
+			//System.out.println("Found "+all.size());
+			//cn.close();
 		} catch(Exception e) { System.out.println(e); }
 		return all;
 		

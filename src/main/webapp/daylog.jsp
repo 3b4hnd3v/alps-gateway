@@ -1,11 +1,10 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%!
-public String dlb;
+<%!public String dlb;
 public String getLogdir() {
 	// TODO Auto-generated method stub
 	String dir = "";
@@ -17,9 +16,7 @@ public String getLogdir() {
 	} catch (SQLException e) { e.printStackTrace(); }
 	return dir;
 	
-}
-
-%>
+}%>
 <%
 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 DateFormat dateFormat1 = new SimpleDateFormat("dd-MMM-YYYY HH:MM:ss");

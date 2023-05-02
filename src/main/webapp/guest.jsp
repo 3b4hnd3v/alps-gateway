@@ -1,13 +1,12 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public InputStream data, error;
+<%!public InputStream data, error;
 String url = "http://alpsgateway.svntechnology.com/json.php",
-charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()
-%>
+charset = "UTF-8";  // Or in Java 7 and later, use the constant: java.nio.charset.StandardCharsets.UTF_8.name()%>
 
 <div class="content-wrapper">
 <%if(request.getParameter("msg") != null && request.getParameter("type").equals("error")){ %>

@@ -22,7 +22,7 @@ public class SubBills {
     private final int minutes;
     DateUtils g = new DateUtils();
     Dao dao = new Dao();
-    Db db = new Db("jdbc:mysql://localhost/alpsgateway" , "ebahn", "ebahn");
+    Db db = new Db();
     UrlCon http = new UrlCon();
 	static Connection cn = null;
 
@@ -35,7 +35,7 @@ public class SubBills {
     }
 
     public void start() {
-    	System.out.println("Thread Started");
+    	System.out.println("Subscriber Billing Started");
         timer.schedule(new TimerTask() {
             public void run() {
             	GenerateBills();
@@ -72,7 +72,7 @@ public class SubBills {
     }
 
     public static void main(String[] args) {
-    	OnlineCheck eggTimer = new OnlineCheck(1);
+    	SubBills eggTimer = new SubBills(1);
         eggTimer.start();
     }
     

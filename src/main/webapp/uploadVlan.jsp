@@ -1,13 +1,5 @@
 <%@include file="header.jsp" %>
-<%@page import="
-com.oreilly.servlet.MultipartRequest, 
-java.io.File,
-javax.servlet.*, 
-javax.servlet.http.*, 
-java.util.*,
-java.io.*,
-com.alps.VlanUpload
-"%>
+<%@page import="com.oreilly.servlet.MultipartRequest,java.io.File,javax.servlet.*,javax.servlet.http.*,java.util.*,java.io.*,com.alps.VlanUpload"%>
 <%! String name="",filename="",filedir=""; String os = "1";%>
 <%
 System.out.println("Vlan Upload");

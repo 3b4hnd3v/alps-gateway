@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -15,7 +15,7 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 	String pmsstatus = request.getParameter("pmsstatus");
 	boolean res = dao.updatePMS(pmsid, pmsname, pmsaddress, pmsport,pmsuser,pmskey,pmsstatus);
 	if(res && pmsstatus.equals("enable")){
-		dao.updateIP("active_pms", "internal");
+		dao.updateSetting("active_pms", "internal");
 	}
 }
 if(request.getParameter("submit") != null && request.getParameter("submit").equals("Save External Interface Server Setting")) {
@@ -26,10 +26,10 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 	String pmskey = request.getParameter("pmskey");
 	String pmsstatus = request.getParameter("pmsstatus");
 	String value = pmsname+":"+pmsaddress+":"+pmsport+":"+pmsuser+":"+pmskey;
-	boolean res = dao.updateIP("external_pms", value);
+	boolean res = dao.updateSetting("external_pms", value);
 	
 	if(res && pmsstatus.equals("1")){
-		dao.updateIP("active_pms", "external");
+		dao.updateSetting("active_pms", "external");
 	}
 }
 if(request.getParameter("submit") != null && request.getParameter("submit").equals("Change Setting")) {

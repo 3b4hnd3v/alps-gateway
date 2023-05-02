@@ -1,9 +1,9 @@
 <%@include file="header.jsp" %>
-<%!  User user = new User(); public int uid=0; 
-public String userid="", uname="", username="", password="", email="", department="", role="", edb="collapse"; %>
+<%!User user = new User(); public int uid=0; 
+public String userid="", uname="", username="", password="", email="", department="", role="", edb="collapse";%>
 
 <%
-if(request.getParameter("submit") != null && request.getParameter("submit").equals("Add User")) {
+	if(request.getParameter("submit") != null && request.getParameter("submit").equals("Add User")) {
 	
 	try {
 		String name = request.getParameter("uname");
@@ -20,12 +20,12 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 		user.setDepartment(department);
 		user.setRole(role);
 		if(user.addUser()){
-			String logact = "New User "+name+" added By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
-			al.addLog(logact);
-			
-			response.sendRedirect("user_profile.jsp?type=success&msg=New User Added.");
+	String logact = "New User "+name+" added By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
+	al.addLog(logact);
+	
+	response.sendRedirect("user_profile.jsp?type=success&msg=New User Added.");
 		}else{
-			response.sendRedirect("user_profile.jsp?type=error&msg=New User Could Not Be Added.");
+	response.sendRedirect("user_profile.jsp?type=error&msg=New User Could Not Be Added.");
 
 		}
 		
@@ -51,12 +51,12 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 		user.setRole(role);
 		
 		if(user.update()){
-			String logact = "User "+name+" updated By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
-			al.addLog(logact);
-			
-			response.sendRedirect("user_profile.jsp?type=success&msg=User Information Updated.");
+	String logact = "User "+name+" updated By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
+	al.addLog(logact);
+	
+	response.sendRedirect("user_profile.jsp?type=success&msg=User Information Updated.");
 		}else{
-			response.sendRedirect("user_profile.jsp?type=error&msg=User Information Failed To Update.");
+	response.sendRedirect("user_profile.jsp?type=error&msg=User Information Failed To Update.");
 
 		}
 		
@@ -65,18 +65,18 @@ if(request.getParameter("submit") != null && request.getParameter("submit").equa
 }
 %>
 <%
-if(request.getParameter("q") != null && request.getParameter("q").equals("del")) {
+	if(request.getParameter("q") != null && request.getParameter("q").equals("del")) {
 	
 	try {
 		String id = request.getParameter("item").toString();
 		
 		if(user.delete(Integer.parseInt(id))){
-			String logact = "User: "+id+" removed By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
-			al.addLog(logact);
-			
-			response.sendRedirect("user_profile.jsp?type=error&msg=User Deleted");
+	String logact = "User: "+id+" removed By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
+	al.addLog(logact);
+	
+	response.sendRedirect("user_profile.jsp?type=error&msg=User Deleted");
 		}else{
-			response.sendRedirect("user_profile.jsp?type=error&msg=User Could Not Be Deleted");
+	response.sendRedirect("user_profile.jsp?type=error&msg=User Could Not Be Deleted");
 		}
 		
 	} catch (Exception e1) { 
@@ -103,7 +103,7 @@ else if(request.getParameter("q") != null && request.getParameter("q").equals("e
 	edb = "collapse";
 }
 %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini"  onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini"  onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>

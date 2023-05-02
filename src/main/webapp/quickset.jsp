@@ -1,6 +1,6 @@
 <%@include file="header.jsp" %>
 
-<body class="hold-transition skin-blue layout-boxed sidebar-mini">
+<body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -25,24 +25,6 @@ if(request.getParameter("update") != null && request.getParameter("update").equa
 		}else{
 			response.sendRedirect("quickset.jsp?type=error&msg=Cannot Update Settings at the moment");
 		}
-		
-	} catch (Exception e1) { System.out.println(e1); }
-}
-%>
-<% 
-if(request.getParameter("q") != null && request.getParameter("q").equals("delete")) {
-	
-	try {
-		String stid = request.getParameter("stid").toString();
-		
-		if(dao.deleteSetting(stid)){
-			String logact = "Setting with ID: "+stid+" removed By = "+session.getAttribute("name")+" from "+session.getAttribute("dept")+". Username: "+session.getAttribute("username");
-			al.addLog(logact);
-			response.sendRedirect("quickset.jsp?type=success&msg=Setting Successfully Deleted.");
-		}else{
-			response.sendRedirect("quickset.jsp?type=error&msg=Setting Cannot Be Deleted At The Moment.");
-		}
-		
 		
 	} catch (Exception e1) { System.out.println(e1); }
 }
@@ -119,9 +101,9 @@ if(request.getParameter("q") != null && request.getParameter("q").equals("blackh
 }
 %>
 <%
-boolean bha = g.BHRuleStatusA();
-boolean bhf = g.BHRuleStatusF();
-bh = bha&&bhf;
+//boolean bha = g.BHRuleStatusA();
+//boolean bhf = g.BHRuleStatusF();
+//bh = bha && bhf;
 %>
 <div class="content-wrapper">
 <!-- Error Message -->
@@ -262,14 +244,14 @@ bh = bha&&bhf;
          </div>
        </div><!-- /.box-body -->
       </div><!-- /.box -->
-      <!-- SECURITY BLACKHOLE-->
+      <!-- SECURITY BLACKHOLE
       <div class="box box-danger">
        <div class="box-header">
          <h3 class="box-title">Black Hole Absolute Protection</h3>
-       </div><!-- /.box-header -->
+       </div>
        <div class="box-body">
          <div class="col-lg-10">
-        	Black Hole Absolute Protection Setting <%out.print(String.valueOf(bha)+"= "+ String.valueOf(bhf));%>
+        	Black Hole Absolute Protection Setting <%//out.print(String.valueOf(bha)+"= "+ String.valueOf(bhf));%>
          </div>
          <div class="col-lg-2">
          <%if(bh){%>
@@ -278,8 +260,9 @@ bh = bha&&bhf;
          	<a href="?q=blackhole&act=disable"><button title="Enable for total cyber protection" class="btn btn-danger">Suspend</button></a>
          <%}%>
          </div>
-       </div><!-- /.box-body -->
-      </div><!-- /.box -->
+       </div>
+      </div>
+      SECURITY BLACKHOLE-->
     </div><!-- /.col -->
   </div><!-- /.row -->
 </section><!-- /.content -->

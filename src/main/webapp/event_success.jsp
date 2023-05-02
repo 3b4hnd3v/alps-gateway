@@ -1,12 +1,11 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public String eid="",venue="",venueno="",evn="",comp="",cont="",phone="",email="",stdate="",puser="",ppass="",endate="",days="",dayrate="",pax="",paxrate="",server="",plan="",planname="",prof="",planid="",lbi="",lbo=""; 
-	public double subtotal=0.00,total=0.00,subtax=0.00;
-%>
+<%!public String eid="",venue="",venueno="",evn="",comp="",cont="",phone="",email="",stdate="",puser="",ppass="",endate="",days="",dayrate="",pax="",paxrate="",server="",plan="",planname="",prof="",planid="",lbi="",lbo=""; 
+	public double subtotal=0.00,total=0.00,subtax=0.00;%>
 <%
 if(request.getParameter("pid") != null){
 String item = request.getParameter("pid");

@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini">
+ <body class="hold-transition skin-blue layout-boxedxx sidebar-mini">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
 <%@include file="sidebar.jsp" %>
-<%! public String pid = "", desc = "", prof = "", dur = "", unit = "", price = "", sharing = "", stat = "";  %>
+<%!public String pid = "", desc = "", prof = "", dur = "", unit = "", price = "", sharing = "", stat = "";%>
 <%
 try{
 	String id = request.getParameter("item");

@@ -1,5 +1,5 @@
 <%@include file="header.jsp" %>
- <body class="hold-transition skin-blue layout-boxed sidebar-mini" onload="tableExport()">
+ <body class="hold-transition skin-blue layout-boxedx sidebar-mini" onload="tableExport()">
  <!-- Site wrapper -->
  <div class="wrapper">
 <%@include file="header2.jsp" %>
@@ -14,7 +14,7 @@ if(request.getParameter("src")!=null){
 %>
 <div class="content-wrapper">
 	<input id="rsc" type="hidden" value="<%=src%>">
-	<section class="content-header">
+	<!-- <section class="content-header">
 		  <h1>
 		    System Reports
 		    <small>Graphical Usage and Health Reports</small>
@@ -24,11 +24,11 @@ if(request.getParameter("src")!=null){
 		    <li><a href="#">Analytics</a></li>
 		    <li class="active">System Report</li>
 		  </ol>
-	</section>
+	</section> -->
 	<section class="content">
 		<div class="row">
-		  <div class="bs-example col-md-12 well">
-		    <div id="graphic" class="embed-responsive embed-responsive-16by9 well" style="height:900px;overflow-y:scroll;">
+		  <div class="bs-example col-md-12">
+		    <div id="graphic" class="embed-responsive embed-responsive-16by9" style="min-height:1800px; max-height:1800px;overflow-y:scroll;">
 		      
 		      <!-- <iframe height="100px" class="embed-responsive-item" src="//<% //out.println(gip); %>/graphs/"></iframe>
 		      <div id="graphic"></div> -->

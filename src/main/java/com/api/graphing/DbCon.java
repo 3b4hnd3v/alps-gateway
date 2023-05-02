@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbCon {
-	String dburl = "jdbc:mysql://localhost/alpsgateway";
+	String dburl = "jdbc:mysql://localhost/alpsgateway?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT";
 	String dbuser = "ebahn";
 	String dbpass = "ebahn";
 	
@@ -14,23 +14,11 @@ public class DbCon {
 	}
 	
 	public static void main(String[] args) {
-		DbCon db = new DbCon("jdbc:mysql://localhost/alps" , "ebahn", "ebahn");
+		DbCon db = new DbCon();
 
 	}
 	
 	public Connection cn() { return connect(dburl, dbuser, dbpass); }
-	public static Connection cn1() { 
-		Connection conn = null;
-		try { conn = DriverManager.getConnection("jdbc:mysql://localhost/alps" , "ebahn", "ebahn"); } catch (SQLException e) { System.out.println(e); }	
-		return conn;
-	}
-	
-	public DbCon(String dburl, String dbuser, String dbpass) {
-		this.dburl = dburl;
-		this.dbuser = dbuser;
-		this.dbpass = dbpass;
-		connect(dburl, dbuser, dbpass);
-	}
 	
 	public Connection connect() {
 		Connection conn = null;

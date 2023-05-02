@@ -15,6 +15,7 @@ import me.legrange.mikrotik.ResultListener;
 
 public class DataSrc {
 	GatewayApi g= new GatewayApi();
+	MasterApi mg= new MasterApi();
 	PrimeCounter pc = new PrimeCounter();
 	public static void main(String[] args){
 		DataSrc ds = new DataSrc();
@@ -58,6 +59,18 @@ public class DataSrc {
 		List<Map<String,String>> lgi = null;
 		try {
 			ApiConnection con = g.connectApi();
+			List<Map<String,String>> rs = con.execute("/interface/print");
+			lgi = rs;
+			con.close();
+			
+		} catch(Exception e1) { System.out.println(e1); }
+		
+		return lgi;
+	}
+	public List<Map<String,String>> getWanInterface() {
+		List<Map<String,String>> lgi = null;
+		try {
+			ApiConnection con = mg.connectApi();
 			List<Map<String,String>> rs = con.execute("/interface/print");
 			lgi = rs;
 			con.close();

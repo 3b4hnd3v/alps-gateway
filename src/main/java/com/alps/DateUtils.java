@@ -307,7 +307,20 @@ public class DateUtils {
     	return cb;
     }
     
+    public static String nowTime() {
+    	String cb = "";
+    	Calendar calendar = new GregorianCalendar(/* remember about timezone! */);
+    	Date date = new Date();
+    	
+    	calendar.setTime(date);
+    	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+    	
+    	cb = sdf.format(calendar.getTime());
+    	return cb;
+    }
+    
     public static void main(String[] args){
     	System.out.println(DateUtils.CurrentDay());
+    	System.out.println(DateUtils.nowTime());
     }
 }
