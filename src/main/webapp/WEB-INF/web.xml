@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app
+        version="2.5"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<display-name>Archetype Created Web Application</display-name>
+<welcome-file-list>
+  <welcome-file>login.jsp</welcome-file>
+</welcome-file-list>
+<servlet>
+  <servlet-name>ChartServlet</servlet-name>
+  <servlet-class>chart.ChartServlet</servlet-class>
+</servlet>
+<servlet>
+  <display-name>QRCodeServlet</display-name>
+  <servlet-name>QRCodeServlet</servlet-name>
+  <servlet-class>chart.QRCodeServlet</servlet-class>
+</servlet>
+<servlet>
+    <servlet-name>FileUploadServlet</servlet-name>
+    <servlet-class>chart.FileUploadServlet</servlet-class>
+</servlet>
+<servlet>
+	<description>PMS Interface With Powerpro</description>
+	<display-name>PowerPro</display-name>
+	<servlet-name>PowerPro</servlet-name>
+	<servlet-class>com.pms.powerpro.PowerPro</servlet-class>
+</servlet>
+<servlet-mapping>
+   <servlet-name>FileUploadServlet</servlet-name>
+   <url-pattern>/upload</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+   <servlet-name>ChartServlet</servlet-name>
+   <url-pattern>/chart</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+  <servlet-name>QRCodeServlet</servlet-name>
+  <url-pattern>/qrcode</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+	<servlet-name>PowerPro</servlet-name>
+	<url-pattern>/PowerPro</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+	<servlet-name>PowerPro</servlet-name>
+	<url-pattern>/pins</url-pattern>
+</servlet-mapping>
+<context-param> 
+    <description>Location to store uploaded file</description> 
+    <param-name>file-upload</param-name> 
+    <param-value>/var/www/html/guestcaptive/assets/img/</param-value> 
+</context-param>
+<context-param> 
+    <description>Location to store uploaded vlan</description> 
+    <param-name>vlan-upload</param-name> 
+    <param-value>/home/alps/ALPS/vlans/</param-value> 
+</context-param>
+<context-param> 
+    <description>Location to store uploaded vlan</description> 
+    <param-name>backup-upload</param-name> 
+    <param-value>/dist/files/</param-value> 
+</context-param>
+<context-param> 
+    <description>Location to download war file</description> 
+    <param-name>war-upload</param-name> 
+    <param-value>/home/alps/ALPS</param-value> 
+</context-param>
+
+<listener>
+	<listener-class>com.cronjob.CronJobs</listener-class>
+</listener>
+</web-app>
